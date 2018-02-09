@@ -36,7 +36,6 @@ public class Skullbusters extends JFrame
 		//======== this ========
 		setName("frame");
 		setTitle("Skullbusters's FTP Tool");
-		setResizable(false);
 		Container contentPane = getContentPane();
 
 		//======== menuBar ========
@@ -89,6 +88,13 @@ public class Skullbusters extends JFrame
 		);
 		setSize(450, 800);
 		setLocationRelativeTo(getOwner());
+
+		//---- bindings ----
+		bindingGroup = new BindingGroup();
+		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
+			this, BeanProperty.create("preferredSize"),
+			this, BeanProperty.create("minimumSize")));
+		bindingGroup.bind();
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
 
@@ -108,5 +114,6 @@ public class Skullbusters extends JFrame
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
 	// Generated using JFormDesigner Evaluation license - Erik Huerta
+	private BindingGroup bindingGroup;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 }

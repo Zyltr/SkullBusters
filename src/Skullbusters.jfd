@@ -10,7 +10,6 @@ new FormModel {
 			name: "this"
 			"name": "frame"
 			"title": "Skullbusters's FTP Tool"
-			"resizable": false
 			"$sizePolicy": 1
 			add( new FormContainer( "javax.swing.JTabbedPane", new FormLayoutManager( class javax.swing.JTabbedPane ) ) {
 				name: "tabbedPane"
@@ -62,6 +61,10 @@ new FormModel {
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 0 )
 			"size": new java.awt.Dimension( 450, 800 )
+		} )
+		addBindingGroup( new FormBindingGroup( class org.jdesktop.beansbinding.BindingGroup ) {
+			"name": "bindingGroup"
+			addBinding( new FormBinding( "this", "preferredSize", "this", "minimumSize" ) )
 		} )
 	}
 }

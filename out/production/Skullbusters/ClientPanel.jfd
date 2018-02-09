@@ -4,8 +4,8 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {seq l {space :p:25:p, par l {seq {par l {comp authenticationOptionsLabel:::p::p, comp passwordLabel:::p::p, comp usernameLabel:::p::p, comp portLabel:::p::p, comp plainRadioButton::l:p::p, comp chunkSizeValueLabel:::p:325:p, comp xorButton:::p::p, par t:l::p {seq t {comp fileButton:::p::p, space :::x, comp sendFileButton:::p::p}, comp xorScrollPane:::p:325:p}, comp fileScrollPane::l:p:325:p, comp fileOptionsLabel::l:p::p, comp armoringCheckBox:::p::p, comp copyRadioButton::l:p::p, comp overwriteRadioButton::l:p::p, comp chunkSizeSlider:::p:325:p, comp chunkSizeLabel::l:p::p}, space :0:50:x}, seq t {par t {comp passwordField::l::325:x, comp disconnectButton::l:::x, comp serverScrollPane::l:::x, comp portTextField::l:::x, comp usernameTextField::l:::x, comp connectButton::l::325:x, comp dynamicStatusLabel::l::325:x, seq l {par t {comp serverLabel::l:p::p, comp statusLabel::l:p::p}, space :0:202:x}}, space :p:50:p}}}}"
-			"$verticalGroup": "par l {seq l {space :p:25:p, comp statusLabel:::p::p, space s:::p, comp dynamicStatusLabel:::p::p, space s:::p, comp serverLabel:::p::p, space s:::p, comp serverScrollPane:::p:32:p, space s:::p, comp portLabel:::p::p, space s:::p, comp portTextField:::p:32:p, space s:::p, comp usernameLabel:::p::p, space s:::p, comp usernameTextField:::p:32:p, space s:::p, comp passwordLabel:::p::p, space s:::p, comp passwordField:::p::p, space s:::p, comp authenticationOptionsLabel:::p::p, space s:::p, comp plainRadioButton:::p::p, space s:::p, comp xorButton:::p::p, space s:::p, comp xorScrollPane:::p:32:p, space s:::p, par b {comp fileButton::b:p::p, comp sendFileButton::b:p::p}, space s:::p, comp fileScrollPane:::p::p, space s:::p, comp fileOptionsLabel:::p::p, space s:::p, comp armoringCheckBox:::p::p, space :::p, comp copyRadioButton:::p::p, space :p::p, comp overwriteRadioButton:::p::p, space s:::p, comp chunkSizeLabel:::p::p, space s:::p, comp chunkSizeSlider:::p::p, space :p:29:p, comp chunkSizeValueLabel:::p::p, space ::146:x, comp connectButton:::p::p, space :::p, comp disconnectButton:::p::p, space :p:25:p}}"
+			"$horizontalGroup": "par l {seq l {space :p:25:p, par l {seq {par l {comp authenticationOptionsLabel:::p::p, comp passwordLabel:::p::p, comp usernameLabel:::p::p, comp portLabel:::p::p, comp plainRadioButton::l:p::p, comp xorButton:::p::p, par t:l::p {seq t {comp fileButton:::p::p, space :::x, comp sendFileButton:::p::p}, comp xorScrollPane:::p:325:p}, comp fileScrollPane::l:p:325:p, comp fileOptionsLabel::l:p::p, comp armoringCheckBox:::p::p, comp copyRadioButton::l:p::p, comp overwriteRadioButton::l:p::p, comp chunkSizeSlider:::p:325:p, comp chunkSizeLabel::l:p::p, comp chunkSizeValueLabel::l:p:325:p}, space :0:50:x}, seq t {par t {comp passwordField::l::325:x, comp disconnectButton::l:::x, comp serverScrollPane::l:::x, comp portTextField::l:::x, comp usernameTextField::l:::x, comp connectButton::l::325:x, comp dynamicStatusLabel::l::325:x, seq l {par t {comp serverLabel::l:p::p, comp statusLabel::l:p::p}, space :0:202:x}}, space :p:50:p}}}}"
+			"$verticalGroup": "par l {seq l {space :p:25:p, comp statusLabel:::p::p, space s:::p, comp dynamicStatusLabel:::p::p, space s:::p, comp serverLabel:::p::p, space s:::p, comp serverScrollPane:::p:32:p, space s:::p, comp portLabel:::p::p, space s:::p, comp portTextField:::p:32:p, space s:::p, comp usernameLabel:::p::p, space s:::p, comp usernameTextField:::p:32:p, space s:::p, comp passwordLabel:::p::p, space s:::p, comp passwordField:::p::p, space s:::p, comp authenticationOptionsLabel:::p::p, space s:::p, comp plainRadioButton:::p::p, space s:::p, comp xorButton:::p::p, space s:::p, comp xorScrollPane:::p:32:p, space s:::p, par b {comp fileButton::b:p::p, comp sendFileButton::b:p::p}, space s:::p, comp fileScrollPane:::p::p, space s:::p, comp fileOptionsLabel:::p::p, space s:::p, comp armoringCheckBox:::p::p, space :::p, comp copyRadioButton:::p::p, space :p::p, comp overwriteRadioButton:::p::p, space s:::p, comp chunkSizeLabel:::p::p, space s:::p, comp chunkSizeSlider:::p::p, space :::p, comp chunkSizeValueLabel:::p::p, space ::169:x, comp connectButton:::p::p, space :::p, comp disconnectButton:::p::p, space :p:25:p}}"
 		} ) {
 			name: "this"
 			"preferredSize": new java.awt.Dimension( 400, 1100 )
@@ -114,7 +114,6 @@ new FormModel {
 				name: "overwriteRadioButton"
 				"text": "Overwrite"
 				"font": #SwingDerivedFont2
-				"selected": true
 				"$buttonGroup": new FormReference( "fileOptionButtonGroup" )
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
@@ -150,14 +149,14 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "disconnectButton"
 				"text": "Disconnect"
-				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 0, false )
+				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 3, false )
 				"toolTipText": "Disconnects from the server"
 				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "disconnectButtonActionPerformed", true ) )
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "connectButton"
 				"text": "Connect"
-				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 0, false )
+				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 3, false )
 				"toolTipText": "Tries to connect to the Server"
 				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "connectButtonActionPerformed", true ) )
 			} )
@@ -180,7 +179,6 @@ new FormModel {
 					"editable": false
 					"tabSize": 0
 					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
-					"text": "FILE"
 				} )
 			} )
 			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
@@ -203,6 +201,7 @@ new FormModel {
 				"text": "Copy"
 				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 0, false )
 				"$buttonGroup": new FormReference( "fileOptionButtonGroup" )
+				"selected": true
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "xorButton"
@@ -227,7 +226,6 @@ new FormModel {
 					"rows": 1
 					"editable": false
 					"tabSize": 0
-					"text": "XOR"
 					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
 				} )
 			} )

@@ -35,6 +35,7 @@ public class ClientPanel extends JPanel
 
 	// TODO -> Variable that will store XOR-Key
 	private ArrayList<Integer> xorKeyList = new ArrayList<> ();
+	private String xorKey;
 
 	// TODO -> Variable that will be used to partition file into a specific size of Bytes
 	private Integer chunkSize = 1024;
@@ -81,21 +82,13 @@ public class ClientPanel extends JPanel
 
 		if ( fileChooser.showOpenDialog ( getParent () ) == JFileChooser.APPROVE_OPTION )
 		{
-			// TODO -> Save Path
-			Path xorPath = fileChooser.getSelectedFile ().toPath ();
-
-			// TODO -> Open reader for reading lines of file
-			try ( InputStream inputStream = Files.newInputStream ( xorPath ) )
+			try
 			{
-				// TODO -> Clear any existing XOR Key
-				xorKeyList.clear ();
+				// TODO -> Save Path
+				Path xorPath = fileChooser.getSelectedFile ().toPath ();
 
-				// TODO -> Add new XOR Key
-				for ( Integer inputByte; ( inputByte = inputStream.read () ) != -1; )
-					xorKeyList.add ( inputByte );
-
-				// TODO -> Update GUI
-				xorTextArea.setText ( xorPath.toString () );
+				// TODO -> Convert Bytes of file to a binary representation
+				xorKey = Utility.transformFileAtPathToBinary ( xorPath );
 			}
 			catch ( IOException ioe )
 			{
@@ -147,6 +140,9 @@ public class ClientPanel extends JPanel
 				}
 
 				printWriter.println ( "FILE-DONE" );
+
+				message = "\"" + filename + "\" was successfully transferred";
+				JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.INFORMATION_MESSAGE );
 			}
 			catch ( IOException ioe )
 			{
@@ -441,7 +437,6 @@ public class ClientPanel extends JPanel
 		//---- overwriteRadioButton ----
 		overwriteRadioButton.setText("Overwrite");
 		overwriteRadioButton.setFont(overwriteRadioButton.getFont().deriveFont(overwriteRadioButton.getFont().getStyle() | Font.BOLD));
-		overwriteRadioButton.setSelected(true);
 
 		//---- chunkSizeLabel ----
 		chunkSizeLabel.setText("Chunk Size");
@@ -471,13 +466,13 @@ public class ClientPanel extends JPanel
 
 		//---- disconnectButton ----
 		disconnectButton.setText("Disconnect");
-		disconnectButton.setFont(disconnectButton.getFont().deriveFont(disconnectButton.getFont().getStyle() | Font.BOLD));
+		disconnectButton.setFont(disconnectButton.getFont().deriveFont(disconnectButton.getFont().getStyle() | Font.BOLD, disconnectButton.getFont().getSize() + 3f));
 		disconnectButton.setToolTipText("Disconnects from the server");
 		disconnectButton.addActionListener(e -> disconnectButtonActionPerformed(e));
 
 		//---- connectButton ----
 		connectButton.setText("Connect");
-		connectButton.setFont(connectButton.getFont().deriveFont(connectButton.getFont().getStyle() | Font.BOLD));
+		connectButton.setFont(connectButton.getFont().deriveFont(connectButton.getFont().getStyle() | Font.BOLD, connectButton.getFont().getSize() + 3f));
 		connectButton.setToolTipText("Tries to connect to the Server");
 		connectButton.addActionListener(e -> connectButtonActionPerformed(e));
 
@@ -499,7 +494,6 @@ public class ClientPanel extends JPanel
 			fileTextArea.setEditable(false);
 			fileTextArea.setTabSize(0);
 			fileTextArea.setBorder(null);
-			fileTextArea.setText("FILE");
 			fileScrollPane.setViewportView(fileTextArea);
 		}
 
@@ -522,6 +516,7 @@ public class ClientPanel extends JPanel
 		//---- copyRadioButton ----
 		copyRadioButton.setText("Copy");
 		copyRadioButton.setFont(copyRadioButton.getFont().deriveFont(copyRadioButton.getFont().getStyle() | Font.BOLD));
+		copyRadioButton.setSelected(true);
 
 		//---- xorButton ----
 		xorButton.setText("XOR Key");
@@ -542,7 +537,6 @@ public class ClientPanel extends JPanel
 			xorTextArea.setRows(1);
 			xorTextArea.setEditable(false);
 			xorTextArea.setTabSize(0);
-			xorTextArea.setText("XOR");
 			xorTextArea.setBorder(null);
 			xorScrollPane.setViewportView(xorTextArea);
 		}
@@ -570,7 +564,6 @@ public class ClientPanel extends JPanel
 								.addComponent(usernameLabel)
 								.addComponent(portLabel)
 								.addComponent(plainRadioButton)
-								.addComponent(chunkSizeValueLabel, GroupLayout.PREFERRED_SIZE, 325, GroupLayout.PREFERRED_SIZE)
 								.addComponent(xorButton)
 								.addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING, false)
 									.addGroup(layout.createSequentialGroup()
@@ -584,7 +577,8 @@ public class ClientPanel extends JPanel
 								.addComponent(copyRadioButton)
 								.addComponent(overwriteRadioButton)
 								.addComponent(chunkSizeSlider, GroupLayout.PREFERRED_SIZE, 325, GroupLayout.PREFERRED_SIZE)
-								.addComponent(chunkSizeLabel))
+								.addComponent(chunkSizeLabel)
+								.addComponent(chunkSizeValueLabel, GroupLayout.PREFERRED_SIZE, 325, GroupLayout.PREFERRED_SIZE))
 							.addGap(0, 50, Short.MAX_VALUE))
 						.addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
 							.addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
@@ -651,9 +645,9 @@ public class ClientPanel extends JPanel
 					.addComponent(chunkSizeLabel)
 					.addGap(18, 18, 18)
 					.addComponent(chunkSizeSlider, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(29, 29, 29)
+					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 					.addComponent(chunkSizeValueLabel)
-					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 146, Short.MAX_VALUE)
+					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 169, Short.MAX_VALUE)
 					.addComponent(connectButton)
 					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 					.addComponent(disconnectButton)

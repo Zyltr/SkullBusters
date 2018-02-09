@@ -206,10 +206,7 @@ public class ServerPanel extends JPanel
 			}
 
 			System.out.println ( stringBuilder.toString () );
-			System.out.println ( "DONE" );
-
-			System.out.println ( "Server > Total Bytes : " + fileBytes.toString () );
-			System.out.println ();
+			System.out.println ( "DONE" + "\n" );
 
 			Path filePath = Paths.get ( saveToPath.toString (), filename );
 
@@ -398,6 +395,7 @@ public class ServerPanel extends JPanel
 			System.out.println ( "Server @ " + new Date () + " > " + stackTrace );
 		}
 
+		// TODO -> Restore GUI
 		statusLabel.setText ( "Stopped" );
 		startButton.setEnabled ( true );
 
@@ -467,13 +465,13 @@ public class ServerPanel extends JPanel
 
 		//---- startButton ----
 		startButton.setText("Start");
-		startButton.setFont(startButton.getFont().deriveFont(startButton.getFont().getStyle() | Font.BOLD));
+		startButton.setFont(startButton.getFont().deriveFont(startButton.getFont().getStyle() | Font.BOLD, startButton.getFont().getSize() + 3f));
 		startButton.setToolTipText("Starts the server");
 		startButton.addActionListener(e -> startButtonActionPerformed(e));
 
 		//---- stopButton ----
 		stopButton.setText("Stop");
-		stopButton.setFont(stopButton.getFont().deriveFont(stopButton.getFont().getStyle() | Font.BOLD));
+		stopButton.setFont(stopButton.getFont().deriveFont(stopButton.getFont().getStyle() | Font.BOLD, stopButton.getFont().getSize() + 3f));
 		stopButton.setToolTipText("Stops the Server");
 		stopButton.addActionListener(e -> stopButtonActionPerformed(e));
 

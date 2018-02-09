@@ -34,8 +34,7 @@ public class ClientPanel extends JPanel
 	private JFileChooser fileChooser = new JFileChooser ( FileSystemView.getFileSystemView ().getHomeDirectory () );
 
 	// TODO -> Variable that will store XOR-Key
-	private ArrayList<Integer> xorKeyList = new ArrayList<> ();
-	private String xorKey;
+	private StringBuilder xorKey;
 
 	// TODO -> Variable that will be used to partition file into a specific size of Bytes
 	private Integer chunkSize = 1024;
@@ -82,22 +81,22 @@ public class ClientPanel extends JPanel
 
 		if ( fileChooser.showOpenDialog ( getParent () ) == JFileChooser.APPROVE_OPTION )
 		{
-			try
+			// TODO -> Save Path
+			Path xorPath = fileChooser.getSelectedFile ().toPath ();
+
+			try ( InputStream inputStream = Files.newInputStream ( xorPath ) )
 			{
-				// TODO -> Save Path
-				Path xorPath = fileChooser.getSelectedFile ().toPath ();
+				xorKey = new StringBuilder ();
 
 				// TODO -> Convert Bytes of file to a binary representation
-				xorKey = Utility.transformFileAtPathToBinary ( xorPath );
+				for ( Integer inputByte; ( inputByte = inputStream.read () ) != -1; )
+					xorKey.append ( Utility.transformByteToBinary ( inputByte.byteValue () ) );
 			}
 			catch ( IOException ioe )
 			{
 				System.out.println ( Arrays.toString ( ioe.getStackTrace () ) );
 
-				// TODO -> Clear all bits that failed to load
-				xorKeyList.clear ();
-
-				// TODO -> When credentials file could not be found, alert Server
+				// TODO -> When XPR file could not be found, alert Server
 				message = "XOR key file could not be read";
 				JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.ERROR_MESSAGE );
 			}

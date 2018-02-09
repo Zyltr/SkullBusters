@@ -9,6 +9,8 @@ import java.util.Arrays;
 
 public class Utility
 {
+    private static char [] zeros = { '0', '0', '0', '0', '0', '0', '0', '0' };
+
     public static String byteArrayToString ( byte[] bytes )
     {
         StringBuilder byteStringBuilder = new StringBuilder ();
@@ -21,7 +23,8 @@ public class Utility
 
     public static ArrayList<Byte> byteStringToArrayList( String stringOfBytes )
     {
-        String [] byteStrings = stringOfBytes.split ( "\\p{Punct} | \\p{Space}" );
+//        String [] byteStrings = stringOfBytes.split ( "\\p{Punct} | \\p{Space}" );
+        String [] byteStrings = stringOfBytes.split ( " " );
 
         ArrayList<Byte> bytes = new ArrayList<> (byteStrings.length);
         for ( String byteString : byteStrings )
@@ -30,26 +33,33 @@ public class Utility
         return bytes;
     }
 
-    public static String transformFileAtPathToBinary ( Path path ) throws IOException
+    public static String transformByteToBinary ( Byte inputByte )
     {
-        StringBuilder xorKey = new StringBuilder ();
-
-        try ( InputStream inputStream = Files.newInputStream ( path ) )
-        {
-            char[] zeros = new char [Byte.SIZE];
-            Arrays.fill (zeros, '0');
-
-            for ( Integer inputByte; ( inputByte = inputStream.read () ) != -1; )
-            {
-                String asBinary = Integer.toBinaryString ( inputByte );
-                xorKey.append ( String.valueOf ( zeros, 0, Byte.SIZE - asBinary.length () ) + asBinary );
-            }
-        }
-
-        return xorKey.toString ();
+        String asBinary = Integer.toBinaryString ( inputByte );
+        return String.valueOf ( zeros, 0, Byte.SIZE - asBinary.length () ) + asBinary;
     }
 
-    public static ArrayList<Byte> transformBinaryStringToBytes ( String stringOfBinary )
+    public static String transformBytesToBinary ( Byte... inputBytes )
+    {
+        StringBuilder bytes = new StringBuilder ();
+
+        for ( Byte singleByte : inputBytes )
+            bytes.append ( transformByteToBinary ( singleByte ) );
+
+        return bytes.toString ();
+    }
+
+    public static String transformBytesToBinary ( byte... inputBytes )
+    {
+        StringBuilder bytes = new StringBuilder ();
+
+        for ( byte aByte : inputBytes )
+            bytes.append ( transformByteToBinary ( aByte ) );
+
+        return bytes.toString ();
+    }
+
+    public static ArrayList<Byte> transformBinaryToBytes ( String stringOfBinary )
     {
         ArrayList<Byte> bytes = new ArrayList<> ();
 

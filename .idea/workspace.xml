@@ -20,43 +20,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Utility.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Utility.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="822">
-              <caret line="68" column="1" lean-forward="true" selection-start-line="68" selection-start-column="1" selection-end-line="68" selection-end-column="1" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ClientPanel.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/ClientPanel.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="454">
-              <caret line="90" column="73" lean-forward="true" selection-start-line="90" selection-start-column="73" selection-end-line="90" selection-end-column="73" />
-              <folding>
-                <element signature="method#ClientPanel#0;class#ClientPanel#0" expanded="false" />
-                <element signature="method#fileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
-                <element signature="method#sendFileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
-                <element signature="method#chunkSizeSliderStateChanged#0;class#ClientPanel#0" expanded="false" />
-                <element signature="e#5740#9584#0" expanded="false" />
-                <element signature="method#closeConnection#0;class#ClientPanel#0" expanded="false" />
-                <element signature="method#disconnectButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
-                <element signature="method#initComponents#0;class#ClientPanel#0" expanded="false" />
-                <marker date="1518156137569" expanded="false" signature="30704:31712" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="ServerPanel.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ServerPanel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-502">
-              <caret line="57" column="25" lean-forward="false" selection-start-line="57" selection-start-column="25" selection-end-line="57" selection-end-column="25" />
+            <state relative-caret-position="443">
+              <caret line="205" column="13" lean-forward="true" selection-start-line="205" selection-start-column="13" selection-end-line="205" selection-end-column="13" />
               <folding>
                 <element signature="class#2277:2475" expanded="false" />
                 <element signature="e#2350#2351#0" expanded="true" />
@@ -71,7 +39,39 @@
                 <element signature="method#closeConnection#0;class#ServerPanel#0" expanded="false" />
                 <element signature="e#12315#12394#0" expanded="false" />
                 <element signature="method#initComponents#0;class#ServerPanel#0" expanded="false" />
-                <marker date="1518150533370" expanded="false" signature="25027:25541" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+                <marker date="1518160429890" expanded="false" signature="25027:25541" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Utility.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Utility.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="307">
+              <caret line="26" column="60" lean-forward="true" selection-start-line="26" selection-start-column="60" selection-end-line="26" selection-end-column="60" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ClientPanel.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/ClientPanel.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="92">
+              <caret line="113" column="96" lean-forward="true" selection-start-line="113" selection-start-column="96" selection-end-line="113" selection-end-column="96" />
+              <folding>
+                <element signature="method#ClientPanel#0;class#ClientPanel#0" expanded="false" />
+                <element signature="method#fileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+                <element signature="method#xorButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+                <element signature="method#chunkSizeSliderStateChanged#0;class#ClientPanel#0" expanded="false" />
+                <element signature="e#5792#9636#0" expanded="false" />
+                <element signature="method#closeConnection#0;class#ClientPanel#0" expanded="false" />
+                <element signature="method#disconnectButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+                <element signature="method#initComponents#0;class#ClientPanel#0" expanded="false" />
+                <marker date="1518160441212" expanded="false" signature="30756:31764" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
               </folding>
             </state>
           </provider>
@@ -106,9 +106,9 @@
         <option value="$PROJECT_DIR$/src/Resources/Credentials-Salted-Hashed" />
         <option value="$PROJECT_DIR$/src/Skullbusters.java" />
         <option value="$PROJECT_DIR$/src/Response.java" />
+        <option value="$PROJECT_DIR$/src/Utility.java" />
         <option value="$PROJECT_DIR$/src/ServerPanel.java" />
         <option value="$PROJECT_DIR$/src/ClientPanel.java" />
-        <option value="$PROJECT_DIR$/src/Utility.java" />
       </list>
     </option>
   </component>
@@ -154,12 +154,6 @@
               <item name="Skullbusters" type="b2602c69:ProjectViewProjectNode" />
               <item name="Skullbusters" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Skullbusters" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Skullbusters" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Resources" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -341,16 +335,15 @@
       <workItem from="1518066184534" duration="4904000" />
       <workItem from="1518124805346" duration="13105000" />
       <workItem from="1518141417899" duration="1804000" />
-      <workItem from="1518150111263" duration="5531000" />
+      <workItem from="1518150111263" duration="9097000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="138936000" />
+    <option name="totallyTimeSpent" value="142502000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -413,7 +406,7 @@
             <element signature="method#closeConnection#0;class#ServerPanel#0" expanded="false" />
             <element signature="e#12315#12394#0" expanded="false" />
             <element signature="method#initComponents#0;class#ServerPanel#0" expanded="false" />
-            <marker date="1518150533370" expanded="false" signature="25027:25541" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1518160429890" expanded="false" signature="25027:25541" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>
@@ -425,13 +418,13 @@
           <folding>
             <element signature="method#ClientPanel#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#fileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#sendFileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+            <element signature="method#xorButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#chunkSizeSliderStateChanged#0;class#ClientPanel#0" expanded="false" />
-            <element signature="e#5740#9584#0" expanded="false" />
+            <element signature="e#5792#9636#0" expanded="false" />
             <element signature="method#closeConnection#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#disconnectButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#initComponents#0;class#ClientPanel#0" expanded="false" />
-            <marker date="1518156137569" expanded="false" signature="30704:31712" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1518160441212" expanded="false" signature="30756:31764" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>
@@ -454,7 +447,7 @@
             <element signature="method#closeConnection#0;class#ServerPanel#0" expanded="false" />
             <element signature="e#12315#12394#0" expanded="false" />
             <element signature="method#initComponents#0;class#ServerPanel#0" expanded="false" />
-            <marker date="1518150533370" expanded="false" signature="25027:25541" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1518160429890" expanded="false" signature="25027:25541" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>
@@ -477,7 +470,7 @@
             <element signature="method#closeConnection#0;class#ServerPanel#0" expanded="false" />
             <element signature="e#12315#12394#0" expanded="false" />
             <element signature="method#initComponents#0;class#ServerPanel#0" expanded="false" />
-            <marker date="1518150533370" expanded="false" signature="25027:25541" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1518160429890" expanded="false" signature="25027:25541" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>
@@ -500,7 +493,7 @@
             <element signature="method#closeConnection#0;class#ServerPanel#0" expanded="false" />
             <element signature="e#12315#12394#0" expanded="false" />
             <element signature="method#initComponents#0;class#ServerPanel#0" expanded="false" />
-            <marker date="1518150533370" expanded="false" signature="25027:25541" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1518160429890" expanded="false" signature="25027:25541" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>
@@ -523,7 +516,7 @@
             <element signature="method#closeConnection#0;class#ServerPanel#0" expanded="false" />
             <element signature="e#12315#12394#0" expanded="false" />
             <element signature="method#initComponents#0;class#ServerPanel#0" expanded="false" />
-            <marker date="1518150533370" expanded="false" signature="25027:25541" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1518160429890" expanded="false" signature="25027:25541" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>
@@ -535,13 +528,13 @@
           <folding>
             <element signature="method#ClientPanel#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#fileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#sendFileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+            <element signature="method#xorButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#chunkSizeSliderStateChanged#0;class#ClientPanel#0" expanded="false" />
-            <element signature="e#5740#9584#0" expanded="false" />
+            <element signature="e#5792#9636#0" expanded="false" />
             <element signature="method#closeConnection#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#disconnectButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#initComponents#0;class#ClientPanel#0" expanded="false" />
-            <marker date="1518156137569" expanded="false" signature="30704:31712" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1518160441212" expanded="false" signature="30756:31764" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>
@@ -564,7 +557,7 @@
             <element signature="method#closeConnection#0;class#ServerPanel#0" expanded="false" />
             <element signature="e#12315#12394#0" expanded="false" />
             <element signature="method#initComponents#0;class#ServerPanel#0" expanded="false" />
-            <marker date="1518150533370" expanded="false" signature="25027:25541" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1518160429890" expanded="false" signature="25027:25541" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>
@@ -576,13 +569,13 @@
           <folding>
             <element signature="method#ClientPanel#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#fileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#sendFileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+            <element signature="method#xorButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#chunkSizeSliderStateChanged#0;class#ClientPanel#0" expanded="false" />
-            <element signature="e#5740#9584#0" expanded="false" />
+            <element signature="e#5792#9636#0" expanded="false" />
             <element signature="method#closeConnection#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#disconnectButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#initComponents#0;class#ClientPanel#0" expanded="false" />
-            <marker date="1518156137569" expanded="false" signature="30704:31712" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1518160441212" expanded="false" signature="30756:31764" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>
@@ -605,7 +598,7 @@
             <element signature="method#closeConnection#0;class#ServerPanel#0" expanded="false" />
             <element signature="e#12315#12394#0" expanded="false" />
             <element signature="method#initComponents#0;class#ServerPanel#0" expanded="false" />
-            <marker date="1518150533370" expanded="false" signature="25027:25541" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1518160429890" expanded="false" signature="25027:25541" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>
@@ -628,7 +621,7 @@
             <element signature="method#closeConnection#0;class#ServerPanel#0" expanded="false" />
             <element signature="e#12315#12394#0" expanded="false" />
             <element signature="method#initComponents#0;class#ServerPanel#0" expanded="false" />
-            <marker date="1518150533370" expanded="false" signature="25027:25541" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1518160429890" expanded="false" signature="25027:25541" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>
@@ -640,13 +633,13 @@
           <folding>
             <element signature="method#ClientPanel#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#fileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#sendFileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+            <element signature="method#xorButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#chunkSizeSliderStateChanged#0;class#ClientPanel#0" expanded="false" />
-            <element signature="e#5740#9584#0" expanded="false" />
+            <element signature="e#5792#9636#0" expanded="false" />
             <element signature="method#closeConnection#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#disconnectButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#initComponents#0;class#ClientPanel#0" expanded="false" />
-            <marker date="1518156137569" expanded="false" signature="30704:31712" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1518160441212" expanded="false" signature="30756:31764" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>
@@ -669,7 +662,7 @@
             <element signature="method#closeConnection#0;class#ServerPanel#0" expanded="false" />
             <element signature="e#12315#12394#0" expanded="false" />
             <element signature="method#initComponents#0;class#ServerPanel#0" expanded="false" />
-            <marker date="1518150533370" expanded="false" signature="25027:25541" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1518160429890" expanded="false" signature="25027:25541" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>
@@ -681,13 +674,13 @@
           <folding>
             <element signature="method#ClientPanel#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#fileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#sendFileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+            <element signature="method#xorButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#chunkSizeSliderStateChanged#0;class#ClientPanel#0" expanded="false" />
-            <element signature="e#5740#9584#0" expanded="false" />
+            <element signature="e#5792#9636#0" expanded="false" />
             <element signature="method#closeConnection#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#disconnectButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#initComponents#0;class#ClientPanel#0" expanded="false" />
-            <marker date="1518156137569" expanded="false" signature="30704:31712" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1518160441212" expanded="false" signature="30756:31764" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>
@@ -710,7 +703,7 @@
             <element signature="method#closeConnection#0;class#ServerPanel#0" expanded="false" />
             <element signature="e#12315#12394#0" expanded="false" />
             <element signature="method#initComponents#0;class#ServerPanel#0" expanded="false" />
-            <marker date="1518150533370" expanded="false" signature="25027:25541" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1518160429890" expanded="false" signature="25027:25541" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>
@@ -722,13 +715,13 @@
           <folding>
             <element signature="method#ClientPanel#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#fileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#sendFileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+            <element signature="method#xorButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#chunkSizeSliderStateChanged#0;class#ClientPanel#0" expanded="false" />
-            <element signature="e#5740#9584#0" expanded="false" />
+            <element signature="e#5792#9636#0" expanded="false" />
             <element signature="method#closeConnection#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#disconnectButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#initComponents#0;class#ClientPanel#0" expanded="false" />
-            <marker date="1518156137569" expanded="false" signature="30704:31712" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1518160441212" expanded="false" signature="30756:31764" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>
@@ -751,7 +744,7 @@
             <element signature="method#closeConnection#0;class#ServerPanel#0" expanded="false" />
             <element signature="e#12315#12394#0" expanded="false" />
             <element signature="method#initComponents#0;class#ServerPanel#0" expanded="false" />
-            <marker date="1518150533370" expanded="false" signature="25027:25541" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1518160429890" expanded="false" signature="25027:25541" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>
@@ -763,13 +756,13 @@
           <folding>
             <element signature="method#ClientPanel#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#fileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#sendFileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+            <element signature="method#xorButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#chunkSizeSliderStateChanged#0;class#ClientPanel#0" expanded="false" />
-            <element signature="e#5740#9584#0" expanded="false" />
+            <element signature="e#5792#9636#0" expanded="false" />
             <element signature="method#closeConnection#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#disconnectButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#initComponents#0;class#ClientPanel#0" expanded="false" />
-            <marker date="1518156137569" expanded="false" signature="30704:31712" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1518160441212" expanded="false" signature="30756:31764" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>
@@ -792,7 +785,7 @@
             <element signature="method#closeConnection#0;class#ServerPanel#0" expanded="false" />
             <element signature="e#12315#12394#0" expanded="false" />
             <element signature="method#initComponents#0;class#ServerPanel#0" expanded="false" />
-            <marker date="1518150533370" expanded="false" signature="25027:25541" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1518160429890" expanded="false" signature="25027:25541" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>
@@ -804,13 +797,13 @@
           <folding>
             <element signature="method#ClientPanel#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#fileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#sendFileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+            <element signature="method#xorButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#chunkSizeSliderStateChanged#0;class#ClientPanel#0" expanded="false" />
-            <element signature="e#5740#9584#0" expanded="false" />
+            <element signature="e#5792#9636#0" expanded="false" />
             <element signature="method#closeConnection#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#disconnectButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#initComponents#0;class#ClientPanel#0" expanded="false" />
-            <marker date="1518156137569" expanded="false" signature="30704:31712" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1518160441212" expanded="false" signature="30756:31764" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>
@@ -833,7 +826,7 @@
             <element signature="method#closeConnection#0;class#ServerPanel#0" expanded="false" />
             <element signature="e#12315#12394#0" expanded="false" />
             <element signature="method#initComponents#0;class#ServerPanel#0" expanded="false" />
-            <marker date="1518150533370" expanded="false" signature="25027:25541" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1518160429890" expanded="false" signature="25027:25541" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>
@@ -845,13 +838,13 @@
           <folding>
             <element signature="method#ClientPanel#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#fileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#sendFileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+            <element signature="method#xorButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#chunkSizeSliderStateChanged#0;class#ClientPanel#0" expanded="false" />
-            <element signature="e#5740#9584#0" expanded="false" />
+            <element signature="e#5792#9636#0" expanded="false" />
             <element signature="method#closeConnection#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#disconnectButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#initComponents#0;class#ClientPanel#0" expanded="false" />
-            <marker date="1518156137569" expanded="false" signature="30704:31712" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1518160441212" expanded="false" signature="30756:31764" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>
@@ -874,7 +867,7 @@
             <element signature="method#closeConnection#0;class#ServerPanel#0" expanded="false" />
             <element signature="e#12315#12394#0" expanded="false" />
             <element signature="method#initComponents#0;class#ServerPanel#0" expanded="false" />
-            <marker date="1518150533370" expanded="false" signature="25027:25541" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1518160429890" expanded="false" signature="25027:25541" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>
@@ -886,13 +879,13 @@
           <folding>
             <element signature="method#ClientPanel#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#fileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#sendFileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+            <element signature="method#xorButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#chunkSizeSliderStateChanged#0;class#ClientPanel#0" expanded="false" />
-            <element signature="e#5740#9584#0" expanded="false" />
+            <element signature="e#5792#9636#0" expanded="false" />
             <element signature="method#closeConnection#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#disconnectButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#initComponents#0;class#ClientPanel#0" expanded="false" />
-            <marker date="1518156137569" expanded="false" signature="30704:31712" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1518160441212" expanded="false" signature="30756:31764" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>
@@ -915,7 +908,7 @@
             <element signature="method#closeConnection#0;class#ServerPanel#0" expanded="false" />
             <element signature="e#12315#12394#0" expanded="false" />
             <element signature="method#initComponents#0;class#ServerPanel#0" expanded="false" />
-            <marker date="1518150533370" expanded="false" signature="25027:25541" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1518160429890" expanded="false" signature="25027:25541" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>
@@ -927,13 +920,13 @@
           <folding>
             <element signature="method#ClientPanel#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#fileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#sendFileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+            <element signature="method#xorButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#chunkSizeSliderStateChanged#0;class#ClientPanel#0" expanded="false" />
-            <element signature="e#5740#9584#0" expanded="false" />
+            <element signature="e#5792#9636#0" expanded="false" />
             <element signature="method#closeConnection#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#disconnectButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#initComponents#0;class#ClientPanel#0" expanded="false" />
-            <marker date="1518156137569" expanded="false" signature="30704:31712" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1518160441212" expanded="false" signature="30756:31764" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>
@@ -945,13 +938,13 @@
           <folding>
             <element signature="method#ClientPanel#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#fileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#sendFileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+            <element signature="method#xorButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#chunkSizeSliderStateChanged#0;class#ClientPanel#0" expanded="false" />
-            <element signature="e#5740#9584#0" expanded="false" />
+            <element signature="e#5792#9636#0" expanded="false" />
             <element signature="method#closeConnection#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#disconnectButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#initComponents#0;class#ClientPanel#0" expanded="false" />
-            <marker date="1518156137569" expanded="false" signature="30704:31712" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1518160441212" expanded="false" signature="30756:31764" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>
@@ -974,7 +967,7 @@
             <element signature="method#closeConnection#0;class#ServerPanel#0" expanded="false" />
             <element signature="e#12315#12394#0" expanded="false" />
             <element signature="method#initComponents#0;class#ServerPanel#0" expanded="false" />
-            <marker date="1518150533370" expanded="false" signature="25027:25541" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1518160429890" expanded="false" signature="25027:25541" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>
@@ -986,13 +979,13 @@
           <folding>
             <element signature="method#ClientPanel#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#fileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#sendFileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+            <element signature="method#xorButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#chunkSizeSliderStateChanged#0;class#ClientPanel#0" expanded="false" />
-            <element signature="e#5740#9584#0" expanded="false" />
+            <element signature="e#5792#9636#0" expanded="false" />
             <element signature="method#closeConnection#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#disconnectButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#initComponents#0;class#ClientPanel#0" expanded="false" />
-            <marker date="1518156137569" expanded="false" signature="30704:31712" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1518160441212" expanded="false" signature="30756:31764" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>
@@ -1004,13 +997,13 @@
           <folding>
             <element signature="method#ClientPanel#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#fileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#sendFileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+            <element signature="method#xorButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#chunkSizeSliderStateChanged#0;class#ClientPanel#0" expanded="false" />
-            <element signature="e#5740#9584#0" expanded="false" />
+            <element signature="e#5792#9636#0" expanded="false" />
             <element signature="method#closeConnection#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#disconnectButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#initComponents#0;class#ClientPanel#0" expanded="false" />
-            <marker date="1518156137569" expanded="false" signature="30704:31712" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1518160441212" expanded="false" signature="30756:31764" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>
@@ -1033,7 +1026,7 @@
             <element signature="method#closeConnection#0;class#ServerPanel#0" expanded="false" />
             <element signature="e#12315#12394#0" expanded="false" />
             <element signature="method#initComponents#0;class#ServerPanel#0" expanded="false" />
-            <marker date="1518150533370" expanded="false" signature="25027:25541" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1518160429890" expanded="false" signature="25027:25541" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>
@@ -1045,13 +1038,13 @@
           <folding>
             <element signature="method#ClientPanel#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#fileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#sendFileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+            <element signature="method#xorButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#chunkSizeSliderStateChanged#0;class#ClientPanel#0" expanded="false" />
-            <element signature="e#5740#9584#0" expanded="false" />
+            <element signature="e#5792#9636#0" expanded="false" />
             <element signature="method#closeConnection#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#disconnectButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#initComponents#0;class#ClientPanel#0" expanded="false" />
-            <marker date="1518156137569" expanded="false" signature="30704:31712" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1518160441212" expanded="false" signature="30756:31764" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>
@@ -1074,7 +1067,7 @@
             <element signature="method#closeConnection#0;class#ServerPanel#0" expanded="false" />
             <element signature="e#12315#12394#0" expanded="false" />
             <element signature="method#initComponents#0;class#ServerPanel#0" expanded="false" />
-            <marker date="1518150533370" expanded="false" signature="25027:25541" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1518160429890" expanded="false" signature="25027:25541" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>
@@ -1086,13 +1079,13 @@
           <folding>
             <element signature="method#ClientPanel#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#fileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#sendFileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+            <element signature="method#xorButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#chunkSizeSliderStateChanged#0;class#ClientPanel#0" expanded="false" />
-            <element signature="e#5740#9584#0" expanded="false" />
+            <element signature="e#5792#9636#0" expanded="false" />
             <element signature="method#closeConnection#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#disconnectButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#initComponents#0;class#ClientPanel#0" expanded="false" />
-            <marker date="1518156137569" expanded="false" signature="30704:31712" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1518160441212" expanded="false" signature="30756:31764" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>
@@ -1115,7 +1108,7 @@
             <element signature="method#closeConnection#0;class#ServerPanel#0" expanded="false" />
             <element signature="e#12315#12394#0" expanded="false" />
             <element signature="method#initComponents#0;class#ServerPanel#0" expanded="false" />
-            <marker date="1518150533370" expanded="false" signature="25027:25541" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1518160429890" expanded="false" signature="25027:25541" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>
@@ -1127,13 +1120,13 @@
           <folding>
             <element signature="method#ClientPanel#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#fileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#sendFileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+            <element signature="method#xorButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#chunkSizeSliderStateChanged#0;class#ClientPanel#0" expanded="false" />
-            <element signature="e#5740#9584#0" expanded="false" />
+            <element signature="e#5792#9636#0" expanded="false" />
             <element signature="method#closeConnection#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#disconnectButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#initComponents#0;class#ClientPanel#0" expanded="false" />
-            <marker date="1518156137569" expanded="false" signature="30704:31712" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1518160441212" expanded="false" signature="30756:31764" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>
@@ -1200,8 +1193,8 @@
     <entry file="file://$PROJECT_DIR$/src/Resources/Utilities.java" />
     <entry file="file://$PROJECT_DIR$/src/ServerPanel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-502">
-          <caret line="57" column="25" lean-forward="false" selection-start-line="57" selection-start-column="25" selection-end-line="57" selection-end-column="25" />
+        <state relative-caret-position="443">
+          <caret line="205" column="13" lean-forward="true" selection-start-line="205" selection-start-column="13" selection-end-line="205" selection-end-column="13" />
           <folding>
             <element signature="class#2277:2475" expanded="false" />
             <element signature="e#2350#2351#0" expanded="true" />
@@ -1216,15 +1209,15 @@
             <element signature="method#closeConnection#0;class#ServerPanel#0" expanded="false" />
             <element signature="e#12315#12394#0" expanded="false" />
             <element signature="method#initComponents#0;class#ServerPanel#0" expanded="false" />
-            <marker date="1518150533370" expanded="false" signature="25027:25541" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1518160429890" expanded="false" signature="25027:25541" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Utility.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="822">
-          <caret line="68" column="1" lean-forward="true" selection-start-line="68" selection-start-column="1" selection-end-line="68" selection-end-column="1" />
+        <state relative-caret-position="307">
+          <caret line="26" column="60" lean-forward="true" selection-start-line="26" selection-start-column="60" selection-end-line="26" selection-end-column="60" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1233,18 +1226,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ClientPanel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="454">
-          <caret line="90" column="73" lean-forward="true" selection-start-line="90" selection-start-column="73" selection-end-line="90" selection-end-column="73" />
+        <state relative-caret-position="92">
+          <caret line="113" column="96" lean-forward="true" selection-start-line="113" selection-start-column="96" selection-end-line="113" selection-end-column="96" />
           <folding>
             <element signature="method#ClientPanel#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#fileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#sendFileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+            <element signature="method#xorButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#chunkSizeSliderStateChanged#0;class#ClientPanel#0" expanded="false" />
-            <element signature="e#5740#9584#0" expanded="false" />
+            <element signature="e#5792#9636#0" expanded="false" />
             <element signature="method#closeConnection#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#disconnectButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#initComponents#0;class#ClientPanel#0" expanded="false" />
-            <marker date="1518156137569" expanded="false" signature="30704:31712" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1518160441212" expanded="false" signature="30756:31764" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>

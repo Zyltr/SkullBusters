@@ -1,0 +1,202 @@
+JFDML JFormDesigner: "7.0.0.0.58" Java: "1.8.0_144" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq l {space :p:25:p, par l {seq {comp staticStatusLabel:::p::p, space ::325:x}, seq {par l {comp logLabel:::p::p, comp portLabel:::p::p, comp saveButton:::p::p, comp xorButton:::p::p}, space :0:271:x}, seq t {par t {comp portTextField::l::325:x, comp logScrollPane::l::325:x, comp saveScrollPane::l::325:x, comp xorScrollPane::l::325:x, comp credentialScrollPane::l::325:x, comp statusLabel::l::325:x, seq l {comp credentialButton:::p::p, space :0:233:x}, comp stopButton::l::325:x, comp startButton::t::325:x}, space :p:50:p}}}}"
+			"$verticalGroup": "par l {seq l {space :p:25:p, comp staticStatusLabel:::p::p, space s:::p, comp statusLabel:::p::p, space s:::p, comp credentialButton:::p::p, space s:::p, comp credentialScrollPane:::p:30:p, space s:::p, comp xorButton:::p::p, space s:::p, comp xorScrollPane:::p:28:p, space s:::p, comp saveButton:::p::p, space s:::p, comp saveScrollPane:::p:31:p, space s:::p, comp portLabel:::p::p, space s:::p, comp portTextField:::p:32:p, space :p:18:p, comp logLabel:::p::p, space s:::p, comp logScrollPane:::p:200:p, space ::78:x, comp startButton:::p::p, space :::p, comp stopButton:::p::p, space :p:25:p}}"
+		} ) {
+			name: "this"
+			"preferredSize": new java.awt.Dimension( 400, 900 )
+			"opaque": false
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "staticStatusLabel"
+				"text": "Status"
+				"font": &SwingDerivedFont0 new com.jformdesigner.model.SwingDerivedFont( null, 1, 3, false )
+				"focusable": false
+				"requestFocusEnabled": false
+				"verifyInputWhenFocusTarget": false
+				auxiliary() {
+					"JavaCodeGenerator.variableLocal": true
+				}
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "credentialButton"
+				"text": "Credentials"
+				"font": #SwingDerivedFont0
+				"horizontalAlignment": 10
+				"verifyInputWhenFocusTarget": false
+				"focusable": false
+				"requestFocusEnabled": false
+				"defaultCapable": false
+				"border": new javax.swing.border.MatteBorder( 0, 0, 1, 0, sfield java.awt.Color black )
+				auxiliary() {
+					"JavaCodeGenerator.variableLocal": true
+				}
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "credentialsButtonActionPerformed", true ) )
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "saveButton"
+				"text": "Save Files To"
+				"font": &SwingDerivedFont1 new com.jformdesigner.model.SwingDerivedFont( null, 1, 3, false )
+				"border": new javax.swing.border.MatteBorder( 0, 0, 1, 0, sfield java.awt.Color black )
+				"toolTipText": "Location to save files sent by Client's"
+				"focusable": false
+				"verifyInputWhenFocusTarget": false
+				"requestFocusEnabled": false
+				"defaultCapable": false
+				auxiliary() {
+					"JavaCodeGenerator.variableLocal": true
+				}
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "saveToButtonActionPerformed", true ) )
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "startButton"
+				"text": "Start"
+				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 0, false )
+				"toolTipText": "Starts the server"
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "startButtonActionPerformed", true ) )
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "stopButton"
+				"text": "Stop"
+				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 0, false )
+				"toolTipText": "Stops the Server"
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "stopButtonActionPerformed", true ) )
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "portLabel"
+				"text": "Port"
+				"font": #SwingDerivedFont1
+				"toolTipText": "Port to run Server on"
+				"verifyInputWhenFocusTarget": false
+				"requestFocusEnabled": false
+				auxiliary() {
+					"JavaCodeGenerator.variableLocal": true
+				}
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "portTextField"
+				"text": "1492"
+				"border": new javax.swing.border.MatteBorder( 0, 0, 1, 0, new java.awt.Color( 204, 204, 204, 255 ) )
+				"foreground": new java.awt.Color( 153, 0, 0, 255 )
+				"font": new com.jformdesigner.model.SwingDerivedFont( null, 3, 0, false )
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "statusLabel"
+				"text": "Stopped"
+				"font": &SwingDerivedFont2 new com.jformdesigner.model.SwingDerivedFont( null, 3, 0, false )
+				"foreground": &Color0 new java.awt.Color( 153, 0, 0, 255 )
+				"focusable": false
+				"requestFocusEnabled": false
+				"verifyInputWhenFocusTarget": false
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "logLabel"
+				"text": "Log"
+				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 3, false )
+				"toolTipText": "A log of who has connected and the files they have sent"
+				auxiliary() {
+					"JavaCodeGenerator.variableLocal": true
+				}
+			} )
+			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+				name: "logScrollPane"
+				"verticalScrollBarPolicy": 22
+				"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+				auxiliary() {
+					"JavaCodeGenerator.variableLocal": true
+				}
+				add( new FormComponent( "javax.swing.JTextArea" ) {
+					name: "logTextArea"
+					"foreground": #Color0
+					"rows": 1
+					"editable": false
+					"font": new com.jformdesigner.model.SwingDerivedFont( null, 3, 0, false )
+					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+				name: "saveScrollPane"
+				"verticalScrollBarPolicy": 21
+				"border": new javax.swing.border.MatteBorder( 0, 0, 1, 0, new java.awt.Color( 204, 204, 204, 255 ) )
+				auxiliary() {
+					"JavaCodeGenerator.variableLocal": true
+				}
+				add( new FormComponent( "javax.swing.JTextArea" ) {
+					name: "saveTextArea"
+					"font": new com.jformdesigner.model.SwingDerivedFont( null, 3, 0, false )
+					"foreground": new java.awt.Color( 153, 0, 0, 255 )
+					"editable": false
+					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					"tabSize": 0
+					"rows": 1
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+				name: "credentialScrollPane"
+				"verticalScrollBarPolicy": 21
+				"border": new javax.swing.border.MatteBorder( 0, 0, 1, 0, new java.awt.Color( 204, 204, 204, 255 ) )
+				auxiliary() {
+					"JavaCodeGenerator.variableLocal": true
+				}
+				add( new FormComponent( "javax.swing.JTextArea" ) {
+					name: "credentialTextArea"
+					"font": #SwingDerivedFont2
+					"foreground": #Color0
+					"rows": 1
+					"editable": false
+					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					"tabSize": 0
+				} )
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "xorButton"
+				"text": "XOR Key"
+				"font": #SwingDerivedFont0
+				"actionCommand": "XOR-Key File"
+				"border": new javax.swing.border.MatteBorder( 0, 0, 1, 0, sfield java.awt.Color black )
+				"defaultCapable": false
+				"requestFocusEnabled": false
+				"verifyInputWhenFocusTarget": false
+				"focusable": false
+				auxiliary() {
+					"JavaCodeGenerator.variableLocal": true
+				}
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "xorButtonActionPerformed", true ) )
+			} )
+			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+				name: "xorScrollPane"
+				"verticalScrollBarPolicy": 21
+				"border": new javax.swing.border.MatteBorder( 0, 0, 1, 0, new java.awt.Color( 204, 204, 204, 255 ) )
+				auxiliary() {
+					"JavaCodeGenerator.variableLocal": true
+				}
+				add( new FormComponent( "javax.swing.JTextArea" ) {
+					name: "xorTextArea"
+					"rows": 1
+					"tabSize": 0
+					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					"foreground": new java.awt.Color( 153, 0, 0, 255 )
+					"font": new com.jformdesigner.model.SwingDerivedFont( null, 3, 0, false )
+					"editable": false
+				} )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 0 )
+			"size": new java.awt.Dimension( 400, 850 )
+		} )
+		addBindingGroup( new FormBindingGroup( class org.jdesktop.beansbinding.BindingGroup ) {
+			"name": "bindingGroup"
+			addBinding( new FormBinding( "startButton", "${!enabled}", "stopButton", "enabled" ) )
+			addBinding( new FormBinding( "startButton", "enabled", "saveButton", "enabled" ) )
+			addBinding( new FormBinding( "startButton", "enabled", "portTextField", "enabled" ) )
+			addBinding( new FormBinding( "startButton", "enabled", "saveTextArea", "enabled" ) )
+			addBinding( new FormBinding( "startButton", "enabled", "credentialTextArea", "enabled" ) )
+			addBinding( new FormBinding( "startButton", "enabled", "xorButton", "enabled" ) )
+			addBinding( new FormBinding( "startButton", "enabled", "credentialButton", "enabled" ) )
+			addBinding( new FormBinding( "startButton", "enabled", "xorTextArea", "enabled" ) )
+		} )
+	}
+}

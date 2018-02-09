@@ -1,0 +1,97 @@
+JFDML JFormDesigner: "7.0.0.0.58" Java: "1.8.0_144" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq {par l {seq {space :p:135:p, comp bulldogPanel:::p::p, space :0:123:x}, seq l {space :::p, comp createdLabel:::::x}, seq l {space :::p, comp memberLabel::::386:x}, comp memberLabel2::t::392:x, seq l {space :::p, comp memberLabel3::::386:x}, seq l {space :::p, comp memberLabel4::::386:x}, seq l {space :::p, comp memberLabel5::::386:x}}, space :::p}}"
+			"$verticalGroup": "par l {seq l {space :p:20:p, comp bulldogPanel:::p::p, space s:::p, comp createdLabel:::p::p, space s:::p, comp memberLabel:::p::p, space :::p, comp memberLabel2:::p::p, space :::p, comp memberLabel3:::p::p, space :::p, comp memberLabel4:::p::p, space :::p, comp memberLabel5:::p::p, space ::22:x}}"
+		} ) {
+			name: "this"
+			"title": "About Skullbusters"
+			"name": "aboutDialog"
+			"resizable": false
+			"modal": true
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq l {space :p:15:p, comp bulldogLabel:::p::p, space :p:15:p}}"
+				"$verticalGroup": "par l {seq t {space :p:15:p, comp bulldogLabel:::p::p, space :p:15:p}}"
+			} ) {
+				name: "bulldogPanel"
+				"background": new java.awt.Color( 255, 255, 255, 255 )
+				"border": new javax.swing.border.BevelBorder( 0, null, null, null, null )
+				auxiliary() {
+					"JavaCodeGenerator.variableLocal": true
+				}
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "bulldogLabel"
+					"icon": new com.jformdesigner.model.SwingIcon( 1, "/Users/Erik/IdeaProjects/Skullbusters/src/Images/Bulldog.jpg" )
+					"horizontalAlignment": 0
+					auxiliary() {
+						"JavaCodeGenerator.variableLocal": true
+					}
+				} )
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "createdLabel"
+				"text": "Created By "
+				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 3, false )
+				"horizontalAlignment": 0
+				auxiliary() {
+					"JavaCodeGenerator.variableLocal": true
+				}
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "memberLabel"
+				"text": "Sean McCullough"
+				"font": &SwingDerivedFont0 new com.jformdesigner.model.SwingDerivedFont( null, 3, 0, false )
+				"horizontalAlignment": 0
+				auxiliary() {
+					"JavaCodeGenerator.variableLocal": true
+				}
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "memberLabel2"
+				"text": "Ryan Tang"
+				"font": #SwingDerivedFont0
+				"horizontalAlignment": 0
+				auxiliary() {
+					"JavaCodeGenerator.variableLocal": true
+				}
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "memberLabel3"
+				"text": "Erik Huerta"
+				"font": #SwingDerivedFont0
+				"horizontalAlignment": 0
+				auxiliary() {
+					"JavaCodeGenerator.variableLocal": true
+				}
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "memberLabel4"
+				"text": "Eric Rensel"
+				"font": #SwingDerivedFont0
+				"horizontalAlignment": 0
+				auxiliary() {
+					"JavaCodeGenerator.variableLocal": true
+				}
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "memberLabel5"
+				"text": "Yuan Kun Chen (Erik)"
+				"font": #SwingDerivedFont0
+				"horizontalAlignment": 0
+				auxiliary() {
+					"JavaCodeGenerator.variableLocal": true
+				}
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 0 )
+			"size": new java.awt.Dimension( 400, 360 )
+		} )
+		addBindingGroup( new FormBindingGroup( class org.jdesktop.beansbinding.BindingGroup ) {
+			"name": "bindingGroup"
+			addBinding( new FormBinding( "this", "preferredSize", "this", "minimumSize" ) )
+		} )
+	}
+}

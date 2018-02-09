@@ -1,0 +1,67 @@
+JFDML JFormDesigner: "7.0.0.0.58" Java: "1.8.0_144" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq {space :p:5:p, comp tabbedPane::::438:x, space :p:5:p}}"
+			"$verticalGroup": "par l {seq l {space :::p, comp tabbedPane::::742:x, space :::p}}"
+		} ) {
+			name: "this"
+			"name": "frame"
+			"title": "Skullbusters's FTP Tool"
+			"resizable": false
+			"$sizePolicy": 1
+			add( new FormContainer( "javax.swing.JTabbedPane", new FormLayoutManager( class javax.swing.JTabbedPane ) ) {
+				name: "tabbedPane"
+				auxiliary() {
+					"JavaCodeGenerator.variableLocal": true
+				}
+				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+					name: "serverScrollPane"
+					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					auxiliary() {
+						"JavaCodeGenerator.customCreateCode": "new JScrollPane ( new ServerPanel () );"
+						"JavaCodeGenerator.variableLocal": true
+					}
+				}, new FormLayoutConstraints( null ) {
+					"title": "Server"
+				} )
+				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+					name: "clientScrollPane"
+					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					auxiliary() {
+						"JavaCodeGenerator.customCreateCode": "new JScrollPane ( new ClientPanel () );"
+						"JavaCodeGenerator.variableLocal": true
+					}
+				}, new FormLayoutConstraints( null ) {
+					"title": "Client"
+				} )
+			} )
+			menuBar: new FormContainer( "javax.swing.JMenuBar", new FormLayoutManager( class javax.swing.JMenuBar ) ) {
+				name: "menuBar"
+				auxiliary() {
+					"JavaCodeGenerator.variableLocal": true
+				}
+				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
+					name: "skullbustersMenu"
+					"text": "Skullbusters"
+					auxiliary() {
+						"JavaCodeGenerator.variableLocal": true
+					}
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "aboutMenuItem"
+						"text": "About"
+						auxiliary() {
+							"JavaCodeGenerator.variableLocal": true
+						}
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "aboutMenuItemActionPerformed", true ) )
+					} )
+				} )
+			}
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 0 )
+			"size": new java.awt.Dimension( 450, 800 )
+		} )
+	}
+}

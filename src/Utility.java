@@ -1,79 +1,60 @@
-import com.sun.deploy.util.ArrayUtil;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Utility
 {
-    private static char [] zeros = { '0', '0', '0', '0', '0', '0', '0', '0' };
-
-    public static String byteArrayToString ( byte[] bytes )
+    // TODO -> Transforms some byte ( e.g : 1 ) to binary ( e.g : 00000001 ) as 8 bits with sign
+    public static String binaryRepresentation ( Byte inputByte )
     {
-        StringBuilder byteStringBuilder = new StringBuilder ();
-
-        for ( int count = 0; count < bytes.length; ++count )
-            byteStringBuilder.append ( bytes[count] ).append ( count + 1 < bytes.length ? " " : "" );
-
-        return byteStringBuilder.toString ();
+        return String.format("%8s", Integer.toBinaryString(inputByte & 0xFF)).replace(' ', '0');
     }
 
-    public static ArrayList<Byte> byteStringToArrayList( String stringOfBytes )
+    // TODO -> Converts binary to byte ( e.g : 10000000 ) becomes ( -128 ) ( Byte MIN )
+    private static Byte binaryConverter ( String byteString )
     {
-//        String [] byteStrings = stringOfBytes.split ( "\\p{Punct} | \\p{Space}" );
-        String [] byteStrings = stringOfBytes.split ( " " );
+        if ( byteString.length () > Byte.SIZE )
+            throw new NumberFormatException ();
 
-        ArrayList<Byte> bytes = new ArrayList<> (byteStrings.length);
-        for ( String byteString : byteStrings )
-            bytes.add ( new Byte ( byteString ) );
+        // TODO -> Find value of high-bit
+        int result = byteString.charAt ( 0 ) == '0' ? 0 : Byte.MIN_VALUE;
 
-        return bytes;
+        // TODO -> Add other portion to high-bit value
+        result += Byte.parseByte ( byteString.substring ( 1, byteString.length () ), 2 );
+
+        return ( byte ) result;
     }
 
-    public static String transformByteToBinary ( Byte inputByte )
-    {
-        String asBinary = Integer.toBinaryString ( inputByte );
-        return String.valueOf ( zeros, 0, Byte.SIZE - asBinary.length () ) + asBinary;
-    }
-
-    public static String transformBytesToBinary ( Byte... inputBytes )
-    {
-        StringBuilder bytes = new StringBuilder ();
-
-        for ( Byte singleByte : inputBytes )
-            bytes.append ( transformByteToBinary ( singleByte ) );
-
-        return bytes.toString ();
-    }
-
-    public static String transformBytesToBinary ( byte... inputBytes )
-    {
-        StringBuilder bytes = new StringBuilder ();
-
-        for ( byte aByte : inputBytes )
-            bytes.append ( transformByteToBinary ( aByte ) );
-
-        return bytes.toString ();
-    }
-
-    public static ArrayList<Byte> transformBinaryToBytes ( String stringOfBinary )
+    // TODO -> Converts a string of bytes in binary to actual bytes ( e.g : 10000000 00000001 ) becomes ( -128 1 )
+    // TODO -> Spaces should be used to distinguish separate bits
+    // TODO -> extraneous whitespace and punctuation will be removed to help processing
+    public static ArrayList<Byte> binaryToBytes ( String stringOfBytes )
     {
         ArrayList<Byte> bytes = new ArrayList<> ();
 
-        for ( int origin = 0; origin < stringOfBinary.length (); origin += Byte.SIZE )
-        {
-            if ( origin + Byte.SIZE > stringOfBinary.length () )
-                bytes.add ( new Byte ( stringOfBinary.substring ( origin, stringOfBinary.length () - origin ) ) );
-            else
-            {
-                bytes.add ( new Byte ( stringOfBinary.substring ( origin, Byte.SIZE ) ) );
-            }
-        }
+        System.out.println ( "Transforming : " + stringOfBytes + " to bytes" );
+
+        stringOfBytes = stringOfBytes.replaceAll ( "\\p{Punct}", "" );
+
+        for ( String byteString : stringOfBytes.split ( "\\p{Space}" ) )
+            bytes.add ( binaryConverter ( byteString ) );
 
         return bytes;
+    }
+
+    // TODO -> Converts any sequence of Bytes to Binary representation
+    // TODO -> e.g : ( 1 -1 127 -128 ) becomes ( 00000001 11111111 01111111 10000000 )
+    public static String bytesToBinary ( byte... bytes )
+    {
+        StringBuilder bytesString = new StringBuilder ();
+
+        for ( byte singleByte : bytes )
+        {
+            if ( bytesString.length () == 0 )
+                bytesString.append ( binaryRepresentation ( singleByte ) );
+            else
+                bytesString.append ( " " + binaryRepresentation ( singleByte ) );
+        }
+
+        return bytesString.toString ();
     }
 
 }

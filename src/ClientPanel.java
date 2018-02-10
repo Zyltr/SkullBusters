@@ -90,7 +90,7 @@ public class ClientPanel extends JPanel
 
 				// TODO -> Convert Bytes of file to a binary representation
 				for ( Integer inputByte; ( inputByte = inputStream.read () ) != -1; )
-					xorKey.append ( Utility.transformByteToBinary ( inputByte.byteValue () ) );
+					xorKey.append ( Utility.binaryRepresentation ( inputByte.byteValue () ) );
 			}
 			catch ( IOException ioe )
 			{
@@ -129,13 +129,14 @@ public class ClientPanel extends JPanel
 
 				for ( byte [] fileBytes = new byte [chunkSize]; fileInputStream.read ( fileBytes ) > 0; )
 				{
-					String byteString = Utility.byteArrayToString ( fileBytes );
-
 					// TODO -> Write to console
-					System.out.println ( "Client > " + byteString );
+					System.out.println ( "Client > " + Arrays.toString ( fileBytes ) );
 
-					// TODO -> Write Bytes to Stream
-					printWriter.println ( byteString );
+					// TODO -> Get Binary Representation of Chunk
+					String binaryRepresentation = Utility.bytesToBinary ( fileBytes );
+
+					// TODO -> Write Bytes as Binary to Stream
+					printWriter.println ( binaryRepresentation );
 				}
 
 				printWriter.println ( "FILE-DONE" );
@@ -202,6 +203,10 @@ public class ClientPanel extends JPanel
 
 				if ( didPass )
 				{
+					// TODO -> Inform Client conenction has been established
+					message = "Connection established";
+					JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.INFORMATION_MESSAGE );
+
 					// TODO -> Update GUI
 					dynamicStatusLabel.setText ( "Connected" );
 					connectButton.setEnabled ( false );
@@ -458,7 +463,7 @@ public class ClientPanel extends JPanel
 
 		//---- sendFileButton ----
 		sendFileButton.setText("Send");
-		sendFileButton.setFont(sendFileButton.getFont().deriveFont(Font.BOLD, sendFileButton.getFont().getSize() + 3f));
+		sendFileButton.setFont(sendFileButton.getFont().deriveFont(sendFileButton.getFont().getStyle() | Font.BOLD, sendFileButton.getFont().getSize() + 3f));
 		sendFileButton.setToolTipText("Tries to send file to the Server");
 		sendFileButton.setBorder(new MatteBorder(0, 0, 1, 0, Color.black));
 		sendFileButton.addActionListener(e -> sendFileButtonActionPerformed(e));
@@ -680,32 +685,38 @@ public class ClientPanel extends JPanel
 			connectButton, BeanProperty.create("enabled"),
 			plainRadioButton, BeanProperty.create("enabled")));
 		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
-			connectButton, BeanProperty.create("enabled"),
-			xorTextArea, BeanProperty.create("enabled")));
-		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
-			disconnectButton, BeanProperty.create("enabled"),
+			connectButton, ELProperty.create("${!enabled}"),
 			fileButton, BeanProperty.create("enabled")));
 		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
-			disconnectButton, BeanProperty.create("enabled"),
+			connectButton, ELProperty.create("${!enabled}"),
 			sendFileButton, BeanProperty.create("enabled")));
 		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
-			disconnectButton, BeanProperty.create("enabled"),
+			connectButton, ELProperty.create("${!enabled}"),
 			fileTextArea, BeanProperty.create("enabled")));
 		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
-			disconnectButton, BeanProperty.create("enabled"),
+			connectButton, ELProperty.create("${!enabled}"),
 			armoringCheckBox, BeanProperty.create("enabled")));
 		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
-			disconnectButton, BeanProperty.create("enabled"),
+			connectButton, ELProperty.create("${!enabled}"),
 			copyRadioButton, BeanProperty.create("enabled")));
 		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
-			disconnectButton, BeanProperty.create("enabled"),
+			connectButton, ELProperty.create("${!enabled}"),
 			overwriteRadioButton, BeanProperty.create("enabled")));
 		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
-			disconnectButton, BeanProperty.create("enabled"),
+			connectButton, ELProperty.create("${!enabled}"),
 			chunkSizeSlider, BeanProperty.create("enabled")));
 		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
 			connectButton, ELProperty.create("${!enabled}"),
+			chunkSizeValueLabel, BeanProperty.create("enabled")));
+		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
+			connectButton, ELProperty.create("${!enabled}"),
 			disconnectButton, BeanProperty.create("enabled")));
+		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
+			connectButton, BeanProperty.create("enabled"),
+			xorButton, BeanProperty.create("enabled")));
+		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
+			connectButton, BeanProperty.create("enabled"),
+			xorTextArea, BeanProperty.create("enabled")));
 		bindingGroup.bind();
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }

@@ -194,14 +194,20 @@ public class ServerPanel extends JPanel
 
 			ArrayList<Byte> fileBytes = new ArrayList<> ();
 
-			for ( String fileByteString; ( fileByteString = bufferedReader.readLine () ) != null; )
+			for ( String binaryString; ( binaryString = bufferedReader.readLine () ) != null; )
 			{
-				if ( fileByteString.equals ( "FILE-DONE" ) ) break;
+				if ( binaryString.equals ( "FILE-DONE" ) )
+					break;
 				else
 				{
-					stringBuilder.append ( "\n" + "Server > " + fileByteString );
+					// TODO -> Transform Binary data to Bytes
+					ArrayList<Byte> bytes = Utility.binaryToBytes ( binaryString );
 
-					fileBytes.addAll ( Utility.byteStringToArrayList ( fileByteString ) );
+					// TODO -> Append received Bytes to String Builder
+					stringBuilder.append ( "\n" + "Server > " + bytes.toString () );
+
+					// TODO -> Add to total Bytes
+					fileBytes.addAll ( bytes );
 				}
 			}
 

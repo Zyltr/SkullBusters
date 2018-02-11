@@ -152,8 +152,21 @@ public class ClientPanel extends JPanel
 					// TODO -> Write to console
 					System.out.println ( "Client > " + stringOfBytes );
 
-					// TODO -> Write Bytes as Binary to Stream
-					printWriter.println ( stringOfBytes );
+					if ( armoringCheckBox.isSelected () )
+					{
+						// TODO -> Encode Bytes with Armoring
+						String armoredBytes = MIME.base64Encoding ( fileBytes );
+
+						System.out.println ( "Client > " + armoredBytes );
+
+						// TODO -> Write to Stream
+						printWriter.println ( armoredBytes );
+					}
+					else
+					{
+						// TODO -> Write Bytes as Binary to Stream
+						printWriter.println ( stringOfBytes );
+					}
 				}
 
 				printWriter.println ( "FILE-DONE" );
@@ -193,7 +206,7 @@ public class ClientPanel extends JPanel
 			try
 			{
 				// TODO -> Get name of server
-				String host = serverTextArea.getText ();
+				String host = serverTextField.getText ();
 
 				// TODO -> Parse Port. If not a valid Integer, Exception will be thrown
 				String portString = portTextField.getText ();
@@ -258,7 +271,7 @@ public class ClientPanel extends JPanel
 				}
 				else if ( ioe instanceof NoRouteToHostException )
 				{
-					message = String.format ( "%s\n%s", "No Route to Host Exception", "Host \"" + serverTextArea.getText () + "\" is unreachable" );
+					message = String.format ( "%s\n%s", "No Route to Host Exception", "Host \"" + serverTextField.getText () + "\" is unreachable" );
 					JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.ERROR_MESSAGE );
 				}
 				else if ( ioe instanceof ConnectException )
@@ -326,7 +339,7 @@ public class ClientPanel extends JPanel
 
 		dynamicStatusLabel.setText ( "Stopped" );
 
-		serverTextArea.setText ( "localhost" );
+		serverTextField.setText ( "localhost" );
 		portTextField.setText ( "1492" );
 		usernameTextField.setText ( "Debug" );
 		passwordField.setText ( null );
@@ -391,8 +404,7 @@ public class ClientPanel extends JPanel
 		dynamicStatusLabel = new JLabel();
 		fileScrollPane = new JScrollPane();
 		fileTextArea = new JTextArea();
-		serverScrollPane = new JScrollPane();
-		serverTextArea = new JTextArea();
+		serverTextField = new JTextField();
 		copyRadioButton = new JRadioButton();
 		JButton xorButton = new JButton();
 		xorScrollPane = new JScrollPane();
@@ -472,7 +484,6 @@ public class ClientPanel extends JPanel
 
 		//---- armoringCheckBox ----
 		armoringCheckBox.setText("ASCII Armoring");
-		armoringCheckBox.setSelected(true);
 		armoringCheckBox.setFont(armoringCheckBox.getFont().deriveFont(armoringCheckBox.getFont().getStyle() | Font.BOLD));
 
 		//---- overwriteRadioButton ----
@@ -538,21 +549,11 @@ public class ClientPanel extends JPanel
 			fileScrollPane.setViewportView(fileTextArea);
 		}
 
-		//======== serverScrollPane ========
-		{
-			serverScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-			serverScrollPane.setBorder(new MatteBorder(0, 0, 1, 0, new Color(204, 204, 204)));
-			serverScrollPane.setPreferredSize(new Dimension(60, 32));
-
-			//---- serverTextArea ----
-			serverTextArea.setFont(serverTextArea.getFont().deriveFont(Font.BOLD|Font.ITALIC));
-			serverTextArea.setForeground(new Color(153, 0, 0));
-			serverTextArea.setText("localhost");
-			serverTextArea.setRows(1);
-			serverTextArea.setTabSize(0);
-			serverTextArea.setBorder(null);
-			serverScrollPane.setViewportView(serverTextArea);
-		}
+		//---- serverTextField ----
+		serverTextField.setFont(serverTextField.getFont().deriveFont(Font.BOLD|Font.ITALIC));
+		serverTextField.setForeground(new Color(153, 0, 0));
+		serverTextField.setText("localhost");
+		serverTextField.setBorder(new MatteBorder(0, 0, 1, 0, new Color(204, 204, 204)));
 
 		//---- copyRadioButton ----
 		copyRadioButton.setText("Copy");
@@ -598,44 +599,35 @@ public class ClientPanel extends JPanel
 				.addGroup(layout.createSequentialGroup()
 					.addGap(25, 25, 25)
 					.addGroup(layout.createParallelGroup()
-						.addGroup(layout.createSequentialGroup()
-							.addGroup(layout.createParallelGroup()
-								.addComponent(authenticationOptionsLabel)
-								.addComponent(passwordLabel)
-								.addComponent(usernameLabel)
-								.addComponent(portLabel)
-								.addComponent(plainRadioButton)
-								.addComponent(xorButton)
-								.addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING, false)
-									.addGroup(layout.createSequentialGroup()
-										.addComponent(fileButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-										.addComponent(sendFileButton))
-									.addComponent(xorScrollPane, GroupLayout.PREFERRED_SIZE, 325, GroupLayout.PREFERRED_SIZE))
-								.addComponent(fileScrollPane, GroupLayout.PREFERRED_SIZE, 325, GroupLayout.PREFERRED_SIZE)
-								.addComponent(fileOptionsLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(armoringCheckBox)
-								.addComponent(copyRadioButton)
-								.addComponent(overwriteRadioButton)
-								.addComponent(chunkSizeSlider, GroupLayout.PREFERRED_SIZE, 325, GroupLayout.PREFERRED_SIZE)
-								.addComponent(chunkSizeLabel)
-								.addComponent(chunkSizeValueLabel, GroupLayout.PREFERRED_SIZE, 325, GroupLayout.PREFERRED_SIZE))
-							.addGap(0, 50, Short.MAX_VALUE))
+						.addComponent(authenticationOptionsLabel)
+						.addComponent(passwordLabel)
+						.addComponent(usernameLabel)
+						.addComponent(portLabel)
+						.addComponent(plainRadioButton)
+						.addComponent(xorButton)
 						.addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-							.addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-								.addComponent(passwordField, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
-								.addComponent(disconnectButton, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(serverScrollPane, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(portTextField, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(usernameTextField, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(connectButton, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
-								.addComponent(dynamicStatusLabel, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
-								.addGroup(GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-									.addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-										.addComponent(serverLabel, GroupLayout.Alignment.LEADING)
-										.addComponent(statusLabel, GroupLayout.Alignment.LEADING, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-									.addGap(0, 202, Short.MAX_VALUE)))
-							.addGap(50, 50, 50))))
+							.addComponent(fileButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addComponent(sendFileButton))
+						.addComponent(xorScrollPane, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(fileScrollPane, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(fileOptionsLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(armoringCheckBox)
+						.addComponent(copyRadioButton)
+						.addComponent(overwriteRadioButton)
+						.addComponent(chunkSizeSlider, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(chunkSizeLabel)
+						.addComponent(chunkSizeValueLabel, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
+						.addComponent(passwordField, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(disconnectButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(portTextField, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(usernameTextField, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(connectButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(dynamicStatusLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(serverLabel)
+						.addComponent(statusLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(serverTextField))
+					.addGap(50, 50, 50))
 		);
 		layout.setVerticalGroup(
 			layout.createParallelGroup()
@@ -647,7 +639,7 @@ public class ClientPanel extends JPanel
 					.addGap(18, 18, 18)
 					.addComponent(serverLabel)
 					.addGap(18, 18, 18)
-					.addComponent(serverScrollPane, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+					.addComponent(serverTextField, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
 					.addGap(18, 18, 18)
 					.addComponent(portLabel)
 					.addGap(18, 18, 18)
@@ -708,7 +700,7 @@ public class ClientPanel extends JPanel
 		bindingGroup = new BindingGroup();
 		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
 			connectButton, BeanProperty.create("enabled"),
-			serverTextArea, BeanProperty.create("enabled")));
+			serverTextField, BeanProperty.create("enabled")));
 		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
 			connectButton, BeanProperty.create("enabled"),
 			portTextField, BeanProperty.create("enabled")));
@@ -775,8 +767,7 @@ public class ClientPanel extends JPanel
 	private JLabel dynamicStatusLabel;
 	private JScrollPane fileScrollPane;
 	private JTextArea fileTextArea;
-	private JScrollPane serverScrollPane;
-	private JTextArea serverTextArea;
+	private JTextField serverTextField;
 	private JRadioButton copyRadioButton;
 	private JScrollPane xorScrollPane;
 	private JTextArea xorTextArea;

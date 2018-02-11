@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 public class Utility
 {
     // TODO -> Transforms some byte ( e.g : 1 ) to binary ( e.g : 00000001 ) as 8 bits with sign
@@ -9,16 +7,16 @@ public class Utility
     }
 
     // TODO -> Converts binary to byte ( e.g : 10000000 ) becomes ( -128 ) ( Byte MIN )
-    private static Byte binaryConverter ( String byteString )
+    private static Byte binaryConverter ( String bitString )
     {
-        if ( byteString.length () > Byte.SIZE )
+        if ( bitString.length () > Byte.SIZE )
             throw new NumberFormatException ();
 
         // TODO -> Find value of high-bit
-        int result = byteString.charAt ( 0 ) == '0' ? 0 : Byte.MIN_VALUE;
+        int result = bitString.charAt ( 0 ) == '0' ? 0 : Byte.MIN_VALUE;
 
         // TODO -> Add other portion to high-bit value
-        result += Byte.parseByte ( byteString.substring ( 1, byteString.length () ), 2 );
+        result += Byte.parseByte ( bitString.substring ( 1, bitString.length () ), 2 );
 
         return ( byte ) result;
     }
@@ -26,16 +24,15 @@ public class Utility
     // TODO -> Converts a string of bytes in binary to actual bytes ( e.g : 10000000 00000001 ) becomes ( -128 1 )
     // TODO -> Spaces should be used to distinguish separate bits
     // TODO -> extraneous whitespace and punctuation will be removed to help processing
-    public static ArrayList<Byte> binaryToBytes ( String stringOfBytes )
+    public static byte [] binaryToBytes ( String stringOfBits )
     {
-        ArrayList<Byte> bytes = new ArrayList<> ();
+//        System.out.println ( "Transforming : " + stringOfBits + " to bytes" );
 
-        System.out.println ( "Transforming : " + stringOfBytes + " to bytes" );
+        String [] bytesAsBinary = stringOfBits.split ( "\\p{Space}" );
+        byte [] bytes = new byte [bytesAsBinary.length];
 
-        stringOfBytes = stringOfBytes.replaceAll ( "\\p{Punct}", "" );
-
-        for ( String byteString : stringOfBytes.split ( "\\p{Space}" ) )
-            bytes.add ( binaryConverter ( byteString ) );
+        for ( int count = 0; count < bytesAsBinary.length; ++count )
+            bytes [count] = binaryConverter ( bytesAsBinary [count] );
 
         return bytes;
     }
@@ -88,4 +85,5 @@ public class Utility
 
         return bytes;
     }
+
 }

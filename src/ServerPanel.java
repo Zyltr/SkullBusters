@@ -205,6 +205,12 @@ public class ServerPanel extends JPanel
 					break;
 				else
 				{
+					if ( asciiArmoring )
+					{
+						byte [] fileBytes = MIME.base64Decoding ( stringOfBytes );
+						stringOfBytes = Utility.bytesToString ( fileBytes );
+					}
+
 					if ( xorKey != null && xorKey.length > 0 )
 					{
 						byte [] fileBytes = Utility.stringToBytes ( stringOfBytes );

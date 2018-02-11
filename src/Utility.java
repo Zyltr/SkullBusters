@@ -40,6 +40,7 @@ public class Utility
         return bytes;
     }
 
+
     // TODO -> Converts any sequence of Bytes to Binary representation
     // TODO -> e.g : ( 1 -1 127 -128 ) becomes ( 00000001 11111111 01111111 10000000 )
     public static String bytesToBinary ( byte... bytes )
@@ -57,4 +58,34 @@ public class Utility
         return bytesString.toString ();
     }
 
+    public static String bytesToString ( byte... bytes )
+    {
+        StringBuilder stringBuilder = new StringBuilder ();
+
+        for ( byte aByte : bytes )
+        {
+            if ( stringBuilder.length () == 0 )
+                stringBuilder.append ( Byte.toString ( aByte ) );
+            else
+                stringBuilder.append ( " " + Byte.toString ( aByte ) );
+        }
+
+        return stringBuilder.toString ();
+    }
+
+    public static byte [] stringToBytes ( String stringOfBytes )
+    {
+        if ( stringOfBytes.isEmpty () )
+            return new byte[] {};
+
+        String [] byteStrings = stringOfBytes.split ( "\\p{Space}" );
+
+        byte [] bytes = new byte [byteStrings.length];
+        int count = 0;
+
+        for ( String aByte : byteStrings )
+            bytes [count++] = Byte.parseByte ( aByte );
+
+        return bytes;
+    }
 }

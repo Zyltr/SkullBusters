@@ -11,6 +11,7 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.io.*;
 import java.net.*;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -19,6 +20,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 /*
  * Created by JFormDesigner on Thu Jan 25 02:18:08 PST 2018
@@ -30,19 +32,19 @@ public class ClientPanel extends JPanel
 	private String message;
 
 	// TODO -> "Send File" Variables
-	private Path filePath;
+	private Path filePath = null;
 	private JFileChooser fileChooser = new JFileChooser ( FileSystemView.getFileSystemView ().getHomeDirectory () );
 
 	// TODO -> Variable that will store XOR-Key
-	private StringBuilder xorKey;
+	private byte [] xorKey = null;
 
 	// TODO -> Variable that will be used to partition file into a specific size of Bytes
 	private Integer chunkSize = 1024;
 
 	// TODO -> Required Server Variables
-	private Socket serverSocket;
-	private PrintWriter printWriter;
-	private BufferedReader bufferedReader;
+	private Socket serverSocket = null;
+	private PrintWriter printWriter = null;
+	private BufferedReader bufferedReader = null;
 
 	// TODO -> Useful for controlling Thread initiated by the "Connect" Button
 	private volatile boolean looping = false;
@@ -84,20 +86,32 @@ public class ClientPanel extends JPanel
 			// TODO -> Save Path
 			Path xorPath = fileChooser.getSelectedFile ().toPath ();
 
-			try ( InputStream inputStream = Files.newInputStream ( xorPath ) )
+			try ( FileInputStream fileInputStream = new FileInputStream ( xorPath.toFile () ) )
 			{
-				xorKey = new StringBuilder ();
+				long fileSize = fileInputStream.getChannel ().size ();
+
+				if ( fileSize > Integer.MAX_VALUE )
+					throw new IOException ();
+
+				xorKey = new byte [ ( int ) fileSize ];
 
 				// TODO -> Convert Bytes of file to a binary representation
-				for ( Integer inputByte; ( inputByte = inputStream.read () ) != -1; )
-					xorKey.append ( Utility.binaryRepresentation ( inputByte.byteValue () ) );
+				for ( Integer inputByte, count = 0; ( inputByte = fileInputStream.read () ) != -1; ++count )
+					xorKey [count] = inputByte.byteValue ();
+
+				xorTextArea.setText ( xorPath.toString () );
+
+				System.out.println ( "XOR Key Bytes : " + Arrays.toString ( xorKey ) );
 			}
+
 			catch ( IOException ioe )
 			{
 				System.out.println ( Arrays.toString ( ioe.getStackTrace () ) );
 
-				// TODO -> When XPR file could not be found, alert Server
-				message = "XOR key file could not be read";
+				xorKey = null;
+
+				// TODO -> When XOR file could not be found, alert Server
+				message = "XOR file could not be read";
 				JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.ERROR_MESSAGE );
 			}
 		}
@@ -124,19 +138,22 @@ public class ClientPanel extends JPanel
 				printWriter.println ( filename );
 				printWriter.println ( fileOptions );
 
-				// TODO -> Send Chunk Size to Server
+				// TODO -> Send File Size and Chunk Size to Server
 				printWriter.println ( chunkSize );
 
 				for ( byte [] fileBytes = new byte [chunkSize]; fileInputStream.read ( fileBytes ) > 0; )
 				{
-					// TODO -> Write to console
-					System.out.println ( "Client > " + Arrays.toString ( fileBytes ) );
+					if ( xorKey != null && xorKey.length > 0 )
+						fileBytes = XORCipher.encrypt ( fileBytes, xorKey );
 
-					// TODO -> Get Binary Representation of Chunk
-					String binaryRepresentation = Utility.bytesToBinary ( fileBytes );
+					// TODO -> Convert Bytes Array to String for sending
+					String stringOfBytes = Utility.bytesToString ( fileBytes );
+
+					// TODO -> Write to console
+					System.out.println ( "Client > " + stringOfBytes );
 
 					// TODO -> Write Bytes as Binary to Stream
-					printWriter.println ( binaryRepresentation );
+					printWriter.println ( stringOfBytes );
 				}
 
 				printWriter.println ( "FILE-DONE" );
@@ -302,6 +319,27 @@ public class ClientPanel extends JPanel
 		}
 	}
 
+	private void restoreGUI ()
+	{
+		filePath = null;
+		xorKey = null;
+
+		dynamicStatusLabel.setText ( "Stopped" );
+
+		serverTextArea.setText ( "localhost" );
+		portTextField.setText ( "1492" );
+		usernameTextField.setText ( "Debug" );
+		passwordField.setText ( null );
+		xorTextArea.setText ( null );
+		fileTextArea.setText ( null );
+
+		armoringCheckBox.setSelected ( true );
+		copyRadioButton.setSelected ( true );
+
+		chunkSizeSlider.setValue ( chunkSizeSlider.getMaximum () );
+
+		connectButton.setEnabled ( true );
+	}
 
 	// TODO -> Attempts to close any connections and tries to restore GUI for future connections
 	private void disconnectButtonActionPerformed ( ActionEvent e )
@@ -324,8 +362,7 @@ public class ClientPanel extends JPanel
 			System.out.println ( "Client @ " + new Date () + " > " + stackTrace );
 		}
 
-		dynamicStatusLabel.setText ( "Stopped" );
-		connectButton.setEnabled ( true );
+		restoreGUI ();
 	}
 
 

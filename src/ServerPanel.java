@@ -42,13 +42,13 @@ public class ServerPanel extends JPanel
 
 	// TODO -> Variables that will store Credentials and XOR-Key
 	private ArrayList<String> credentialsList = new ArrayList<> ();
-	private ArrayList<Integer> xorKeyList = new ArrayList<> ();
+	private byte [] xorKey = null;
 
 	// TODO -> Required Server Variables
-	private ServerSocket serverSocket;
-	private Socket clientSocket;
-	private PrintWriter printWriter;
-	private BufferedReader bufferedReader;
+	private ServerSocket serverSocket = null;
+	private Socket clientSocket = null;
+	private PrintWriter printWriter = null;
+	private BufferedReader bufferedReader = null;
 
 	// TODO -> Useful for controlling Thread initiated by the "Start Server" Button
 	private volatile boolean looping = false;
@@ -134,28 +134,32 @@ public class ServerPanel extends JPanel
 			// TODO -> Save Path
 			Path xorPath = fileChooser.getSelectedFile ().toPath ();
 
-			// TODO -> Open reader for reading lines of file
-			try ( InputStream inputStream = Files.newInputStream ( xorPath ) )
+			try ( FileInputStream fileInputStream = new FileInputStream ( xorPath.toFile () ) )
 			{
-				// TODO -> Clear any existing XOR Key
-				xorKeyList.clear ();
+				long fileSize = fileInputStream.getChannel ().size ();
 
-				// TODO -> Add new XOR Key
-				for ( Integer inputByte; ( inputByte = inputStream.read () ) != -1; )
-					xorKeyList.add ( inputByte );
+				if ( fileSize > Integer.MAX_VALUE )
+					throw new IOException ();
 
-				// TODO -> Update GUI
+				xorKey = new byte [ ( int ) fileSize ];
+
+				// TODO -> Convert Bytes of file to a binary representation
+				for ( Integer inputByte, count = 0; ( inputByte = fileInputStream.read () ) != -1; ++count )
+					xorKey [count] = inputByte.byteValue ();
+
 				xorTextArea.setText ( xorPath.toString () );
+
+				System.out.println ( "XOR Key Bytes : " + Arrays.toString ( xorKey ) );
 			}
+
 			catch ( IOException ioe )
 			{
 				System.out.println ( Arrays.toString ( ioe.getStackTrace () ) );
 
-				// TODO -> Clear all bits that failed to load
-				xorKeyList.clear ();
+				xorKey = null;
 
-				// TODO -> When credentials file could not be found, alert Server
-				message = "XOR key file could not be read";
+				// TODO -> When XOR file could not be found, alert Server
+				message = "XOR file could not be read";
 				JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.ERROR_MESSAGE );
 			}
 		}
@@ -188,37 +192,43 @@ public class ServerPanel extends JPanel
 			String fileOption = options.substring ( options.length () - 1 );
 
 			// TODO -> Receive Chunk Size
-			Integer chunkSize = Integer.parseInt ( bufferedReader.readLine () );
+			int chunkSize = Integer.parseInt ( bufferedReader.readLine () );
 
 			stringBuilder.append ( "Server > Received \"" + filename + "\" with options \"" + options + "\" and chunk-size of \"" + chunkSize + "\"" );
 
-			ArrayList<Byte> fileBytes = new ArrayList<> ();
+			// TODO
+			StringBuilder byteBuilder = new StringBuilder ();
 
-			for ( String binaryString; ( binaryString = bufferedReader.readLine () ) != null; )
+			for ( String stringOfBytes; ( stringOfBytes = bufferedReader.readLine () ) != null; )
 			{
-				if ( binaryString.equals ( "FILE-DONE" ) )
+				if ( stringOfBytes.equals ( "FILE-DONE" ) )
 					break;
 				else
 				{
-					// TODO -> Transform Binary data to Bytes
-					ArrayList<Byte> bytes = Utility.binaryToBytes ( binaryString );
+					if ( xorKey != null && xorKey.length > 0 )
+					{
+						byte [] fileBytes = Utility.stringToBytes ( stringOfBytes );
+						fileBytes = XORCipher.decrypt ( fileBytes, xorKey );
+						stringOfBytes = Utility.bytesToString ( fileBytes );
+					}
 
-					// TODO -> Append received Bytes to String Builder
-					stringBuilder.append ( "\n" + "Server > " + bytes.toString () );
+					stringBuilder.append ( "\n" + "Server > " + stringOfBytes );
 
-					// TODO -> Add to total Bytes
-					fileBytes.addAll ( bytes );
+					// TODO
+					if ( byteBuilder.length () == 0 )
+						byteBuilder.append ( stringOfBytes );
+					else
+						byteBuilder.append ( " " + stringOfBytes );
 				}
 			}
+
 
 			System.out.println ( stringBuilder.toString () );
 			System.out.println ( "DONE" + "\n" );
 
-			Path filePath = Paths.get ( saveToPath.toString (), filename );
+			byte [] fileBytes = Utility.stringToBytes ( byteBuilder.toString () );
 
-			byte [] fileContents = new byte [fileBytes.size ()];
-			for ( int count = 0; count < fileBytes.size (); ++count )
-				fileContents[count] = fileBytes.get ( count );
+			Path filePath = Paths.get ( saveToPath.toString (), filename );
 
 			switch ( fileOption )
 			{
@@ -231,12 +241,12 @@ public class ServerPanel extends JPanel
 						filePath = Paths.get ( saveToPath.toString (), filename );
 					}
 
-					Files.write ( filePath, fileContents, StandardOpenOption.CREATE, StandardOpenOption.WRITE );
+					Files.write ( filePath, fileBytes, StandardOpenOption.CREATE, StandardOpenOption.WRITE );
 					break;
 				}
 				case "O":
 				{
-					Files.write ( filePath, fileContents, StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING );
+					Files.write ( filePath, fileBytes, StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING );
 					break;
 				}
 			}
@@ -402,6 +412,7 @@ public class ServerPanel extends JPanel
 		}
 
 		// TODO -> Restore GUI
+		xorKey = null;
 		statusLabel.setText ( "Stopped" );
 		startButton.setEnabled ( true );
 

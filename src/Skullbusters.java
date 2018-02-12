@@ -98,13 +98,6 @@ public class Skullbusters extends JFrame
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
 
-    private void initComponentBindings ()
-    {
-        // JFormDesigner - Component bindings initialization - DO NOT MODIFY  //GEN-BEGIN:initBindings
-		// Generated using JFormDesigner Evaluation license - Erik Huerta
-        // JFormDesigner - End of component bindings initialization  //GEN-END:initBindings
-    }
-
     public static void main ( String[] args )
     {
         SwingUtilities.invokeLater ( () -> {

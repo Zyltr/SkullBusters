@@ -4,8 +4,8 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {seq l {space :p:25:p, par l {seq {comp staticStatusLabel:::p::p, space ::325:x}, seq {par l {comp logLabel:::p::p, comp portLabel:::p::p, comp saveButton:::p::p, comp xorButton:::p::p}, space :0:271:x}, seq t {par t {comp portTextField::l::325:x, comp logScrollPane::l::325:x, comp saveScrollPane::l::325:x, comp xorScrollPane::l::325:x, comp credentialScrollPane::l::325:x, comp statusLabel::l::325:x, seq l {comp credentialButton:::p::p, space :0:233:x}, comp stopButton::l::325:x, comp startButton::t::325:x}, space :p:50:p}}}}"
-			"$verticalGroup": "par l {seq l {space :p:25:p, comp staticStatusLabel:::p::p, space s:::p, comp statusLabel:::p::p, space s:::p, comp credentialButton:::p::p, space s:::p, comp credentialScrollPane:::p:30:p, space s:::p, comp xorButton:::p::p, space s:::p, comp xorScrollPane:::p:28:p, space s:::p, comp saveButton:::p::p, space s:::p, comp saveScrollPane:::p:31:p, space s:::p, comp portLabel:::p::p, space s:::p, comp portTextField:::p:32:p, space :p:18:p, comp logLabel:::p::p, space s:::p, comp logScrollPane:::p:200:p, space ::78:x, comp startButton:::p::p, space :::p, comp stopButton:::p::p, space :p:25:p}}"
+			"$horizontalGroup": "par l {seq l {space :p:25:p, par l {seq {comp staticStatusLabel:::p::p, space ::318:x}, seq {par l {comp logLabel:::p::p, comp portLabel:::p::p, comp saveButton:::p::p}, space :0:197:x}, seq t {par t {seq {comp xorButton:::p::p, space ::159:x, comp xorClearButton:::p::p}, comp portTextField::l::325:x, comp logScrollPane::l::325:x, comp saveScrollPane::l::325:x, comp xorScrollPane::l::325:x, comp credentialScrollPane::l::325:x, comp dynamicStatusLabel::l::325:x, seq l {comp credentialButton:::p::p, space ::136:x, comp credentialClearButton:::p::p}, comp stopButton::l::325:x, comp startButton::t::325:x}, space :p:50:p}}}}"
+			"$verticalGroup": "par l {seq l {space :p:25:p, comp staticStatusLabel:::p::p, space s:::p, comp dynamicStatusLabel:::p::p, space s:::p, par b {comp credentialButton::b:p::p, comp credentialClearButton::b:p::p}, space s:::p, comp credentialScrollPane:::p:30:p, space s:::p, par b {comp xorButton::b:p::p, comp xorClearButton::b:p::p}, space s:::p, comp xorScrollPane:::p:28:p, space s:::p, comp saveButton:::p::p, space s:::p, comp saveScrollPane:::p:31:p, space s:::p, comp portLabel:::p::p, space s:::p, comp portTextField:::p:32:p, space :p:18:p, comp logLabel:::p::p, space s:::p, comp logScrollPane:::p:200:p, space ::64:x, comp startButton:::p::p, space :::p, comp stopButton:::p::p, space :p:25:p}}"
 		} ) {
 			name: "this"
 			"preferredSize": new java.awt.Dimension( 400, 900 )
@@ -13,24 +13,18 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "staticStatusLabel"
 				"text": "Status"
-				"font": &SwingDerivedFont0 new com.jformdesigner.model.SwingDerivedFont( null, 1, 3, false )
-				"focusable": false
-				"requestFocusEnabled": false
-				"verifyInputWhenFocusTarget": false
+				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 5, false )
 				auxiliary() {
 					"JavaCodeGenerator.variableLocal": true
 				}
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "credentialButton"
-				"text": "Credentials"
-				"font": #SwingDerivedFont0
+				"text": "Credentials Path"
+				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 5, false )
 				"horizontalAlignment": 10
-				"verifyInputWhenFocusTarget": false
-				"focusable": false
-				"requestFocusEnabled": false
-				"defaultCapable": false
 				"border": new javax.swing.border.MatteBorder( 0, 0, 1, 0, sfield java.awt.Color black )
+				"toolTipText": "Click"
 				auxiliary() {
 					"JavaCodeGenerator.variableLocal": true
 				}
@@ -38,14 +32,10 @@ new FormModel {
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "saveButton"
-				"text": "Save Files To"
-				"font": &SwingDerivedFont1 new com.jformdesigner.model.SwingDerivedFont( null, 1, 3, false )
+				"text": "Save-Files-To Path"
+				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 5, false )
 				"border": new javax.swing.border.MatteBorder( 0, 0, 1, 0, sfield java.awt.Color black )
-				"toolTipText": "Location to save files sent by Client's"
-				"focusable": false
-				"verifyInputWhenFocusTarget": false
-				"requestFocusEnabled": false
-				"defaultCapable": false
+				"toolTipText": "Click"
 				auxiliary() {
 					"JavaCodeGenerator.variableLocal": true
 				}
@@ -54,24 +44,19 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "startButton"
 				"text": "Start"
-				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 3, false )
-				"toolTipText": "Starts the server"
+				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 5, false )
 				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "startButtonActionPerformed", true ) )
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "stopButton"
 				"text": "Stop"
-				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 3, false )
-				"toolTipText": "Stops the Server"
+				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 5, false )
 				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "stopButtonActionPerformed", true ) )
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "portLabel"
 				"text": "Port"
-				"font": #SwingDerivedFont1
-				"toolTipText": "Port to run Server on"
-				"verifyInputWhenFocusTarget": false
-				"requestFocusEnabled": false
+				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 5, false )
 				auxiliary() {
 					"JavaCodeGenerator.variableLocal": true
 				}
@@ -84,19 +69,15 @@ new FormModel {
 				"font": new com.jformdesigner.model.SwingDerivedFont( null, 3, 0, false )
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
-				name: "statusLabel"
+				name: "dynamicStatusLabel"
 				"text": "Stopped"
-				"font": &SwingDerivedFont2 new com.jformdesigner.model.SwingDerivedFont( null, 3, 0, false )
+				"font": &SwingDerivedFont0 new com.jformdesigner.model.SwingDerivedFont( null, 3, 0, false )
 				"foreground": &Color0 new java.awt.Color( 153, 0, 0, 255 )
-				"focusable": false
-				"requestFocusEnabled": false
-				"verifyInputWhenFocusTarget": false
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "logLabel"
 				"text": "Log"
-				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 3, false )
-				"toolTipText": "A log of who has connected and the files they have sent"
+				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 5, false )
 				auxiliary() {
 					"JavaCodeGenerator.variableLocal": true
 				}
@@ -143,7 +124,7 @@ new FormModel {
 				}
 				add( new FormComponent( "javax.swing.JTextArea" ) {
 					name: "credentialTextArea"
-					"font": #SwingDerivedFont2
+					"font": #SwingDerivedFont0
 					"foreground": #Color0
 					"rows": 1
 					"editable": false
@@ -153,14 +134,10 @@ new FormModel {
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "xorButton"
-				"text": "XOR Key"
-				"font": #SwingDerivedFont0
-				"actionCommand": "XOR-Key File"
+				"text": "XOR-Key Path"
+				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 5, false )
 				"border": new javax.swing.border.MatteBorder( 0, 0, 1, 0, sfield java.awt.Color black )
-				"defaultCapable": false
-				"requestFocusEnabled": false
-				"verifyInputWhenFocusTarget": false
-				"focusable": false
+				"toolTipText": "Click"
 				auxiliary() {
 					"JavaCodeGenerator.variableLocal": true
 				}
@@ -183,6 +160,26 @@ new FormModel {
 					"editable": false
 				} )
 			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "credentialClearButton"
+				"text": "Clear"
+				"border": &MatteBorder0 new javax.swing.border.MatteBorder( 0, 0, 1, 0, sfield java.awt.Color black )
+				"font": &SwingDerivedFont1 new com.jformdesigner.model.SwingDerivedFont( null, 1, 0, false )
+				auxiliary() {
+					"JavaCodeGenerator.variableLocal": true
+				}
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "credentialClearButtonActionPerformed", true ) )
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "xorClearButton"
+				"text": "Clear"
+				"border": #MatteBorder0
+				"font": #SwingDerivedFont1
+				auxiliary() {
+					"JavaCodeGenerator.variableLocal": true
+				}
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "xorClearButtonActionPerformed", true ) )
+			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 0 )
 			"size": new java.awt.Dimension( 400, 850 )
@@ -197,6 +194,8 @@ new FormModel {
 			addBinding( new FormBinding( "startButton", "enabled", "xorButton", "enabled" ) )
 			addBinding( new FormBinding( "startButton", "enabled", "credentialButton", "enabled" ) )
 			addBinding( new FormBinding( "startButton", "enabled", "xorTextArea", "enabled" ) )
+			addBinding( new FormBinding( "startButton", "enabled", "credentialClearButton", "enabled" ) )
+			addBinding( new FormBinding( "startButton", "enabled", "xorClearButton", "enabled" ) )
 		} )
 	}
 }

@@ -1,13 +1,13 @@
-import com.sun.deploy.util.ArrayUtil;
-import com.sun.tools.javac.util.ArrayUtils;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
-import org.jdesktop.beansbinding.*;
+import org.jdesktop.beansbinding.BeanProperty;
+import org.jdesktop.beansbinding.BindingGroup;
+import org.jdesktop.beansbinding.Bindings;
+import org.jdesktop.beansbinding.ELProperty;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileSystemView;
-import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.*;
@@ -122,6 +122,13 @@ public class ServerPanel extends JPanel
 	}
 
 
+	private void credentialClearButtonActionPerformed(ActionEvent e)
+	{
+		// TODO -> Clear Credential Text Area
+		credentialTextArea.setText ( null );
+	}
+
+
 	// TODO -> Attempts to open file to be used as XOR-Key
 	private void xorButtonActionPerformed ( ActionEvent e )
 	{
@@ -166,6 +173,13 @@ public class ServerPanel extends JPanel
 	}
 
 
+	private void xorClearButtonActionPerformed(ActionEvent e)
+	{
+		// TODO -> Clear XOR Text Area
+		xorTextArea.setText ( null );
+	}
+
+
 	// TODO -> Attempts to find new "Save To" path
 	private void saveToButtonActionPerformed ( ActionEvent e )
 	{
@@ -176,6 +190,7 @@ public class ServerPanel extends JPanel
 			saveTextArea.setText ( saveToPath.toString () );
 		}
 	}
+
 
 	private void processFileRequest ()
 	{
@@ -228,7 +243,6 @@ public class ServerPanel extends JPanel
 				}
 			}
 
-
 			System.out.println ( stringBuilder.toString () );
 			System.out.println ( "DONE" + "\n" );
 
@@ -248,11 +262,17 @@ public class ServerPanel extends JPanel
 					}
 
 					Files.write ( filePath, fileBytes, StandardOpenOption.CREATE, StandardOpenOption.WRITE );
+
+					logTextArea.append ( "\"" + filename + "\" was copied." + "\n" );
+
 					break;
 				}
 				case "O":
 				{
 					Files.write ( filePath, fileBytes, StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING );
+
+					logTextArea.append ( "\"" + filename + "\" was overwritten." + "\n" );
+
 					break;
 				}
 			}
@@ -263,6 +283,7 @@ public class ServerPanel extends JPanel
 			System.out.println ( "Server @ " + new Date () + " > " + stackTrace );
 		}
 	}
+
 
 	// TODO -> As the name of the function implies, it performs many checks and if successful, starts the Server
 	private void startButtonActionPerformed ( ActionEvent e )
@@ -277,7 +298,7 @@ public class ServerPanel extends JPanel
 				Integer port = Integer.parseInt ( portString );
 
 				// TODO -> Update GUI
-				statusLabel.setText ( "Listening" );
+				dynamicStatusLabel.setText ( "Listening" );
 				startButton.setEnabled ( false );
 
 				// TODO -> Initialize Socket/Stream Variables
@@ -299,7 +320,7 @@ public class ServerPanel extends JPanel
 				if ( didPass )
 				{
 					// TODO -> Update GUI with new Status and log the Client's connection
-					statusLabel.setText ( "Running" );
+					dynamicStatusLabel.setText ( "Running" );
 
 					String clientHostAddress = clientSocket.getInetAddress ().getHostAddress ();
 					logTextArea.append ( clientHostAddress + " has connected." + "\n" );
@@ -396,6 +417,21 @@ public class ServerPanel extends JPanel
 	}
 
 
+	private void restoreGUI ()
+	{
+		xorKey = null;
+
+		dynamicStatusLabel.setText ( "Stopped" );
+
+		credentialTextArea.setText ( null );
+		xorTextArea.setText ( null );
+		saveTextArea.setText ( saveToPath.toString () );
+		portTextField.setText ( "1492" );
+
+		startButton.setEnabled ( true );
+	}
+
+
 	// TODO -> Attempts to close any connections and tries to restore GUI for future connections
 	private void stopButtonActionPerformed ( ActionEvent e )
 	{
@@ -418,9 +454,7 @@ public class ServerPanel extends JPanel
 		}
 
 		// TODO -> Restore GUI
-		xorKey = null;
-		statusLabel.setText ( "Stopped" );
-		startButton.setEnabled ( true );
+		restoreGUI ();
 
 		if ( shouldRestartServer )
 		{
@@ -441,7 +475,7 @@ public class ServerPanel extends JPanel
 		stopButton = new JButton();
 		JLabel portLabel = new JLabel();
 		portTextField = new JTextField();
-		statusLabel = new JLabel();
+		dynamicStatusLabel = new JLabel();
 		JLabel logLabel = new JLabel();
 		JScrollPane logScrollPane = new JScrollPane();
 		logTextArea = new JTextArea();
@@ -452,6 +486,8 @@ public class ServerPanel extends JPanel
 		JButton xorButton = new JButton();
 		JScrollPane xorScrollPane = new JScrollPane();
 		xorTextArea = new JTextArea();
+		JButton credentialClearButton = new JButton();
+		JButton xorClearButton = new JButton();
 
 		//======== this ========
 		setPreferredSize(new Dimension(400, 900));
@@ -459,51 +495,36 @@ public class ServerPanel extends JPanel
 
 		//---- staticStatusLabel ----
 		staticStatusLabel.setText("Status");
-		staticStatusLabel.setFont(staticStatusLabel.getFont().deriveFont(staticStatusLabel.getFont().getStyle() | Font.BOLD, staticStatusLabel.getFont().getSize() + 3f));
-		staticStatusLabel.setFocusable(false);
-		staticStatusLabel.setRequestFocusEnabled(false);
-		staticStatusLabel.setVerifyInputWhenFocusTarget(false);
+		staticStatusLabel.setFont(staticStatusLabel.getFont().deriveFont(staticStatusLabel.getFont().getStyle() | Font.BOLD, staticStatusLabel.getFont().getSize() + 5f));
 
 		//---- credentialButton ----
-		credentialButton.setText("Credentials");
-		credentialButton.setFont(credentialButton.getFont().deriveFont(credentialButton.getFont().getStyle() | Font.BOLD, credentialButton.getFont().getSize() + 3f));
+		credentialButton.setText("Credentials Path");
+		credentialButton.setFont(credentialButton.getFont().deriveFont(credentialButton.getFont().getStyle() | Font.BOLD, credentialButton.getFont().getSize() + 5f));
 		credentialButton.setHorizontalAlignment(SwingConstants.LEADING);
-		credentialButton.setVerifyInputWhenFocusTarget(false);
-		credentialButton.setFocusable(false);
-		credentialButton.setRequestFocusEnabled(false);
-		credentialButton.setDefaultCapable(false);
 		credentialButton.setBorder(new MatteBorder(0, 0, 1, 0, Color.black));
+		credentialButton.setToolTipText("Click");
 		credentialButton.addActionListener(e -> credentialsButtonActionPerformed(e));
 
 		//---- saveButton ----
-		saveButton.setText("Save Files To");
-		saveButton.setFont(saveButton.getFont().deriveFont(saveButton.getFont().getStyle() | Font.BOLD, saveButton.getFont().getSize() + 3f));
+		saveButton.setText("Save-Files-To Path");
+		saveButton.setFont(saveButton.getFont().deriveFont(saveButton.getFont().getStyle() | Font.BOLD, saveButton.getFont().getSize() + 5f));
 		saveButton.setBorder(new MatteBorder(0, 0, 1, 0, Color.black));
-		saveButton.setToolTipText("Location to save files sent by Client's");
-		saveButton.setFocusable(false);
-		saveButton.setVerifyInputWhenFocusTarget(false);
-		saveButton.setRequestFocusEnabled(false);
-		saveButton.setDefaultCapable(false);
+		saveButton.setToolTipText("Click");
 		saveButton.addActionListener(e -> saveToButtonActionPerformed(e));
 
 		//---- startButton ----
 		startButton.setText("Start");
-		startButton.setFont(startButton.getFont().deriveFont(startButton.getFont().getStyle() | Font.BOLD, startButton.getFont().getSize() + 3f));
-		startButton.setToolTipText("Starts the server");
+		startButton.setFont(startButton.getFont().deriveFont(startButton.getFont().getStyle() | Font.BOLD, startButton.getFont().getSize() + 5f));
 		startButton.addActionListener(e -> startButtonActionPerformed(e));
 
 		//---- stopButton ----
 		stopButton.setText("Stop");
-		stopButton.setFont(stopButton.getFont().deriveFont(stopButton.getFont().getStyle() | Font.BOLD, stopButton.getFont().getSize() + 3f));
-		stopButton.setToolTipText("Stops the Server");
+		stopButton.setFont(stopButton.getFont().deriveFont(stopButton.getFont().getStyle() | Font.BOLD, stopButton.getFont().getSize() + 5f));
 		stopButton.addActionListener(e -> stopButtonActionPerformed(e));
 
 		//---- portLabel ----
 		portLabel.setText("Port");
-		portLabel.setFont(portLabel.getFont().deriveFont(portLabel.getFont().getStyle() | Font.BOLD, portLabel.getFont().getSize() + 3f));
-		portLabel.setToolTipText("Port to run Server on");
-		portLabel.setVerifyInputWhenFocusTarget(false);
-		portLabel.setRequestFocusEnabled(false);
+		portLabel.setFont(portLabel.getFont().deriveFont(portLabel.getFont().getStyle() | Font.BOLD, portLabel.getFont().getSize() + 5f));
 
 		//---- portTextField ----
 		portTextField.setText("1492");
@@ -511,18 +532,14 @@ public class ServerPanel extends JPanel
 		portTextField.setForeground(new Color(153, 0, 0));
 		portTextField.setFont(portTextField.getFont().deriveFont(Font.BOLD|Font.ITALIC));
 
-		//---- statusLabel ----
-		statusLabel.setText("Stopped");
-		statusLabel.setFont(statusLabel.getFont().deriveFont(Font.BOLD|Font.ITALIC));
-		statusLabel.setForeground(new Color(153, 0, 0));
-		statusLabel.setFocusable(false);
-		statusLabel.setRequestFocusEnabled(false);
-		statusLabel.setVerifyInputWhenFocusTarget(false);
+		//---- dynamicStatusLabel ----
+		dynamicStatusLabel.setText("Stopped");
+		dynamicStatusLabel.setFont(dynamicStatusLabel.getFont().deriveFont(Font.BOLD|Font.ITALIC));
+		dynamicStatusLabel.setForeground(new Color(153, 0, 0));
 
 		//---- logLabel ----
 		logLabel.setText("Log");
-		logLabel.setFont(logLabel.getFont().deriveFont(logLabel.getFont().getStyle() | Font.BOLD, logLabel.getFont().getSize() + 3f));
-		logLabel.setToolTipText("A log of who has connected and the files they have sent");
+		logLabel.setFont(logLabel.getFont().deriveFont(logLabel.getFont().getStyle() | Font.BOLD, logLabel.getFont().getSize() + 5f));
 
 		//======== logScrollPane ========
 		{
@@ -569,14 +586,10 @@ public class ServerPanel extends JPanel
 		}
 
 		//---- xorButton ----
-		xorButton.setText("XOR Key");
-		xorButton.setFont(xorButton.getFont().deriveFont(xorButton.getFont().getStyle() | Font.BOLD, xorButton.getFont().getSize() + 3f));
-		xorButton.setActionCommand("XOR-Key File");
+		xorButton.setText("XOR-Key Path");
+		xorButton.setFont(xorButton.getFont().deriveFont(xorButton.getFont().getStyle() | Font.BOLD, xorButton.getFont().getSize() + 5f));
 		xorButton.setBorder(new MatteBorder(0, 0, 1, 0, Color.black));
-		xorButton.setDefaultCapable(false);
-		xorButton.setRequestFocusEnabled(false);
-		xorButton.setVerifyInputWhenFocusTarget(false);
-		xorButton.setFocusable(false);
+		xorButton.setToolTipText("Click");
 		xorButton.addActionListener(e -> xorButtonActionPerformed(e));
 
 		//======== xorScrollPane ========
@@ -594,6 +607,18 @@ public class ServerPanel extends JPanel
 			xorScrollPane.setViewportView(xorTextArea);
 		}
 
+		//---- credentialClearButton ----
+		credentialClearButton.setText("Clear");
+		credentialClearButton.setBorder(new MatteBorder(0, 0, 1, 0, Color.black));
+		credentialClearButton.setFont(credentialClearButton.getFont().deriveFont(credentialClearButton.getFont().getStyle() | Font.BOLD));
+		credentialClearButton.addActionListener(e -> credentialClearButtonActionPerformed(e));
+
+		//---- xorClearButton ----
+		xorClearButton.setText("Clear");
+		xorClearButton.setBorder(new MatteBorder(0, 0, 1, 0, Color.black));
+		xorClearButton.setFont(xorClearButton.getFont().deriveFont(xorClearButton.getFont().getStyle() | Font.BOLD));
+		xorClearButton.addActionListener(e -> xorClearButtonActionPerformed(e));
+
 		GroupLayout layout = new GroupLayout(this);
 		setLayout(layout);
 		layout.setHorizontalGroup(
@@ -603,25 +628,29 @@ public class ServerPanel extends JPanel
 					.addGroup(layout.createParallelGroup()
 						.addGroup(layout.createSequentialGroup()
 							.addComponent(staticStatusLabel)
-							.addContainerGap(325, Short.MAX_VALUE))
+							.addContainerGap(318, Short.MAX_VALUE))
 						.addGroup(layout.createSequentialGroup()
 							.addGroup(layout.createParallelGroup()
 								.addComponent(logLabel)
 								.addComponent(portLabel)
-								.addComponent(saveButton)
-								.addComponent(xorButton))
-							.addGap(0, 271, Short.MAX_VALUE))
+								.addComponent(saveButton))
+							.addGap(0, 197, Short.MAX_VALUE))
 						.addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
 							.addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+								.addGroup(layout.createSequentialGroup()
+									.addComponent(xorButton)
+									.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 159, Short.MAX_VALUE)
+									.addComponent(xorClearButton))
 								.addComponent(portTextField, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
 								.addComponent(logScrollPane, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
 								.addComponent(saveScrollPane, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
 								.addComponent(xorScrollPane, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
 								.addComponent(credentialScrollPane, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
-								.addComponent(statusLabel, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
+								.addComponent(dynamicStatusLabel, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
 								.addGroup(GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
 									.addComponent(credentialButton)
-									.addGap(0, 233, Short.MAX_VALUE))
+									.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 136, Short.MAX_VALUE)
+									.addComponent(credentialClearButton))
 								.addComponent(stopButton, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
 								.addComponent(startButton, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE))
 							.addGap(50, 50, 50))))
@@ -632,13 +661,17 @@ public class ServerPanel extends JPanel
 					.addGap(25, 25, 25)
 					.addComponent(staticStatusLabel)
 					.addGap(18, 18, 18)
-					.addComponent(statusLabel)
+					.addComponent(dynamicStatusLabel)
 					.addGap(18, 18, 18)
-					.addComponent(credentialButton)
+					.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+						.addComponent(credentialButton)
+						.addComponent(credentialClearButton))
 					.addGap(18, 18, 18)
 					.addComponent(credentialScrollPane, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
 					.addGap(18, 18, 18)
-					.addComponent(xorButton)
+					.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+						.addComponent(xorButton)
+						.addComponent(xorClearButton))
 					.addGap(18, 18, 18)
 					.addComponent(xorScrollPane, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
 					.addGap(18, 18, 18)
@@ -653,7 +686,7 @@ public class ServerPanel extends JPanel
 					.addComponent(logLabel)
 					.addGap(18, 18, 18)
 					.addComponent(logScrollPane, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
+					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
 					.addComponent(startButton)
 					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 					.addComponent(stopButton)
@@ -686,6 +719,12 @@ public class ServerPanel extends JPanel
 		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
 			startButton, BeanProperty.create("enabled"),
 			xorTextArea, BeanProperty.create("enabled")));
+		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
+			startButton, BeanProperty.create("enabled"),
+			credentialClearButton, BeanProperty.create("enabled")));
+		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
+			startButton, BeanProperty.create("enabled"),
+			xorClearButton, BeanProperty.create("enabled")));
 		bindingGroup.bind();
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
@@ -695,7 +734,7 @@ public class ServerPanel extends JPanel
 	private JButton startButton;
 	private JButton stopButton;
 	private JTextField portTextField;
-	private JLabel statusLabel;
+	private JLabel dynamicStatusLabel;
 	private JTextArea logTextArea;
 	private JTextArea saveTextArea;
 	private JTextArea credentialTextArea;

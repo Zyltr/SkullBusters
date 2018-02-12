@@ -1,5 +1,8 @@
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
-import org.jdesktop.beansbinding.*;
+import org.jdesktop.beansbinding.BeanProperty;
+import org.jdesktop.beansbinding.BindingGroup;
+import org.jdesktop.beansbinding.Bindings;
+import org.jdesktop.beansbinding.ELProperty;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
@@ -7,20 +10,11 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.io.*;
 import java.net.*;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 /*
  * Created by JFormDesigner on Thu Jan 25 02:18:08 PST 2018
@@ -39,7 +33,7 @@ public class ClientPanel extends JPanel
 	private byte [] xorKey = null;
 
 	// TODO -> Variable that will be used to partition file into a specific size of Bytes
-	private Integer chunkSize = 1024;
+	private Integer chunkSize = 1000000;
 
 	// TODO -> Required Server Variables
 	private Socket serverSocket = null;
@@ -117,6 +111,11 @@ public class ClientPanel extends JPanel
 		}
 	}
 
+	private void xorClearButtonActionPerformed(ActionEvent e)
+	{
+		// TODO -> Clear XOR Text Area
+		xorTextArea.setText ( null );
+	}
 
 	// TODO -> Tries to send file to Server
 	private void sendFileButtonActionPerformed ( ActionEvent e )
@@ -194,7 +193,7 @@ public class ClientPanel extends JPanel
 	{
 		// TODO -> When the Slider changes value, update our label
 		chunkSize = chunkSizeSlider.getValue ();
-		String selectedChuckText = chunkSize == chunkSizeSlider.getMaximum () ? "1 MB" : chunkSize + " KB";
+		String selectedChuckText = chunkSize == chunkSizeSlider.getMaximum () ? "1 MB" : chunkSize == chunkSizeSlider.getMinimum () ? "1 KB" : chunkSize + " KB";
 		chunkSizeValueLabel.setText ( selectedChuckText );
 	}
 
@@ -332,6 +331,7 @@ public class ClientPanel extends JPanel
 		}
 	}
 
+
 	private void restoreGUI ()
 	{
 		filePath = null;
@@ -353,6 +353,7 @@ public class ClientPanel extends JPanel
 
 		connectButton.setEnabled ( true );
 	}
+
 
 	// TODO -> Attempts to close any connections and tries to restore GUI for future connections
 	private void disconnectButtonActionPerformed ( ActionEvent e )
@@ -411,6 +412,7 @@ public class ClientPanel extends JPanel
 		xorTextArea = new JTextArea();
 		JLabel authenticationOptionsLabel = new JLabel();
 		plainRadioButton = new JRadioButton();
+		JButton xorClearButton = new JButton();
 
 		//======== this ========
 		setPreferredSize(new Dimension(400, 1100));
@@ -418,15 +420,11 @@ public class ClientPanel extends JPanel
 
 		//---- statusLabel ----
 		statusLabel.setText("Status");
-		statusLabel.setMinimumSize(new Dimension(92, 16));
-		statusLabel.setMaximumSize(new Dimension(92, 16));
-		statusLabel.setFont(statusLabel.getFont().deriveFont(statusLabel.getFont().getStyle() | Font.BOLD, statusLabel.getFont().getSize() + 3f));
-		statusLabel.setToolTipText("Status of Client");
+		statusLabel.setFont(statusLabel.getFont().deriveFont(statusLabel.getFont().getStyle() | Font.BOLD, statusLabel.getFont().getSize() + 5f));
 
 		//---- usernameLabel ----
 		usernameLabel.setText("Username");
-		usernameLabel.setFont(usernameLabel.getFont().deriveFont(usernameLabel.getFont().getStyle() | Font.BOLD, usernameLabel.getFont().getSize() + 3f));
-		usernameLabel.setToolTipText("Username that will be used to connect to Server");
+		usernameLabel.setFont(usernameLabel.getFont().deriveFont(usernameLabel.getFont().getStyle() | Font.BOLD, usernameLabel.getFont().getSize() + 5f));
 
 		//---- usernameTextField ----
 		usernameTextField.setBackground(Color.white);
@@ -438,8 +436,7 @@ public class ClientPanel extends JPanel
 
 		//---- passwordLabel ----
 		passwordLabel.setText("Password");
-		passwordLabel.setFont(passwordLabel.getFont().deriveFont(passwordLabel.getFont().getStyle() | Font.BOLD, passwordLabel.getFont().getSize() + 3f));
-		passwordLabel.setToolTipText("Password that will be used to connect to Server");
+		passwordLabel.setFont(passwordLabel.getFont().deriveFont(passwordLabel.getFont().getStyle() | Font.BOLD, passwordLabel.getFont().getSize() + 5f));
 
 		//---- passwordField ----
 		passwordField.setBorder(new MatteBorder(0, 0, 1, 0, new Color(204, 204, 204)));
@@ -450,8 +447,7 @@ public class ClientPanel extends JPanel
 
 		//---- portLabel ----
 		portLabel.setText("Server Port");
-		portLabel.setFont(portLabel.getFont().deriveFont(portLabel.getFont().getStyle() | Font.BOLD, portLabel.getFont().getSize() + 3f));
-		portLabel.setToolTipText("Port that will be used to connect to Server");
+		portLabel.setFont(portLabel.getFont().deriveFont(portLabel.getFont().getStyle() | Font.BOLD, portLabel.getFont().getSize() + 5f));
 
 		//---- portTextField ----
 		portTextField.setText("1492");
@@ -462,25 +458,22 @@ public class ClientPanel extends JPanel
 
 		//---- serverLabel ----
 		serverLabel.setText("Server Address");
-		serverLabel.setFont(serverLabel.getFont().deriveFont(serverLabel.getFont().getStyle() | Font.BOLD, serverLabel.getFont().getSize() + 3f));
-		serverLabel.setToolTipText("Address that will be used to connect to Server");
+		serverLabel.setFont(serverLabel.getFont().deriveFont(serverLabel.getFont().getStyle() | Font.BOLD, serverLabel.getFont().getSize() + 5f));
 
 		//---- fileButton ----
 		fileButton.setText("File To Transfer");
 		fileButton.setMinimumSize(new Dimension(92, 29));
 		fileButton.setMaximumSize(new Dimension(92, 29));
-		fileButton.setFont(fileButton.getFont().deriveFont(fileButton.getFont().getStyle() | Font.BOLD, fileButton.getFont().getSize() + 3f));
+		fileButton.setFont(fileButton.getFont().deriveFont(fileButton.getFont().getStyle() | Font.BOLD, fileButton.getFont().getSize() + 5f));
 		fileButton.setHorizontalAlignment(SwingConstants.LEADING);
-		fileButton.setToolTipText("File that will be sent to the Server");
 		fileButton.setBorder(new MatteBorder(0, 0, 1, 0, Color.black));
 		fileButton.addActionListener(e -> fileButtonActionPerformed(e));
 
 		//---- fileOptionsLabel ----
 		fileOptionsLabel.setText("File Option");
-		fileOptionsLabel.setFont(fileOptionsLabel.getFont().deriveFont(fileOptionsLabel.getFont().getStyle() | Font.BOLD, fileOptionsLabel.getFont().getSize() + 3f));
+		fileOptionsLabel.setFont(fileOptionsLabel.getFont().deriveFont(fileOptionsLabel.getFont().getStyle() | Font.BOLD, fileOptionsLabel.getFont().getSize() + 5f));
 		fileOptionsLabel.setMinimumSize(new Dimension(95, 17));
 		fileOptionsLabel.setMaximumSize(new Dimension(95, 17));
-		fileOptionsLabel.setToolTipText("Options that describe how to send the file to the Server");
 
 		//---- armoringCheckBox ----
 		armoringCheckBox.setText("ASCII Armoring");
@@ -492,16 +485,15 @@ public class ClientPanel extends JPanel
 
 		//---- chunkSizeLabel ----
 		chunkSizeLabel.setText("Chunk Size");
-		chunkSizeLabel.setFont(chunkSizeLabel.getFont().deriveFont(chunkSizeLabel.getFont().getStyle() | Font.BOLD, chunkSizeLabel.getFont().getSize() + 3f));
-		chunkSizeLabel.setToolTipText("Chunk size that will be used to partition the file before it is sent");
+		chunkSizeLabel.setFont(chunkSizeLabel.getFont().deriveFont(chunkSizeLabel.getFont().getStyle() | Font.BOLD, chunkSizeLabel.getFont().getSize() + 5f));
 
 		//---- chunkSizeSlider ----
-		chunkSizeSlider.setMaximum(1024);
-		chunkSizeSlider.setMinimum(1);
-		chunkSizeSlider.setMinorTickSpacing(64);
+		chunkSizeSlider.setMaximum(1000000);
+		chunkSizeSlider.setMinimum(1000);
 		chunkSizeSlider.setPaintTicks(true);
-		chunkSizeSlider.setMajorTickSpacing(128);
-		chunkSizeSlider.setValue(1024);
+		chunkSizeSlider.setMajorTickSpacing(99900);
+		chunkSizeSlider.setValue(1000000);
+		chunkSizeSlider.setMinorTickSpacing(49950);
 		chunkSizeSlider.addChangeListener(e -> chunkSizeSliderStateChanged(e));
 
 		//---- chunkSizeValueLabel ----
@@ -511,21 +503,18 @@ public class ClientPanel extends JPanel
 
 		//---- sendFileButton ----
 		sendFileButton.setText("Send");
-		sendFileButton.setFont(sendFileButton.getFont().deriveFont(sendFileButton.getFont().getStyle() | Font.BOLD, sendFileButton.getFont().getSize() + 3f));
-		sendFileButton.setToolTipText("Tries to send file to the Server");
+		sendFileButton.setFont(sendFileButton.getFont().deriveFont(sendFileButton.getFont().getStyle() | Font.BOLD, sendFileButton.getFont().getSize() + 5f));
 		sendFileButton.setBorder(new MatteBorder(0, 0, 1, 0, Color.black));
 		sendFileButton.addActionListener(e -> sendFileButtonActionPerformed(e));
 
 		//---- disconnectButton ----
 		disconnectButton.setText("Disconnect");
-		disconnectButton.setFont(disconnectButton.getFont().deriveFont(disconnectButton.getFont().getStyle() | Font.BOLD, disconnectButton.getFont().getSize() + 3f));
-		disconnectButton.setToolTipText("Disconnects from the server");
+		disconnectButton.setFont(disconnectButton.getFont().deriveFont(disconnectButton.getFont().getStyle() | Font.BOLD, disconnectButton.getFont().getSize() + 5f));
 		disconnectButton.addActionListener(e -> disconnectButtonActionPerformed(e));
 
 		//---- connectButton ----
 		connectButton.setText("Connect");
-		connectButton.setFont(connectButton.getFont().deriveFont(connectButton.getFont().getStyle() | Font.BOLD, connectButton.getFont().getSize() + 3f));
-		connectButton.setToolTipText("Tries to connect to the Server");
+		connectButton.setFont(connectButton.getFont().deriveFont(connectButton.getFont().getStyle() | Font.BOLD, connectButton.getFont().getSize() + 5f));
 		connectButton.addActionListener(e -> connectButtonActionPerformed(e));
 
 		//---- dynamicStatusLabel ----
@@ -562,7 +551,7 @@ public class ClientPanel extends JPanel
 
 		//---- xorButton ----
 		xorButton.setText("XOR Key");
-		xorButton.setFont(xorButton.getFont().deriveFont(xorButton.getFont().getStyle() | Font.BOLD, xorButton.getFont().getSize() + 3f));
+		xorButton.setFont(xorButton.getFont().deriveFont(xorButton.getFont().getStyle() | Font.BOLD, xorButton.getFont().getSize() + 5f));
 		xorButton.setActionCommand("XOR-Key File");
 		xorButton.setBorder(new MatteBorder(0, 0, 1, 0, Color.black));
 		xorButton.addActionListener(e -> xorButtonActionPerformed(e));
@@ -585,12 +574,18 @@ public class ClientPanel extends JPanel
 
 		//---- authenticationOptionsLabel ----
 		authenticationOptionsLabel.setText("Authentication");
-		authenticationOptionsLabel.setFont(authenticationOptionsLabel.getFont().deriveFont(authenticationOptionsLabel.getFont().getStyle() | Font.BOLD, authenticationOptionsLabel.getFont().getSize() + 3f));
+		authenticationOptionsLabel.setFont(authenticationOptionsLabel.getFont().deriveFont(authenticationOptionsLabel.getFont().getStyle() | Font.BOLD, authenticationOptionsLabel.getFont().getSize() + 5f));
 
 		//---- plainRadioButton ----
 		plainRadioButton.setText("Plain Text");
 		plainRadioButton.setFont(plainRadioButton.getFont().deriveFont(plainRadioButton.getFont().getStyle() | Font.BOLD));
 		plainRadioButton.setSelected(true);
+
+		//---- xorClearButton ----
+		xorClearButton.setText("Clear");
+		xorClearButton.setBorder(new MatteBorder(0, 0, 1, 0, Color.black));
+		xorClearButton.setFont(xorClearButton.getFont().deriveFont(xorClearButton.getFont().getStyle() | Font.BOLD));
+		xorClearButton.addActionListener(e -> xorClearButtonActionPerformed(e));
 
 		GroupLayout layout = new GroupLayout(this);
 		setLayout(layout);
@@ -599,24 +594,17 @@ public class ClientPanel extends JPanel
 				.addGroup(layout.createSequentialGroup()
 					.addGap(25, 25, 25)
 					.addGroup(layout.createParallelGroup()
-						.addComponent(authenticationOptionsLabel)
-						.addComponent(passwordLabel)
-						.addComponent(usernameLabel)
-						.addComponent(portLabel)
-						.addComponent(plainRadioButton)
-						.addComponent(xorButton)
+						.addGroup(layout.createSequentialGroup()
+							.addComponent(xorButton)
+							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 211, Short.MAX_VALUE)
+							.addComponent(xorClearButton))
 						.addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
 							.addComponent(fileButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 							.addComponent(sendFileButton))
 						.addComponent(xorScrollPane, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 						.addComponent(fileScrollPane, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(fileOptionsLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(armoringCheckBox)
-						.addComponent(copyRadioButton)
-						.addComponent(overwriteRadioButton)
 						.addComponent(chunkSizeSlider, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(chunkSizeLabel)
 						.addComponent(chunkSizeValueLabel, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
 						.addComponent(passwordField, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 						.addComponent(disconnectButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -624,16 +612,29 @@ public class ClientPanel extends JPanel
 						.addComponent(usernameTextField, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 						.addComponent(connectButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 						.addComponent(dynamicStatusLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(serverLabel)
-						.addComponent(statusLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(serverTextField))
+						.addComponent(serverTextField)
+						.addGroup(layout.createSequentialGroup()
+							.addGroup(layout.createParallelGroup()
+								.addComponent(authenticationOptionsLabel)
+								.addComponent(passwordLabel)
+								.addComponent(usernameLabel)
+								.addComponent(portLabel)
+								.addComponent(plainRadioButton)
+								.addComponent(fileOptionsLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(armoringCheckBox)
+								.addComponent(copyRadioButton)
+								.addComponent(overwriteRadioButton)
+								.addComponent(chunkSizeLabel)
+								.addComponent(serverLabel)
+								.addComponent(statusLabel))
+							.addGap(0, 184, Short.MAX_VALUE)))
 					.addGap(50, 50, 50))
 		);
 		layout.setVerticalGroup(
 			layout.createParallelGroup()
 				.addGroup(layout.createSequentialGroup()
 					.addGap(25, 25, 25)
-					.addComponent(statusLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addComponent(statusLabel)
 					.addGap(18, 18, 18)
 					.addComponent(dynamicStatusLabel)
 					.addGap(18, 18, 18)
@@ -657,7 +658,9 @@ public class ClientPanel extends JPanel
 					.addGap(18, 18, 18)
 					.addComponent(plainRadioButton)
 					.addGap(18, 18, 18)
-					.addComponent(xorButton)
+					.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+						.addComponent(xorButton)
+						.addComponent(xorClearButton))
 					.addGap(18, 18, 18)
 					.addComponent(xorScrollPane, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
 					.addGap(18, 18, 18)
@@ -680,7 +683,7 @@ public class ClientPanel extends JPanel
 					.addComponent(chunkSizeSlider, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 					.addComponent(chunkSizeValueLabel)
-					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 169, Short.MAX_VALUE)
+					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 147, Short.MAX_VALUE)
 					.addComponent(connectButton)
 					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 					.addComponent(disconnectButton)
@@ -746,6 +749,9 @@ public class ClientPanel extends JPanel
 		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
 			connectButton, BeanProperty.create("enabled"),
 			xorTextArea, BeanProperty.create("enabled")));
+		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
+			connectButton, BeanProperty.create("enabled"),
+			xorClearButton, BeanProperty.create("enabled")));
 		bindingGroup.bind();
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }

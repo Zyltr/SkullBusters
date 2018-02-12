@@ -7,7 +7,7 @@ public class Utility
     }
 
     // TODO -> Converts binary to byte ( e.g : 10000000 ) becomes ( -128 ) ( Byte MIN )
-    private static Byte binaryConverter ( String bitString )
+    private static Byte binaryStringToByte ( String bitString )
     {
         if ( bitString.length () > Byte.SIZE )
             throw new NumberFormatException ();
@@ -32,7 +32,7 @@ public class Utility
         byte [] bytes = new byte [bytesAsBinary.length];
 
         for ( int count = 0; count < bytesAsBinary.length; ++count )
-            bytes [count] = binaryConverter ( bytesAsBinary [count] );
+            bytes [count] = binaryStringToByte ( bytesAsBinary [count] );
 
         return bytes;
     }
@@ -55,6 +55,8 @@ public class Utility
         return bytesString.toString ();
     }
 
+    // TODO -> Converts Bytes to String
+    // TODO -> [ 72,14, -1 ] -> "BinaryResult#1, ..."
     public static String bytesToString ( byte... bytes )
     {
         StringBuilder stringBuilder = new StringBuilder ();
@@ -70,6 +72,7 @@ public class Utility
         return stringBuilder.toString ();
     }
 
+    // TODO -> Convert Binary Text separated by whitespace to Bytes
     public static byte [] stringToBytes ( String stringOfBytes )
     {
         if ( stringOfBytes.isEmpty () )

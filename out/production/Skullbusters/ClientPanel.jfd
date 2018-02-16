@@ -118,7 +118,7 @@ new FormModel {
 				"minimum": 1
 				"paintTicks": true
 				"majorTickSpacing": 100
-				"value": 1000
+				"value": 64
 				"minorTickSpacing": 50
 				addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "chunkSizeSliderStateChanged", true ) )
 			} )

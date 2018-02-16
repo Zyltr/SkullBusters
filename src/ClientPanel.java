@@ -547,7 +547,7 @@ public class ClientPanel extends JPanel
 		chunkSizeSlider.setMinimum(1);
 		chunkSizeSlider.setPaintTicks(true);
 		chunkSizeSlider.setMajorTickSpacing(100);
-		chunkSizeSlider.setValue(1000);
+		chunkSizeSlider.setValue(64);
 		chunkSizeSlider.setMinorTickSpacing(50);
 		chunkSizeSlider.addChangeListener(e -> chunkSizeSliderStateChanged(e));
 

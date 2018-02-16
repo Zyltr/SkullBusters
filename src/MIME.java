@@ -5,6 +5,7 @@ public class MIME
     private static String base64StringTable = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
     private static char [] base64Table = base64StringTable.toCharArray ();
 
+    // TODO -> Transforms Bytes to Base 64
     public static String base64Encoding ( byte... bytes )
     {
         StringBuilder resultBuilder = new StringBuilder ();
@@ -40,6 +41,7 @@ public class MIME
         return resultBuilder.toString ();
     }
 
+    // TODO -> Decodes Base64 to Bytes
     public static byte [] base64Decoding ( String base64String )
     {
         StringBuilder resultBuilder = new StringBuilder ();

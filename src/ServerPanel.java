@@ -25,7 +25,7 @@ import java.util.Date;
 
 /*
  * Created by JFormDesigner on Thu Jan 25 01:00:01 PST 2018
- */
+*/
 
 
 public class ServerPanel extends JPanel
@@ -156,7 +156,7 @@ public class ServerPanel extends JPanel
 
 				xorTextArea.setText ( xorPath.toString () );
 
-				System.out.println ( "XOR Key Bytes : " + Arrays.toString ( xorKey ) );
+				System.out.println ( "Server > XOR Key Bytes : " + Arrays.toString ( xorKey ) );
 			}
 
 			catch ( IOException ioe )
@@ -196,7 +196,7 @@ public class ServerPanel extends JPanel
 	{
 		try
 		{
-			StringBuilder stringBuilder = new StringBuilder ();
+			StringBuilder stringBuilder = new StringBuilder ( "\n" );
 
 			// TODO -> Receive filename
 			String filename = bufferedReader.readLine ();
@@ -209,17 +209,35 @@ public class ServerPanel extends JPanel
 			// TODO -> Receive Chunk Size
 			int chunkSize = Integer.parseInt ( bufferedReader.readLine () );
 
-			stringBuilder.append ( "Server > Received \"" + filename + "\" with options \"" + options + "\" and chunk-size of \"" + chunkSize + "\"" );
+			stringBuilder.append ( "Server > Received \"" + filename + "\" with options \"" + options + "\" and chunk-size of \"" + chunkSize + "\"" + "\n");
 
 			// TODO
 			StringBuilder byteBuilder = new StringBuilder ();
 
-			for ( String stringOfBytes; ( stringOfBytes = bufferedReader.readLine () ) != null; )
+			for ( String clientInput; ( clientInput = bufferedReader.readLine () ) != null; )
 			{
-				if ( stringOfBytes.equals ( "FILE-DONE" ) )
+				if ( clientInput.equals ( "FILE-DONE" ) )
 					break;
+				else if ( clientInput.equals ( "FILE-FAILED" ) )
+				{
+					System.out.print ( stringBuilder.toString () );
+					System.out.println ( "Server > FAILED" + "\n" );
+
+					logTextArea.append ( "\"" + filename + "\" failed to transfer." + "\n" );
+					return;
+				}
 				else
 				{
+					// TODO -> Parse and Log Hash value
+					long actualHashValue = Long.parseLong ( clientInput );
+
+					stringBuilder.append ( "Server > Actual Hash Value > " + actualHashValue + "\n" );
+
+					// TODO -> Save Bytes transferred from Client
+					String stringOfBytes = bufferedReader.readLine ();
+
+					stringBuilder.append ( "Server > BASE64 > " + stringOfBytes + "\n" );
+
 					if ( asciiArmoring )
 					{
 						byte [] fileBytes = MIME.base64Decoding ( stringOfBytes );
@@ -231,9 +249,25 @@ public class ServerPanel extends JPanel
 						byte [] fileBytes = Utility.stringToBytes ( stringOfBytes );
 						fileBytes = XORCipher.decrypt ( fileBytes, xorKey );
 						stringOfBytes = Utility.bytesToString ( fileBytes );
+
+						// TODO -> Print XOR Bytes
+						stringBuilder.append ( "Server > XOR Bytes > " + stringOfBytes + "\n" );
 					}
 
-					stringBuilder.append ( "\n" + "Server > " + stringOfBytes );
+					// TODO -> Print Plain Bytes
+					stringBuilder.append ( "Server > Plain Bytes > " + stringOfBytes + "\n" );
+
+					// TODO -> Check integrity of bytes
+					long hashValue = Utility.hash ( Utility.stringToBytes ( stringOfBytes ) );
+					stringBuilder.append ( "Server > Computed Hash Value > " + hashValue + "\n" );
+
+					if ( hashValue == actualHashValue )
+						printWriter.println ( "PASSED" );
+					else
+					{
+						printWriter.println ( "RETRY" );
+						continue;
+					}
 
 					// TODO
 					if ( byteBuilder.length () == 0 )
@@ -243,8 +277,8 @@ public class ServerPanel extends JPanel
 				}
 			}
 
-			System.out.println ( stringBuilder.toString () );
-			System.out.println ( "DONE" + "\n" );
+			System.out.print ( stringBuilder.toString () );
+			System.out.println ( "Server > DONE" + "\n" );
 
 			byte [] fileBytes = Utility.stringToBytes ( byteBuilder.toString () );
 
@@ -263,7 +297,7 @@ public class ServerPanel extends JPanel
 
 					Files.write ( filePath, fileBytes, StandardOpenOption.CREATE, StandardOpenOption.WRITE );
 
-					logTextArea.append ( "\"" + filename + "\" was copied." + "\n" );
+					logTextArea.append ( "\"" + filename + "\" was copied" + "\n" );
 
 					break;
 				}
@@ -271,7 +305,7 @@ public class ServerPanel extends JPanel
 				{
 					Files.write ( filePath, fileBytes, StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING );
 
-					logTextArea.append ( "\"" + filename + "\" was overwritten." + "\n" );
+					logTextArea.append ( "\"" + filename + "\" was overwritten" + "\n" );
 
 					break;
 				}
@@ -301,6 +335,9 @@ public class ServerPanel extends JPanel
 				dynamicStatusLabel.setText ( "Listening" );
 				startButton.setEnabled ( false );
 
+				// TODO -> Update Log to show Server is now Listening
+				logTextArea.append ( "Server is now listening" + "\n" );
+
 				// TODO -> Initialize Socket/Stream Variables
 				serverSocket = new ServerSocket ( port );
 				clientSocket = serverSocket.accept ();
@@ -323,7 +360,7 @@ public class ServerPanel extends JPanel
 					dynamicStatusLabel.setText ( "Running" );
 
 					String clientHostAddress = clientSocket.getInetAddress ().getHostAddress ();
-					logTextArea.append ( clientHostAddress + " has connected." + "\n" );
+					logTextArea.append ( clientHostAddress + " has connected" + "\n" );
 
 					// TODO -> Start accepting data
 					for ( looping = true; looping; )
@@ -350,13 +387,14 @@ public class ServerPanel extends JPanel
 						}
 					}
 
-					logTextArea.append ( clientHostAddress + " has disconnected." + "\n\n" );
+					logTextArea.append ( clientHostAddress + " has disconnected." + "\n" );
 				}
 
 				// TODO -> Authentication has failed, so restart the Server and let another person try to connect
 				else
 				{
 					shouldRestartServer = true;
+					logTextArea.append ( "Client failed authentication" + "\n" );
 				}
 			}
 			catch ( IOException ioe )
@@ -382,7 +420,10 @@ public class ServerPanel extends JPanel
 			}
 			finally
 			{
-				stopButton.doClick ();
+				// TODO -> This check occurs when a Client connects and disconnects
+				// TODO -> Rather than having to restart the Server manually, this will do it automatically
+				if ( shouldRestartServer )
+					stopButtonActionPerformed ( null );
 			}
 		} ).start ();
 	}
@@ -416,24 +457,8 @@ public class ServerPanel extends JPanel
 		}
 	}
 
-
-	private void restoreGUI ()
-	{
-		xorKey = null;
-
-		dynamicStatusLabel.setText ( "Stopped" );
-
-		credentialTextArea.setText ( null );
-		xorTextArea.setText ( null );
-		saveTextArea.setText ( saveToPath.toString () );
-		portTextField.setText ( "1492" );
-
-		startButton.setEnabled ( true );
-	}
-
-
 	// TODO -> Attempts to close any connections and tries to restore GUI for future connections
-	private void stopButtonActionPerformed ( ActionEvent e )
+	private void stopButtonActionPerformed ( ActionEvent actionEvent )
 	{
 		if ( looping )
 		{
@@ -454,8 +479,22 @@ public class ServerPanel extends JPanel
 		}
 
 		// TODO -> Restore GUI
-		restoreGUI ();
+		dynamicStatusLabel.setText ( "Stopped" );
+		startButton.setEnabled ( true );
 
+		if ( actionEvent != null )
+		{
+			xorKey = null;
+
+			credentialTextArea.setText ( null );
+			xorTextArea.setText ( null );
+			saveTextArea.setText ( saveToPath.toString () );
+			portTextField.setText ( "1492" );
+		}
+
+		logTextArea.append ( "Server was terminated " + "\n\n" );
+
+		// TODO -> Restart Server, if requested
 		if ( shouldRestartServer )
 		{
 			shouldRestartServer = false;
@@ -611,12 +650,14 @@ public class ServerPanel extends JPanel
 		credentialClearButton.setText("Clear");
 		credentialClearButton.setBorder(new MatteBorder(0, 0, 1, 0, Color.black));
 		credentialClearButton.setFont(credentialClearButton.getFont().deriveFont(credentialClearButton.getFont().getStyle() | Font.BOLD));
+		credentialClearButton.setToolTipText("Click");
 		credentialClearButton.addActionListener(e -> credentialClearButtonActionPerformed(e));
 
 		//---- xorClearButton ----
 		xorClearButton.setText("Clear");
 		xorClearButton.setBorder(new MatteBorder(0, 0, 1, 0, Color.black));
 		xorClearButton.setFont(xorClearButton.getFont().deriveFont(xorClearButton.getFont().getStyle() | Font.BOLD));
+		xorClearButton.setToolTipText("Click");
 		xorClearButton.addActionListener(e -> xorClearButtonActionPerformed(e));
 
 		GroupLayout layout = new GroupLayout(this);

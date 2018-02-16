@@ -1,5 +1,6 @@
 public class Utility
 {
+
     // TODO -> Transforms some byte ( e.g : 1 ) to binary ( e.g : 00000001 ) as 8 bits with sign
     public static String binaryRepresentation ( Byte inputByte )
     {
@@ -87,6 +88,16 @@ public class Utility
             bytes [count++] = Byte.parseByte ( aByte );
 
         return bytes;
+    }
+
+    public static long hash ( byte... bytes )
+    {
+        long hash = 5381;
+
+        for ( byte singleByte : bytes )
+            hash = ( ( hash << 5 ) + hash ) + singleByte;
+
+        return hash;
     }
 
 }

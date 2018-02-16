@@ -14,6 +14,7 @@ import java.io.*;
 import java.net.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 /*
@@ -53,21 +54,6 @@ public class ClientPanel extends JPanel
 	}
 
 
-	// TODO -> Attempts to find the file that will be used to transfer to the Server
-	private void fileButtonActionPerformed ( ActionEvent e )
-	{
-		// TODO -> Present Open Dialogue and Update "Transfer File" Label if a File is selected
-		switch ( fileChooser.showOpenDialog ( getParent () ) )
-		{
-			case JFileChooser.APPROVE_OPTION:
-			{
-				filePath = fileChooser.getSelectedFile ().getAbsoluteFile ().toPath ();
-				fileTextArea.setText ( filePath.toString () );
-			}
-		}
-	}
-
-
 	// TODO -> Attempts to open file to be used as XOR-Key
 	private void xorButtonActionPerformed ( ActionEvent e )
 	{
@@ -95,7 +81,7 @@ public class ClientPanel extends JPanel
 
 				xorTextArea.setText ( xorPath.toString () );
 
-				System.out.println ( "XOR Key Bytes : " + Arrays.toString ( xorKey ) );
+				System.out.println ( "Client > XOR Key Bytes : " + Arrays.toString ( xorKey ) );
 			}
 
 			catch ( IOException ioe )
@@ -111,11 +97,37 @@ public class ClientPanel extends JPanel
 		}
 	}
 
+
 	private void xorClearButtonActionPerformed(ActionEvent e)
 	{
 		// TODO -> Clear XOR Text Area
 		xorTextArea.setText ( null );
+		xorKey = null;
 	}
+
+
+	// TODO -> Attempts to find the file that will be used to transfer to the Server
+	private void fileButtonActionPerformed ( ActionEvent e )
+	{
+		// TODO -> Present Open Dialogue and Update "Transfer File" Label if a File is selected
+		switch ( fileChooser.showOpenDialog ( getParent () ) )
+		{
+			case JFileChooser.APPROVE_OPTION:
+			{
+				filePath = fileChooser.getSelectedFile ().getAbsoluteFile ().toPath ();
+				fileTextArea.setText ( filePath.toString () );
+			}
+		}
+	}
+
+
+	private void fileClearButtonActionPerformed(ActionEvent e)
+	{
+		// TODO -> Clear File Text Area
+		fileTextArea.setText ( null );
+		filePath = null;
+	}
+
 
 	// TODO -> Tries to send file to Server
 	private void sendFileButtonActionPerformed ( ActionEvent e )
@@ -140,31 +152,74 @@ public class ClientPanel extends JPanel
 				// TODO -> Send File Size and Chunk Size to Server
 				printWriter.println ( chunkSize );
 
-				for ( byte [] fileBytes = new byte [chunkSize]; fileInputStream.read ( fileBytes ) > 0; )
+				byte [] bytes = new byte [chunkSize];
+				ArrayList <byte []> allBytes = new ArrayList<> ();
+
+				while ( fileInputStream.read ( bytes ) > 0 )
+					allBytes.add ( bytes );
+
+				for ( int count = 0; count < allBytes.size (); )
 				{
+					byte [] fileBytes = allBytes.get ( count );
+
+					// TODO -> Convert Hash Value to String for sending
+					long hashValue = Utility.hash ( fileBytes );
+
+					// TODO -> Write Hash Value to console
+					System.out.println ( "Client > Hash Value > " + hashValue );
+
+					// TODO -> Write Hash Value to Stream
+					printWriter.println ( hashValue );
+
+					// TODO -> Print Plain Bytes for reference
+					System.out.println ( "Client > Plain Bytes > " + Utility.bytesToString ( fileBytes ) );
+
 					if ( xorKey != null && xorKey.length > 0 )
 						fileBytes = XORCipher.encrypt ( fileBytes, xorKey );
 
-					// TODO -> Convert Bytes Array to String for sending
+					// TODO -> Convert Bytes to String for sending
 					String stringOfBytes = Utility.bytesToString ( fileBytes );
 
-					// TODO -> Write to console
-					System.out.println ( "Client > " + stringOfBytes );
+					// TODO -> Print XOR Bytes for reference
+					System.out.println ( "Client > XOR Bytes > " + stringOfBytes );
 
 					if ( armoringCheckBox.isSelected () )
 					{
 						// TODO -> Encode Bytes with Armoring
-						String armoredBytes = MIME.base64Encoding ( fileBytes );
+						stringOfBytes = MIME.base64Encoding ( fileBytes );
 
-						System.out.println ( "Client > " + armoredBytes );
+						// TODO -> Print MIME64 Bytes for reference
+						System.out.println ( "Client > BASE64 > " + stringOfBytes );
 
 						// TODO -> Write to Stream
-						printWriter.println ( armoredBytes );
+						printWriter.println ( stringOfBytes );
 					}
 					else
 					{
 						// TODO -> Write Bytes as Binary to Stream
 						printWriter.println ( stringOfBytes );
+					}
+
+					String serverResponse = bufferedReader.readLine ();
+					System.out.println ( "Client > Server responded with " + serverResponse );
+
+					if ( serverResponse.equals ( "RETRY" ) )
+					{
+						message = "File failed to transfer. Retry?";
+						int optionType = JOptionPane.showConfirmDialog ( getParent (), message,null, JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE );
+
+						if ( optionType == JOptionPane.NO_OPTION )
+						{
+							// TODO -> Print Cancellation message
+							System.out.println ( "Client > File transfer was cancelled" );
+
+							printWriter.println ( "FILE-FAILED" );
+							return;
+						}
+					}
+					else
+					{
+						count += 1;
 					}
 				}
 
@@ -192,9 +247,7 @@ public class ClientPanel extends JPanel
 	private void chunkSizeSliderStateChanged ( ChangeEvent e )
 	{
 		// TODO -> When the Slider changes value, update our label
-		chunkSize = chunkSizeSlider.getValue ();
-		String selectedChuckText = chunkSize == chunkSizeSlider.getMaximum () ? "1 MB" : chunkSize == chunkSizeSlider.getMinimum () ? "1 KB" : chunkSize + " KB";
-		chunkSizeValueLabel.setText ( selectedChuckText );
+		chunkSize = chunkSizeSlider.getValue () * 1000;
 	}
 
 
@@ -301,7 +354,7 @@ public class ClientPanel extends JPanel
 			}
 			finally
 			{
-				disconnectButton.doClick ();
+				disconnectButtonActionPerformed ( null );
 			}
 		} ).start ();
 	}
@@ -332,31 +385,8 @@ public class ClientPanel extends JPanel
 	}
 
 
-	private void restoreGUI ()
-	{
-		filePath = null;
-		xorKey = null;
-
-		dynamicStatusLabel.setText ( "Stopped" );
-
-		serverTextField.setText ( "localhost" );
-		portTextField.setText ( "1492" );
-		usernameTextField.setText ( "Debug" );
-		passwordField.setText ( null );
-		xorTextArea.setText ( null );
-		fileTextArea.setText ( null );
-
-		armoringCheckBox.setSelected ( true );
-		copyRadioButton.setSelected ( true );
-
-		chunkSizeSlider.setValue ( chunkSizeSlider.getMaximum () );
-
-		connectButton.setEnabled ( true );
-	}
-
-
 	// TODO -> Attempts to close any connections and tries to restore GUI for future connections
-	private void disconnectButtonActionPerformed ( ActionEvent e )
+	private void disconnectButtonActionPerformed ( ActionEvent actionEvent )
 	{
 		if ( looping )
 		{
@@ -376,7 +406,29 @@ public class ClientPanel extends JPanel
 			System.out.println ( "Client @ " + new Date () + " > " + stackTrace );
 		}
 
-		restoreGUI ();
+		// TODO -> Restore GUI
+		dynamicStatusLabel.setText ( "Stopped" );
+		connectButton.setEnabled ( true );
+
+		/*
+		if ( actionEvent != null )
+		{
+			filePath = null;
+			xorKey = null;
+
+			serverTextField.setText ( "localhost" );
+			portTextField.setText ( "1492" );
+			usernameTextField.setText ( "Debug" );
+			passwordField.setText ( null );
+			xorTextArea.setText ( null );
+			fileTextArea.setText ( null );
+
+			armoringCheckBox.setSelected ( false );
+			copyRadioButton.setSelected ( true );
+
+			chunkSizeSlider.setValue ( chunkSizeSlider.getMaximum () );
+		}
+		*/
 	}
 
 
@@ -398,7 +450,7 @@ public class ClientPanel extends JPanel
 		overwriteRadioButton = new JRadioButton();
 		chunkSizeLabel = new JLabel();
 		chunkSizeSlider = new JSlider();
-		chunkSizeValueLabel = new JLabel();
+		JLabel chunkSizeValueLabel = new JLabel();
 		sendFileButton = new JButton();
 		disconnectButton = new JButton();
 		connectButton = new JButton();
@@ -413,10 +465,13 @@ public class ClientPanel extends JPanel
 		JLabel authenticationOptionsLabel = new JLabel();
 		plainRadioButton = new JRadioButton();
 		JButton xorClearButton = new JButton();
+		JButton fileClearButton = new JButton();
+		JSpinner chunkSizeSpinner = new JSpinner();
 
 		//======== this ========
-		setPreferredSize(new Dimension(400, 1100));
+		setPreferredSize(new Dimension(400, 1200));
 		setOpaque(false);
+		setMinimumSize(new Dimension(450, 1200));
 
 		//---- statusLabel ----
 		statusLabel.setText("Status");
@@ -488,16 +543,16 @@ public class ClientPanel extends JPanel
 		chunkSizeLabel.setFont(chunkSizeLabel.getFont().deriveFont(chunkSizeLabel.getFont().getStyle() | Font.BOLD, chunkSizeLabel.getFont().getSize() + 5f));
 
 		//---- chunkSizeSlider ----
-		chunkSizeSlider.setMaximum(1000000);
-		chunkSizeSlider.setMinimum(1000);
+		chunkSizeSlider.setMaximum(1000);
+		chunkSizeSlider.setMinimum(1);
 		chunkSizeSlider.setPaintTicks(true);
-		chunkSizeSlider.setMajorTickSpacing(99900);
-		chunkSizeSlider.setValue(1000000);
-		chunkSizeSlider.setMinorTickSpacing(49950);
+		chunkSizeSlider.setMajorTickSpacing(100);
+		chunkSizeSlider.setValue(1000);
+		chunkSizeSlider.setMinorTickSpacing(50);
 		chunkSizeSlider.addChangeListener(e -> chunkSizeSliderStateChanged(e));
 
 		//---- chunkSizeValueLabel ----
-		chunkSizeValueLabel.setText("1 MB");
+		chunkSizeValueLabel.setText("KB");
 		chunkSizeValueLabel.setFont(chunkSizeValueLabel.getFont().deriveFont(chunkSizeValueLabel.getFont().getStyle() | Font.BOLD, chunkSizeValueLabel.getFont().getSize() + 1f));
 		chunkSizeValueLabel.setHorizontalAlignment(SwingConstants.TRAILING);
 
@@ -587,6 +642,16 @@ public class ClientPanel extends JPanel
 		xorClearButton.setFont(xorClearButton.getFont().deriveFont(xorClearButton.getFont().getStyle() | Font.BOLD));
 		xorClearButton.addActionListener(e -> xorClearButtonActionPerformed(e));
 
+		//---- fileClearButton ----
+		fileClearButton.setText("Clear");
+		fileClearButton.setBorder(new MatteBorder(0, 0, 1, 0, Color.black));
+		fileClearButton.setFont(fileClearButton.getFont().deriveFont(fileClearButton.getFont().getStyle() | Font.BOLD));
+		fileClearButton.addActionListener(e -> fileClearButtonActionPerformed(e));
+
+		//---- chunkSizeSpinner ----
+		chunkSizeSpinner.setModel(new SpinnerNumberModel(1, 1, 1000, 1));
+		chunkSizeSpinner.setFont(chunkSizeSpinner.getFont().deriveFont(Font.BOLD|Font.ITALIC));
+
 		GroupLayout layout = new GroupLayout(this);
 		setLayout(layout);
 		layout.setHorizontalGroup(
@@ -595,40 +660,57 @@ public class ClientPanel extends JPanel
 					.addGap(25, 25, 25)
 					.addGroup(layout.createParallelGroup()
 						.addGroup(layout.createSequentialGroup()
-							.addComponent(xorButton)
-							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 211, Short.MAX_VALUE)
-							.addComponent(xorClearButton))
-						.addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-							.addComponent(fileButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addComponent(sendFileButton))
-						.addComponent(xorScrollPane, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(fileScrollPane, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(chunkSizeSlider, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(chunkSizeValueLabel, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
-						.addComponent(passwordField, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(disconnectButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(portTextField, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(usernameTextField, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(connectButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(dynamicStatusLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(serverTextField)
+							.addComponent(chunkSizeLabel)
+							.addGap(190, 271, Short.MAX_VALUE))
 						.addGroup(layout.createSequentialGroup()
 							.addGroup(layout.createParallelGroup()
-								.addComponent(authenticationOptionsLabel)
-								.addComponent(passwordLabel)
-								.addComponent(usernameLabel)
-								.addComponent(portLabel)
-								.addComponent(plainRadioButton)
-								.addComponent(fileOptionsLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(armoringCheckBox)
-								.addComponent(copyRadioButton)
-								.addComponent(overwriteRadioButton)
-								.addComponent(chunkSizeLabel)
-								.addComponent(serverLabel)
-								.addComponent(statusLabel))
-							.addGap(0, 184, Short.MAX_VALUE)))
-					.addGap(50, 50, 50))
+								.addComponent(fileOptionsLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addGroup(layout.createSequentialGroup()
+									.addGroup(layout.createParallelGroup()
+										.addComponent(armoringCheckBox)
+										.addComponent(copyRadioButton)
+										.addComponent(overwriteRadioButton))
+									.addGap(0, 0, Short.MAX_VALUE)))
+							.addGap(94, 94, 94))
+						.addGroup(layout.createSequentialGroup()
+							.addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+								.addComponent(authenticationOptionsLabel, GroupLayout.Alignment.LEADING)
+								.addComponent(passwordLabel, GroupLayout.Alignment.LEADING)
+								.addComponent(usernameLabel, GroupLayout.Alignment.LEADING)
+								.addComponent(portLabel, GroupLayout.Alignment.LEADING)
+								.addComponent(plainRadioButton, GroupLayout.Alignment.LEADING)
+								.addComponent(serverLabel, GroupLayout.Alignment.LEADING)
+								.addComponent(statusLabel, GroupLayout.Alignment.LEADING))
+							.addGap(0, 0, Short.MAX_VALUE))
+						.addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+							.addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+								.addComponent(disconnectButton, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+								.addComponent(connectButton, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+								.addComponent(chunkSizeSlider, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+								.addGroup(layout.createSequentialGroup()
+									.addComponent(fileButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 118, Short.MAX_VALUE)
+									.addComponent(fileClearButton))
+								.addGroup(layout.createSequentialGroup()
+									.addComponent(xorButton)
+									.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 186, Short.MAX_VALUE)
+									.addComponent(xorClearButton))
+								.addComponent(fileScrollPane, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+								.addComponent(xorScrollPane, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+								.addComponent(passwordField, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+								.addComponent(usernameTextField, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+								.addComponent(portTextField, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+								.addComponent(dynamicStatusLabel, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+								.addComponent(serverTextField, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+								.addGroup(layout.createSequentialGroup()
+									.addGap(0, 185, Short.MAX_VALUE)
+									.addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+										.addComponent(sendFileButton)
+										.addGroup(layout.createSequentialGroup()
+											.addComponent(chunkSizeSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+											.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+											.addComponent(chunkSizeValueLabel)))))
+							.addGap(75, 75, 75))))
 		);
 		layout.setVerticalGroup(
 			layout.createParallelGroup()
@@ -666,9 +748,11 @@ public class ClientPanel extends JPanel
 					.addGap(18, 18, 18)
 					.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 						.addComponent(fileButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(sendFileButton))
+						.addComponent(fileClearButton))
 					.addGap(18, 18, 18)
 					.addComponent(fileScrollPane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(18, 18, 18)
+					.addComponent(sendFileButton)
 					.addGap(18, 18, 18)
 					.addComponent(fileOptionsLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addGap(18, 18, 18)
@@ -682,8 +766,10 @@ public class ClientPanel extends JPanel
 					.addGap(18, 18, 18)
 					.addComponent(chunkSizeSlider, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-					.addComponent(chunkSizeValueLabel)
-					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 147, Short.MAX_VALUE)
+					.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+						.addComponent(chunkSizeValueLabel)
+						.addComponent(chunkSizeSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 97, Short.MAX_VALUE)
 					.addComponent(connectButton)
 					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 					.addComponent(disconnectButton)
@@ -752,6 +838,18 @@ public class ClientPanel extends JPanel
 		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
 			connectButton, BeanProperty.create("enabled"),
 			xorClearButton, BeanProperty.create("enabled")));
+		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
+			fileButton, BeanProperty.create("enabled"),
+			fileClearButton, BeanProperty.create("enabled")));
+		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
+			disconnectButton, BeanProperty.create("enabled"),
+			chunkSizeSpinner, BeanProperty.create("enabled")));
+		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
+			chunkSizeSlider, BeanProperty.create("value"),
+			chunkSizeSpinner, BeanProperty.create("value")));
+		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
+			chunkSizeSpinner, BeanProperty.create("value"),
+			chunkSizeSlider, BeanProperty.create("value")));
 		bindingGroup.bind();
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
@@ -766,7 +864,6 @@ public class ClientPanel extends JPanel
 	private JRadioButton overwriteRadioButton;
 	private JLabel chunkSizeLabel;
 	private JSlider chunkSizeSlider;
-	private JLabel chunkSizeValueLabel;
 	private JButton sendFileButton;
 	private JButton disconnectButton;
 	private JButton connectButton;

@@ -4,12 +4,13 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {seq l {space :p:25:p, par l {seq {comp xorButton:::p::p, space ::211:x, comp xorClearButton:::p::p}, seq t {comp fileButton:::p::p, space :::x, comp sendFileButton:::p::p}, comp xorScrollPane::t:::x, comp fileScrollPane::l:::x, comp chunkSizeSlider:::::x, comp chunkSizeValueLabel::l::325:x, comp passwordField::l:::x, comp disconnectButton::l:::x, comp portTextField::l:::x, comp usernameTextField::l:::x, comp connectButton::l:::x, comp dynamicStatusLabel::l:::x, comp serverTextField::l:::x, seq {par l {comp authenticationOptionsLabel:::p::p, comp passwordLabel:::p::p, comp usernameLabel:::p::p, comp portLabel:::p::p, comp plainRadioButton::l:p::p, comp fileOptionsLabel::l:p::p, comp armoringCheckBox:::p::p, comp copyRadioButton::l:p::p, comp overwriteRadioButton::l:p::p, comp chunkSizeLabel::l:p::p, comp serverLabel::l:p::p, comp statusLabel::l:p::p}, space :0:184:x}}, space :p:50:p}}"
-			"$verticalGroup": "par l {seq l {space :p:25:p, comp statusLabel:::p::p, space s:::p, comp dynamicStatusLabel:::p::p, space s:::p, comp serverLabel:::p::p, space :p:18:p, comp serverTextField:::p:32:p, space s:::p, comp portLabel:::p::p, space s:::p, comp portTextField:::p:32:p, space s:::p, comp usernameLabel:::p::p, space s:::p, comp usernameTextField:::p:32:p, space s:::p, comp passwordLabel:::p::p, space s:::p, comp passwordField:::p::p, space s:::p, comp authenticationOptionsLabel:::p::p, space s:::p, comp plainRadioButton:::p::p, space s:::p, par b {comp xorButton::b:p::p, comp xorClearButton::b:p::p}, space s:::p, comp xorScrollPane:::p:32:p, space s:::p, par b {comp fileButton::b:p::p, comp sendFileButton::b:p::p}, space s:::p, comp fileScrollPane:::p::p, space s:::p, comp fileOptionsLabel:::p::p, space s:::p, comp armoringCheckBox:::p::p, space :::p, comp copyRadioButton:::p::p, space :p::p, comp overwriteRadioButton:::p::p, space s:::p, comp chunkSizeLabel:::p::p, space s:::p, comp chunkSizeSlider:::p::p, space :::p, comp chunkSizeValueLabel:::p::p, space ::147:x, comp connectButton:::p::p, space :::p, comp disconnectButton:::p::p, space :p:25:p}}"
+			"$horizontalGroup": "par l {seq l {space :p:25:p, par l {seq l {comp chunkSizeLabel:::p::p, space :190:271:x}, seq {par l {comp fileOptionsLabel::l:::x, seq {par l {comp armoringCheckBox:::p::p, comp copyRadioButton::l:p::p, comp overwriteRadioButton::l:p::p}, space :0:0:x}}, space :p:94:p}, seq {par t {comp authenticationOptionsLabel::l:p::p, comp passwordLabel::l:p::p, comp usernameLabel::l:p::p, comp portLabel::l:p::p, comp plainRadioButton::l:p::p, comp serverLabel::l:p::p, comp statusLabel::l:p::p}, space :0:0:x}, seq t {par t {comp disconnectButton::l::300:x, comp connectButton::l::300:x, comp chunkSizeSlider::l::300:x, seq {comp fileButton:::p::p, space ::118:x, comp fileClearButton:::p::p}, seq {comp xorButton:::p::p, space ::186:x, comp xorClearButton:::p::p}, comp fileScrollPane::l::300:x, comp xorScrollPane::l::300:x, comp passwordField::l::300:x, comp usernameTextField::l::300:x, comp portTextField::l::300:x, comp dynamicStatusLabel::l::300:x, comp serverTextField::::300:x, seq {space :0:185:x, par t {comp sendFileButton:::p::p, seq t {comp chunkSizeSpinner:::p::p, space :::p, comp chunkSizeValueLabel:::p::p}}}}, space :p:75:p}}}}"
+			"$verticalGroup": "par l {seq l {space :p:25:p, comp statusLabel:::p::p, space s:::p, comp dynamicStatusLabel:::p::p, space s:::p, comp serverLabel:::p::p, space :p:18:p, comp serverTextField:::p:32:p, space s:::p, comp portLabel:::p::p, space s:::p, comp portTextField:::p:32:p, space s:::p, comp usernameLabel:::p::p, space s:::p, comp usernameTextField:::p:32:p, space s:::p, comp passwordLabel:::p::p, space s:::p, comp passwordField:::p::p, space s:::p, comp authenticationOptionsLabel:::p::p, space s:::p, comp plainRadioButton:::p::p, space s:::p, par b {comp xorButton::b:p::p, comp xorClearButton::b:p::p}, space s:::p, comp xorScrollPane:::p:32:p, space s:::p, par b {comp fileButton::b:p::p, comp fileClearButton::b:p::p}, space s:::p, comp fileScrollPane:::p::p, space s:::p, comp sendFileButton:::p::p, space :p:18:p, comp fileOptionsLabel:::p::p, space s:::p, comp armoringCheckBox:::p::p, space :::p, comp copyRadioButton:::p::p, space :p::p, comp overwriteRadioButton:::p::p, space s:::p, comp chunkSizeLabel:::p::p, space s:::p, comp chunkSizeSlider:::p::p, space :::p, par b {comp chunkSizeValueLabel::b:p::p, comp chunkSizeSpinner::b:p::p}, space ::97:x, comp connectButton:::p::p, space :::p, comp disconnectButton:::p::p, space :p:25:p}}"
 		} ) {
 			name: "this"
-			"preferredSize": new java.awt.Dimension( 400, 1100 )
+			"preferredSize": new java.awt.Dimension( 400, 1200 )
 			"opaque": false
+			"minimumSize": new java.awt.Dimension( 450, 1200 )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "statusLabel"
 				"text": "Status"
@@ -113,19 +114,22 @@ new FormModel {
 			} )
 			add( new FormComponent( "javax.swing.JSlider" ) {
 				name: "chunkSizeSlider"
-				"maximum": 1000000
-				"minimum": 1000
+				"maximum": 1000
+				"minimum": 1
 				"paintTicks": true
-				"majorTickSpacing": 99900
-				"value": 1000000
-				"minorTickSpacing": 49950
+				"majorTickSpacing": 100
+				"value": 1000
+				"minorTickSpacing": 50
 				addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "chunkSizeSliderStateChanged", true ) )
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "chunkSizeValueLabel"
-				"text": "1 MB"
+				"text": "KB"
 				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 1, false )
 				"horizontalAlignment": 11
+				auxiliary() {
+					"JavaCodeGenerator.variableLocal": true
+				}
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "sendFileButton"
@@ -225,12 +229,30 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "xorClearButton"
 				"text": "Clear"
-				"border": new javax.swing.border.MatteBorder( 0, 0, 1, 0, sfield java.awt.Color black )
-				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 0, false )
+				"border": &MatteBorder0 new javax.swing.border.MatteBorder( 0, 0, 1, 0, sfield java.awt.Color black )
+				"font": &SwingDerivedFont4 new com.jformdesigner.model.SwingDerivedFont( null, 1, 0, false )
 				auxiliary() {
 					"JavaCodeGenerator.variableLocal": true
 				}
 				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "xorClearButtonActionPerformed", true ) )
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "fileClearButton"
+				"text": "Clear"
+				"border": #MatteBorder0
+				"font": #SwingDerivedFont4
+				auxiliary() {
+					"JavaCodeGenerator.variableLocal": true
+				}
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "fileClearButtonActionPerformed", true ) )
+			} )
+			add( new FormComponent( "javax.swing.JSpinner" ) {
+				name: "chunkSizeSpinner"
+				"model": new javax.swing.SpinnerNumberModel( 1, 1, 1000, 1 )
+				"font": new com.jformdesigner.model.SwingDerivedFont( null, 3, 0, false )
+				auxiliary() {
+					"JavaCodeGenerator.variableLocal": true
+				}
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 0 )
@@ -265,6 +287,10 @@ new FormModel {
 			addBinding( new FormBinding( "connectButton", "enabled", "xorButton", "enabled" ) )
 			addBinding( new FormBinding( "connectButton", "enabled", "xorTextArea", "enabled" ) )
 			addBinding( new FormBinding( "connectButton", "enabled", "xorClearButton", "enabled" ) )
+			addBinding( new FormBinding( "fileButton", "enabled", "fileClearButton", "enabled" ) )
+			addBinding( new FormBinding( "disconnectButton", "enabled", "chunkSizeSpinner", "enabled" ) )
+			addBinding( new FormBinding( "chunkSizeSlider", "value", "chunkSizeSpinner", "value" ) )
+			addBinding( new FormBinding( "chunkSizeSpinner", "value", "chunkSizeSlider", "value" ) )
 		} )
 	}
 }

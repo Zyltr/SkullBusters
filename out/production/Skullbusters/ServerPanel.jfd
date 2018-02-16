@@ -165,6 +165,7 @@ new FormModel {
 				"text": "Clear"
 				"border": &MatteBorder0 new javax.swing.border.MatteBorder( 0, 0, 1, 0, sfield java.awt.Color black )
 				"font": &SwingDerivedFont1 new com.jformdesigner.model.SwingDerivedFont( null, 1, 0, false )
+				"toolTipText": "Click"
 				auxiliary() {
 					"JavaCodeGenerator.variableLocal": true
 				}
@@ -175,6 +176,7 @@ new FormModel {
 				"text": "Clear"
 				"border": #MatteBorder0
 				"font": #SwingDerivedFont1
+				"toolTipText": "Click"
 				auxiliary() {
 					"JavaCodeGenerator.variableLocal": true
 				}

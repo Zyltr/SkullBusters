@@ -4,8 +4,8 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {seq l {space :p:25:p, par l {seq {comp staticStatusLabel:::p::p, space ::318:x}, seq {par l {comp logLabel:::p::p, comp portLabel:::p::p, comp saveButton:::p::p}, space :0:197:x}, seq t {par t {seq {comp xorButton:::p::p, space ::159:x, comp xorClearButton:::p::p}, comp portTextField::l::325:x, comp logScrollPane::l::325:x, comp saveScrollPane::l::325:x, comp xorScrollPane::l::325:x, comp credentialScrollPane::l::325:x, comp dynamicStatusLabel::l::325:x, seq l {comp credentialButton:::p::p, space ::136:x, comp credentialClearButton:::p::p}, comp stopButton::l::325:x, comp startButton::t::325:x}, space :p:50:p}}}}"
-			"$verticalGroup": "par l {seq l {space :p:25:p, comp staticStatusLabel:::p::p, space s:::p, comp dynamicStatusLabel:::p::p, space s:::p, par b {comp credentialButton::b:p::p, comp credentialClearButton::b:p::p}, space s:::p, comp credentialScrollPane:::p:30:p, space s:::p, par b {comp xorButton::b:p::p, comp xorClearButton::b:p::p}, space s:::p, comp xorScrollPane:::p:28:p, space s:::p, comp saveButton:::p::p, space s:::p, comp saveScrollPane:::p:31:p, space s:::p, comp portLabel:::p::p, space s:::p, comp portTextField:::p:32:p, space :p:18:p, comp logLabel:::p::p, space s:::p, comp logScrollPane:::p:200:p, space ::64:x, comp startButton:::p::p, space :::p, comp stopButton:::p::p, space :p:25:p}}"
+			"$horizontalGroup": "par l {seq l {space :p:25:p, par l {seq {comp staticStatusLabel:::p::p, space ::318:x}, seq t {par t {seq t {comp xorButton:::p:160:p, space ::86:x, comp xorClearButton:::p::p}, comp portTextField::l::325:x, comp logScrollPane::l::325:x, comp saveScrollPane::l::325:x, comp xorScrollPane::l::325:x, comp credentialScrollPane::l::325:x, comp dynamicStatusLabel::l::325:x, seq l {comp credentialButton:::p:180:p, space ::66:x, comp credentialClearButton:::p::p}, comp stopButton::l::325:x, comp startButton::t::325:x}, space :p:50:p}, seq {par l {comp saveButton:::p::p, comp logLabel:::p::p, comp portLabel:::p::p}, space :0:153:x}}}}"
+			"$verticalGroup": "par l {seq l {space :p:25:p, comp staticStatusLabel:::p::p, space s:::p, comp dynamicStatusLabel:::p::p, space s:::p, par b {comp credentialClearButton::b:p::p, comp credentialButton::b:p::p}, space s:::p, comp credentialScrollPane:::p:30:p, space s:::p, par b {comp xorButton::b:p::p, comp xorClearButton::b:p::p}, space s:::p, comp xorScrollPane:::p:28:p, space s:::p, comp saveButton:::p::p, space :p:18:p, comp saveScrollPane:::p:31:p, space s:::p, comp portLabel:::p::p, space s:::p, comp portTextField:::p:32:p, space :p:18:p, comp logLabel:::p::p, space s:::p, comp logScrollPane:::p:200:p, space ::39:x, comp startButton:::p::p, space :::p, comp stopButton:::p::p, space :p:25:p}}"
 		} ) {
 			name: "this"
 			"preferredSize": new java.awt.Dimension( 400, 900 )
@@ -23,7 +23,6 @@ new FormModel {
 				"text": "Credentials Path"
 				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 5, false )
 				"horizontalAlignment": 10
-				"border": new javax.swing.border.MatteBorder( 0, 0, 1, 0, sfield java.awt.Color black )
 				"toolTipText": "Click"
 				auxiliary() {
 					"JavaCodeGenerator.variableLocal": true
@@ -34,8 +33,8 @@ new FormModel {
 				name: "saveButton"
 				"text": "Save-Files-To Path"
 				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 5, false )
-				"border": new javax.swing.border.MatteBorder( 0, 0, 1, 0, sfield java.awt.Color black )
 				"toolTipText": "Click"
+				"horizontalAlignment": 10
 				auxiliary() {
 					"JavaCodeGenerator.variableLocal": true
 				}
@@ -136,8 +135,8 @@ new FormModel {
 				name: "xorButton"
 				"text": "XOR-Key Path"
 				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 5, false )
-				"border": new javax.swing.border.MatteBorder( 0, 0, 1, 0, sfield java.awt.Color black )
 				"toolTipText": "Click"
+				"horizontalAlignment": 10
 				auxiliary() {
 					"JavaCodeGenerator.variableLocal": true
 				}
@@ -163,7 +162,6 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "credentialClearButton"
 				"text": "Clear"
-				"border": &MatteBorder0 new javax.swing.border.MatteBorder( 0, 0, 1, 0, sfield java.awt.Color black )
 				"font": &SwingDerivedFont1 new com.jformdesigner.model.SwingDerivedFont( null, 1, 0, false )
 				"toolTipText": "Click"
 				auxiliary() {
@@ -174,7 +172,6 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "xorClearButton"
 				"text": "Clear"
-				"border": #MatteBorder0
 				"font": #SwingDerivedFont1
 				"toolTipText": "Click"
 				auxiliary() {

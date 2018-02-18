@@ -36,6 +36,7 @@ public class Skullbusters extends JFrame
 		//======== this ========
 		setName("frame");
 		setTitle("Skullbusters's FTP Tool");
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		Container contentPane = getContentPane();
 
 		//======== menuBar ========

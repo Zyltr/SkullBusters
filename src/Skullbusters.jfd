@@ -11,6 +11,7 @@ new FormModel {
 			"name": "frame"
 			"title": "Skullbusters's FTP Tool"
 			"$sizePolicy": 1
+			"defaultCloseOperation": 3
 			add( new FormContainer( "javax.swing.JTabbedPane", new FormLayoutManager( class javax.swing.JTabbedPane ) ) {
 				name: "tabbedPane"
 				auxiliary() {

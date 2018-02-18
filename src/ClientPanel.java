@@ -1,3 +1,4 @@
+import javax.swing.border.*;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.BindingGroup;
@@ -14,7 +15,6 @@ import java.io.*;
 import java.net.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 /*
@@ -34,7 +34,7 @@ public class ClientPanel extends JPanel
 	private byte [] xorKey = null;
 
 	// TODO -> Variable that will be used to partition file into a specific size of Bytes
-	private Integer chunkSize = 1000000;
+	private Integer chunkSize = 1000;
 
 	// TODO -> Required Server Variables
 	private Socket serverSocket = null;
@@ -141,89 +141,59 @@ public class ClientPanel extends JPanel
 				// TODO -> Notify Server File will be sent
 				printWriter.println ( "FILE" );
 
-				// TODO -> Get filename and options
+				// TODO -> Get filename and send to Server
 				String filename = filePath.getFileName ().toString ();
-				String fileOptions = ( armoringCheckBox.isSelected () ? "A" : "-" ) + ( copyRadioButton.isSelected () ? "C" : "O" );
-
-				// TODO -> Send filename and options to Server
 				printWriter.println ( filename );
+
+				// TODO -> Get file options and send to Server
+				String fileOptions = ( armoringCheckBox.isSelected () ? "A" : "-" ) + ( copyRadioButton.isSelected () ? "C" : "O" );
 				printWriter.println ( fileOptions );
 
-				// TODO -> Send File Size and Chunk Size to Server
+				// TODO -> Send Chunk Size to Server
 				printWriter.println ( chunkSize );
 
 				byte [] bytes = new byte [chunkSize];
-				ArrayList <byte []> allBytes = new ArrayList<> ();
 
-				while ( fileInputStream.read ( bytes ) > 0 )
-					allBytes.add ( bytes );
-
-				for ( int count = 0; count < allBytes.size (); )
+				for ( boolean shouldContinue = true, retrying = false; shouldContinue; )
 				{
-					byte [] fileBytes = allBytes.get ( count );
-
-					// TODO -> Convert Hash Value to String for sending
-					long hashValue = Utility.hash ( fileBytes );
-
-					// TODO -> Write Hash Value to console
-					System.out.println ( "Client > Hash Value > " + hashValue );
-
-					// TODO -> Write Hash Value to Stream
-					printWriter.println ( hashValue );
-
-					// TODO -> Print Plain Bytes for reference
-					System.out.println ( "Client > Plain Bytes > " + Utility.bytesToString ( fileBytes ) );
-
-					if ( xorKey != null && xorKey.length > 0 )
-						fileBytes = XORCipher.encrypt ( fileBytes, xorKey );
-
-					// TODO -> Convert Bytes to String for sending
-					String stringOfBytes = Utility.bytesToString ( fileBytes );
-
-					// TODO -> Print XOR Bytes for reference
-					System.out.println ( "Client > XOR Bytes > " + stringOfBytes );
-
-					if ( armoringCheckBox.isSelected () )
+					if ( !retrying )
 					{
-						// TODO -> Encode Bytes with Armoring
-						stringOfBytes = MIME.base64Encoding ( fileBytes );
+						int bytesRead = fileInputStream.read ( bytes );
 
-						// TODO -> Print MIME64 Bytes for reference
-						System.out.println ( "Client > BASE64 > " + stringOfBytes );
-
-						// TODO -> Write to Stream
-						printWriter.println ( stringOfBytes );
-					}
-					else
-					{
-						// TODO -> Write Bytes as Binary to Stream
-						printWriter.println ( stringOfBytes );
-					}
-
-					String serverResponse = bufferedReader.readLine ();
-					System.out.println ( "Client > Server responded with " + serverResponse );
-
-					if ( serverResponse.equals ( "RETRY" ) )
-					{
-						message = "File failed to transfer. Retry?";
-						int optionType = JOptionPane.showConfirmDialog ( getParent (), message,null, JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE );
-
-						if ( optionType == JOptionPane.NO_OPTION )
+						if ( bytesRead < 0 )
 						{
-							// TODO -> Print Cancellation message
-							System.out.println ( "Client > File transfer was cancelled" );
-
-							printWriter.println ( "FILE-FAILED" );
-							return;
+							shouldContinue = false;
+							continue;
 						}
 					}
-					else
+
+					String stringOfBytes = Arrays.toString ( bytes );
+					System.out.println ( "Client > Plain Bytes > " + stringOfBytes );
+
+					// TODO -> Encrypt with XOR Key, if available
+					if ( xorKey != null )
 					{
-						count += 1;
+						bytes = XORCipher.encrypt ( bytes, xorKey );
+
+						stringOfBytes = Arrays.toString ( bytes );
+						System.out.println ( "Client > XOR Bytes > " + stringOfBytes );
 					}
+
+					// TODO -> Apply ASCII Armoring, if available
+					if ( armoringCheckBox.isSelected () )
+					{
+						stringOfBytes = MIME.base64Encoding ( bytes );
+
+						System.out.println ( "Client > BASE64 > " + stringOfBytes );
+					}
+
+					// TODO -> Send String of Bytes to the Server ( Could be the ASCII-Armored String if requested )
+					printWriter.println ( stringOfBytes );
 				}
 
-				printWriter.println ( "FILE-DONE" );
+				System.out.println ( "Client > Finished Writing Bytes" );
+
+				printWriter.println ( "FILE-DONE");
 
 				message = "\"" + filename + "\" was successfully transferred";
 				JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.INFORMATION_MESSAGE );
@@ -409,26 +379,6 @@ public class ClientPanel extends JPanel
 		// TODO -> Restore GUI
 		dynamicStatusLabel.setText ( "Stopped" );
 		connectButton.setEnabled ( true );
-
-		/*
-		if ( actionEvent != null )
-		{
-			filePath = null;
-			xorKey = null;
-
-			serverTextField.setText ( "localhost" );
-			portTextField.setText ( "1492" );
-			usernameTextField.setText ( "Debug" );
-			passwordField.setText ( null );
-			xorTextArea.setText ( null );
-			fileTextArea.setText ( null );
-
-			armoringCheckBox.setSelected ( false );
-			copyRadioButton.setSelected ( true );
-
-			chunkSizeSlider.setValue ( chunkSizeSlider.getMaximum () );
-		}
-		*/
 	}
 
 
@@ -521,7 +471,6 @@ public class ClientPanel extends JPanel
 		fileButton.setMaximumSize(new Dimension(92, 29));
 		fileButton.setFont(fileButton.getFont().deriveFont(fileButton.getFont().getStyle() | Font.BOLD, fileButton.getFont().getSize() + 5f));
 		fileButton.setHorizontalAlignment(SwingConstants.LEADING);
-		fileButton.setBorder(new MatteBorder(0, 0, 1, 0, Color.black));
 		fileButton.addActionListener(e -> fileButtonActionPerformed(e));
 
 		//---- fileOptionsLabel ----
@@ -547,7 +496,7 @@ public class ClientPanel extends JPanel
 		chunkSizeSlider.setMinimum(1);
 		chunkSizeSlider.setPaintTicks(true);
 		chunkSizeSlider.setMajorTickSpacing(100);
-		chunkSizeSlider.setValue(64);
+		chunkSizeSlider.setValue(1);
 		chunkSizeSlider.setMinorTickSpacing(50);
 		chunkSizeSlider.addChangeListener(e -> chunkSizeSliderStateChanged(e));
 
@@ -559,7 +508,6 @@ public class ClientPanel extends JPanel
 		//---- sendFileButton ----
 		sendFileButton.setText("Send");
 		sendFileButton.setFont(sendFileButton.getFont().deriveFont(sendFileButton.getFont().getStyle() | Font.BOLD, sendFileButton.getFont().getSize() + 5f));
-		sendFileButton.setBorder(new MatteBorder(0, 0, 1, 0, Color.black));
 		sendFileButton.addActionListener(e -> sendFileButtonActionPerformed(e));
 
 		//---- disconnectButton ----
@@ -608,7 +556,6 @@ public class ClientPanel extends JPanel
 		xorButton.setText("XOR Key");
 		xorButton.setFont(xorButton.getFont().deriveFont(xorButton.getFont().getStyle() | Font.BOLD, xorButton.getFont().getSize() + 5f));
 		xorButton.setActionCommand("XOR-Key File");
-		xorButton.setBorder(new MatteBorder(0, 0, 1, 0, Color.black));
 		xorButton.addActionListener(e -> xorButtonActionPerformed(e));
 
 		//======== xorScrollPane ========
@@ -638,13 +585,11 @@ public class ClientPanel extends JPanel
 
 		//---- xorClearButton ----
 		xorClearButton.setText("Clear");
-		xorClearButton.setBorder(new MatteBorder(0, 0, 1, 0, Color.black));
 		xorClearButton.setFont(xorClearButton.getFont().deriveFont(xorClearButton.getFont().getStyle() | Font.BOLD));
 		xorClearButton.addActionListener(e -> xorClearButtonActionPerformed(e));
 
 		//---- fileClearButton ----
 		fileClearButton.setText("Clear");
-		fileClearButton.setBorder(new MatteBorder(0, 0, 1, 0, Color.black));
 		fileClearButton.setFont(fileClearButton.getFont().deriveFont(fileClearButton.getFont().getStyle() | Font.BOLD));
 		fileClearButton.addActionListener(e -> fileClearButtonActionPerformed(e));
 
@@ -683,34 +628,36 @@ public class ClientPanel extends JPanel
 								.addComponent(statusLabel, GroupLayout.Alignment.LEADING))
 							.addGap(0, 0, Short.MAX_VALUE))
 						.addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+							.addComponent(dynamicStatusLabel, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+							.addGap(75, 75, 75))
+						.addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
 							.addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-								.addComponent(disconnectButton, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-								.addComponent(connectButton, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-								.addComponent(chunkSizeSlider, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+								.addComponent(disconnectButton, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
+								.addComponent(connectButton, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
+								.addComponent(chunkSizeSlider, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
 								.addGroup(layout.createSequentialGroup()
 									.addComponent(fileButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 118, Short.MAX_VALUE)
+									.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
 									.addComponent(fileClearButton))
+								.addComponent(fileScrollPane, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
 								.addGroup(layout.createSequentialGroup()
 									.addComponent(xorButton)
-									.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 186, Short.MAX_VALUE)
+									.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 123, Short.MAX_VALUE)
 									.addComponent(xorClearButton))
-								.addComponent(fileScrollPane, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-								.addComponent(xorScrollPane, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-								.addComponent(passwordField, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-								.addComponent(usernameTextField, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-								.addComponent(portTextField, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-								.addComponent(dynamicStatusLabel, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-								.addComponent(serverTextField, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+								.addComponent(xorScrollPane, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
+								.addComponent(passwordField, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
+								.addComponent(usernameTextField, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
+								.addComponent(portTextField, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
+								.addComponent(serverTextField, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
 								.addGroup(layout.createSequentialGroup()
-									.addGap(0, 185, Short.MAX_VALUE)
+									.addGap(0, 210, Short.MAX_VALUE)
 									.addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-										.addComponent(sendFileButton)
 										.addGroup(layout.createSequentialGroup()
 											.addComponent(chunkSizeSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 											.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-											.addComponent(chunkSizeValueLabel)))))
-							.addGap(75, 75, 75))))
+											.addComponent(chunkSizeValueLabel))
+										.addComponent(sendFileButton))))
+							.addGap(50, 50, 50))))
 		);
 		layout.setVerticalGroup(
 			layout.createParallelGroup()
@@ -769,7 +716,7 @@ public class ClientPanel extends JPanel
 					.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 						.addComponent(chunkSizeValueLabel)
 						.addComponent(chunkSizeSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 97, Short.MAX_VALUE)
+					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
 					.addComponent(connectButton)
 					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 					.addComponent(disconnectButton)

@@ -1,3 +1,4 @@
+import javax.swing.border.*;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.BindingGroup;
@@ -18,10 +19,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
+import java.util.*;
 
 /*
  * Created by JFormDesigner on Thu Jan 25 01:00:01 PST 2018
@@ -196,7 +194,7 @@ public class ServerPanel extends JPanel
 	{
 		try
 		{
-			StringBuilder stringBuilder = new StringBuilder ( "\n" );
+			StringBuilder stringBuilder = new StringBuilder ( );
 
 			// TODO -> Receive filename
 			String filename = bufferedReader.readLine ();
@@ -209,80 +207,66 @@ public class ServerPanel extends JPanel
 			// TODO -> Receive Chunk Size
 			int chunkSize = Integer.parseInt ( bufferedReader.readLine () );
 
-			stringBuilder.append ( "Server > Received \"" + filename + "\" with options \"" + options + "\" and chunk-size of \"" + chunkSize + "\"" + "\n");
+			stringBuilder.append ( "Server > Received \"" + filename + "\" with options \"" + options + "\" and chunk-size of \"" + chunkSize + "\"" );
 
-			// TODO
-			StringBuilder byteBuilder = new StringBuilder ();
+			ArrayList <Byte> transferredBytes = new ArrayList<> ();
 
-			for ( String clientInput; ( clientInput = bufferedReader.readLine () ) != null; )
+			String clientInput = "";
+
+			for ( boolean shouldContinue = true, retrying = false; shouldContinue; )
 			{
-				if ( clientInput.equals ( "FILE-DONE" ) )
-					break;
-				else if ( clientInput.equals ( "FILE-FAILED" ) )
+				if ( !retrying )
 				{
-					System.out.print ( stringBuilder.toString () );
-					System.out.println ( "Server > FAILED" + "\n" );
+					clientInput = bufferedReader.readLine ();
 
-					logTextArea.append ( "\"" + filename + "\" failed to transfer." + "\n" );
-					return;
-				}
-				else
-				{
-					// TODO -> Parse and Log Hash value
-					long actualHashValue = Long.parseLong ( clientInput );
-
-					stringBuilder.append ( "Server > Actual Hash Value > " + actualHashValue + "\n" );
-
-					// TODO -> Save Bytes transferred from Client
-					String stringOfBytes = bufferedReader.readLine ();
-
-					stringBuilder.append ( "Server > BASE64 > " + stringOfBytes + "\n" );
-
-					if ( asciiArmoring )
+					if ( clientInput.equals ( "FILE-DONE" ) )
 					{
-						byte [] fileBytes = MIME.base64Decoding ( stringOfBytes );
-						stringOfBytes = Utility.bytesToString ( fileBytes );
-					}
-
-					if ( xorKey != null && xorKey.length > 0 )
-					{
-						byte [] fileBytes = Utility.stringToBytes ( stringOfBytes );
-						fileBytes = XORCipher.decrypt ( fileBytes, xorKey );
-						stringOfBytes = Utility.bytesToString ( fileBytes );
-
-						// TODO -> Print XOR Bytes
-						stringBuilder.append ( "Server > XOR Bytes > " + stringOfBytes + "\n" );
-					}
-
-					// TODO -> Print Plain Bytes
-					stringBuilder.append ( "Server > Plain Bytes > " + stringOfBytes + "\n" );
-
-					// TODO -> Check integrity of bytes
-					long hashValue = Utility.hash ( Utility.stringToBytes ( stringOfBytes ) );
-					stringBuilder.append ( "Server > Computed Hash Value > " + hashValue + "\n" );
-
-					if ( hashValue == actualHashValue )
-						printWriter.println ( "PASSED" );
-					else
-					{
-						printWriter.println ( "RETRY" );
+						shouldContinue = false;
 						continue;
 					}
-
-					// TODO
-					if ( byteBuilder.length () == 0 )
-						byteBuilder.append ( stringOfBytes );
-					else
-						byteBuilder.append ( " " + stringOfBytes );
 				}
+
+				byte [] tempBytes = new byte [chunkSize];
+
+				// TODO -> Decode ASCII-Armored String, if ASCII-Armoring was requested
+				if ( asciiArmoring )
+				{
+					System.out.println ( "Client > BASE64 > " + clientInput );
+
+					tempBytes = MIME.base64Decoding ( clientInput );
+				}
+				// TODO -> If ASCII-Armoring is not request, process Bytes
+				else
+				{
+					String[] byteStrings = clientInput.replaceAll ( "[\\p{Punct}&&[^+-]]", "" ).split ( "\\p{Space}" );
+					for ( int count = 0; count < byteStrings.length; ++count)
+						tempBytes[count] = new Byte ( byteStrings[count] );
+				}
+
+				// TODO -> Decrypt using XOR Cipher, is available
+				if ( xorKey != null )
+				{
+					System.out.println ( "Client > XOR Bytes > " + clientInput );
+
+					tempBytes = XORCipher.decrypt ( tempBytes, xorKey );
+					clientInput = Arrays.toString ( tempBytes );
+				}
+
+				stringBuilder.append ( "\n" + "Server > Plain Bytes > " + clientInput );
+
+				// TODO -> Store Bytes with all other transferred Bytes
+				for ( byte byteValue : tempBytes )
+					transferredBytes.add ( byteValue );
 			}
 
-			System.out.print ( stringBuilder.toString () );
-			System.out.println ( "Server > DONE" + "\n" );
-
-			byte [] fileBytes = Utility.stringToBytes ( byteBuilder.toString () );
+			System.out.println ( stringBuilder.toString () );
+			System.out.println ( "Server > DONE" );
 
 			Path filePath = Paths.get ( saveToPath.toString (), filename );
+
+			byte [] fileBytes = new byte [transferredBytes.size ()];
+			for ( int count = 0; count < transferredBytes.size (); ++count )
+				fileBytes[count] = transferredBytes.get ( count );
 
 			switch ( fileOption )
 			{
@@ -540,15 +524,14 @@ public class ServerPanel extends JPanel
 		credentialButton.setText("Credentials Path");
 		credentialButton.setFont(credentialButton.getFont().deriveFont(credentialButton.getFont().getStyle() | Font.BOLD, credentialButton.getFont().getSize() + 5f));
 		credentialButton.setHorizontalAlignment(SwingConstants.LEADING);
-		credentialButton.setBorder(new MatteBorder(0, 0, 1, 0, Color.black));
 		credentialButton.setToolTipText("Click");
 		credentialButton.addActionListener(e -> credentialsButtonActionPerformed(e));
 
 		//---- saveButton ----
 		saveButton.setText("Save-Files-To Path");
 		saveButton.setFont(saveButton.getFont().deriveFont(saveButton.getFont().getStyle() | Font.BOLD, saveButton.getFont().getSize() + 5f));
-		saveButton.setBorder(new MatteBorder(0, 0, 1, 0, Color.black));
 		saveButton.setToolTipText("Click");
+		saveButton.setHorizontalAlignment(SwingConstants.LEADING);
 		saveButton.addActionListener(e -> saveToButtonActionPerformed(e));
 
 		//---- startButton ----
@@ -627,8 +610,8 @@ public class ServerPanel extends JPanel
 		//---- xorButton ----
 		xorButton.setText("XOR-Key Path");
 		xorButton.setFont(xorButton.getFont().deriveFont(xorButton.getFont().getStyle() | Font.BOLD, xorButton.getFont().getSize() + 5f));
-		xorButton.setBorder(new MatteBorder(0, 0, 1, 0, Color.black));
 		xorButton.setToolTipText("Click");
+		xorButton.setHorizontalAlignment(SwingConstants.LEADING);
 		xorButton.addActionListener(e -> xorButtonActionPerformed(e));
 
 		//======== xorScrollPane ========
@@ -648,14 +631,12 @@ public class ServerPanel extends JPanel
 
 		//---- credentialClearButton ----
 		credentialClearButton.setText("Clear");
-		credentialClearButton.setBorder(new MatteBorder(0, 0, 1, 0, Color.black));
 		credentialClearButton.setFont(credentialClearButton.getFont().deriveFont(credentialClearButton.getFont().getStyle() | Font.BOLD));
 		credentialClearButton.setToolTipText("Click");
 		credentialClearButton.addActionListener(e -> credentialClearButtonActionPerformed(e));
 
 		//---- xorClearButton ----
 		xorClearButton.setText("Clear");
-		xorClearButton.setBorder(new MatteBorder(0, 0, 1, 0, Color.black));
 		xorClearButton.setFont(xorClearButton.getFont().deriveFont(xorClearButton.getFont().getStyle() | Font.BOLD));
 		xorClearButton.setToolTipText("Click");
 		xorClearButton.addActionListener(e -> xorClearButtonActionPerformed(e));
@@ -670,17 +651,11 @@ public class ServerPanel extends JPanel
 						.addGroup(layout.createSequentialGroup()
 							.addComponent(staticStatusLabel)
 							.addContainerGap(318, Short.MAX_VALUE))
-						.addGroup(layout.createSequentialGroup()
-							.addGroup(layout.createParallelGroup()
-								.addComponent(logLabel)
-								.addComponent(portLabel)
-								.addComponent(saveButton))
-							.addGap(0, 197, Short.MAX_VALUE))
 						.addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
 							.addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
 								.addGroup(layout.createSequentialGroup()
-									.addComponent(xorButton)
-									.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 159, Short.MAX_VALUE)
+									.addComponent(xorButton, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
 									.addComponent(xorClearButton))
 								.addComponent(portTextField, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
 								.addComponent(logScrollPane, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
@@ -689,12 +664,18 @@ public class ServerPanel extends JPanel
 								.addComponent(credentialScrollPane, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
 								.addComponent(dynamicStatusLabel, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
 								.addGroup(GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-									.addComponent(credentialButton)
-									.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 136, Short.MAX_VALUE)
+									.addComponent(credentialButton, GroupLayout.PREFERRED_SIZE, 180, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
 									.addComponent(credentialClearButton))
 								.addComponent(stopButton, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
 								.addComponent(startButton, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE))
-							.addGap(50, 50, 50))))
+							.addGap(50, 50, 50))
+						.addGroup(layout.createSequentialGroup()
+							.addGroup(layout.createParallelGroup()
+								.addComponent(saveButton)
+								.addComponent(logLabel)
+								.addComponent(portLabel))
+							.addGap(0, 153, Short.MAX_VALUE))))
 		);
 		layout.setVerticalGroup(
 			layout.createParallelGroup()
@@ -705,8 +686,8 @@ public class ServerPanel extends JPanel
 					.addComponent(dynamicStatusLabel)
 					.addGap(18, 18, 18)
 					.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-						.addComponent(credentialButton)
-						.addComponent(credentialClearButton))
+						.addComponent(credentialClearButton)
+						.addComponent(credentialButton))
 					.addGap(18, 18, 18)
 					.addComponent(credentialScrollPane, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
 					.addGap(18, 18, 18)
@@ -727,7 +708,7 @@ public class ServerPanel extends JPanel
 					.addComponent(logLabel)
 					.addGap(18, 18, 18)
 					.addComponent(logScrollPane, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
+					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
 					.addComponent(startButton)
 					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 					.addComponent(stopButton)

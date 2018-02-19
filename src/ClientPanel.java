@@ -136,6 +136,8 @@ public class ClientPanel extends JPanel
 		// TODO -> First, check to see that file path is a valid file
 		if ( filePath != null && Files.exists ( filePath ) && Files.isReadable ( filePath ) && printWriter != null )
 		{
+			boolean shouldRetry = false;
+
 			try ( FileInputStream fileInputStream = new FileInputStream ( filePath.toFile () ) )
 			{
 				// TODO -> Notify Server File will be sent
@@ -152,76 +154,70 @@ public class ClientPanel extends JPanel
 				printWriter.println ( fileOptions + " && " + chunkSize );
 
 				byte [] hashBytes;
-				byte [] bytes = new byte [chunkSize];
+				byte [] dataBytes = new byte [chunkSize];
 
-				while ( fileInputStream.read ( bytes ) > 0 )
+				while ( fileInputStream.read ( dataBytes ) > 0 )
 				{
 					// TODO -> Calculate Hash of Bytes
-					Long hashValue = Utility.hash ( bytes );
-					hashBytes = Utility.longToBytes ( hashValue );
+					hashBytes = Utility.longToBytes ( Utility.hash ( dataBytes ) );
 
 					String hashString = Arrays.toString ( hashBytes );
 					System.out.println ( "Client > Plain Hash Bytes > " + hashString );
 
 					// TODO -> Display Read Bytes
-					String stringOfBytes = Arrays.toString ( bytes );
-					System.out.println ( "Client > Plain Bytes > " + stringOfBytes );
+					String dataString = Arrays.toString ( dataBytes );
+					System.out.println ( "Client > Plain Data Bytes > " + dataString );
 
 					// TODO -> Encrypt Hash and Data Bytes with XOR Key, if available
 					if ( xorKey != null )
 					{
-						hashBytes = XORCipher.encrypt ( bytes, xorKey );
-						bytes = XORCipher.encrypt ( bytes, xorKey );
+						hashBytes = XORCipher.encrypt ( hashBytes, xorKey );
+						dataBytes = XORCipher.encrypt ( dataBytes, xorKey );
 
 						hashString = Arrays.toString ( hashBytes );
-						stringOfBytes = Arrays.toString ( bytes );
+						dataString = Arrays.toString ( dataBytes );
 
 						System.out.println ( "Client > XOR Hash Bytes > " + hashString );
-						System.out.println ( "Client > XOR Bytes > " + stringOfBytes );
+						System.out.println ( "Client > XOR Data Bytes > " + dataString );
 					}
 
 					// TODO -> Apply ASCII Armoring to Data Bytes, if available
 					if ( armoringCheckBox.isSelected () )
 					{
-						stringOfBytes = MIME.base64Encoding ( bytes );
+						dataString = MIME.base64Encoding ( dataBytes );
 
-						System.out.println ( "Client > BASE64 > " + stringOfBytes );
+						System.out.println ( "Client > BASE64 > " + dataString );
 					}
 
 					// TODO -> Send Hash Bytes and Data Bytes to the Server ( Data Bytes Could be in ASCII-Armored format if requested )
-					printWriter.println ( hashString + " && " + stringOfBytes );
+					printWriter.println ( hashString + " && " + dataString );
 
-					// TODO -> Respond to Server's Data Integrity Response
 					/*
-					while ( !bufferedReader.ready () )
+					// TODO -> Respond to Server's Data Integrity Response
+					if ( bufferedReader.ready () )
 					{
-						System.out.println ( "Client > Waiting for Server's Response" );
-					}
-						// TODO -> Wait for Server's Response
+						String dataIntegrityResponse = bufferedReader.readLine ();
+						System.out.println ( "Client > Data Integrity Failed > " + dataIntegrityResponse );
 
-					String serverResponse = bufferedReader.readLine ();
-					System.out.println ( "Client > Server Response > " + serverResponse );
-
-					if ( serverResponse.equals ( "RETRY" ) )
-					{
-						message = "File failed to transfer. Retry?";
-						int optionType = JOptionPane.showConfirmDialog ( getParent (), message,null, JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE );
-
-						if ( optionType == JOptionPane.NO_OPTION )
+						if ( dataIntegrityResponse.equals ( "RETRY" ) )
 						{
-							// TODO -> Print Cancellation message
-							System.out.println ( "Client > File transfer was cancelled" );
+							message = "File failed to transfer. Retry?";
+							int optionType = JOptionPane.showConfirmDialog ( getParent (), message,null, JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE );
 
-							// TODO -> Inform Server of Cancellation
-							printWriter.println ( "FILE-FAILED" );
+							if ( optionType == JOptionPane.NO_OPTION )
+							{
+								// TODO -> Print Cancellation message
+								System.out.println ( "Client > File transfer was cancelled" );
 
-							return;
-						}
-						else
-						{
-							// TODO -> Resend Hash value and Data Bytes
-							printWriter.println ( hashValue );
-							printWriter.println ( stringOfBytes );
+								return;
+							}
+							else
+							{
+								// TODO -> Retry sending the File
+								shouldRetry = true;
+
+								return;
+							}
 						}
 					}
 					*/
@@ -239,6 +235,13 @@ public class ClientPanel extends JPanel
 				System.out.println ( "ERROR" );
 				String stackTrace = Arrays.toString ( ioe.getStackTrace () );
 				System.out.println ( "Client @ " + new Date () + " > " + stackTrace );
+			}
+			finally
+			{
+				if ( shouldRetry )
+				{
+					sendFileButton.doClick ();
+				}
 			}
 		}
 		else

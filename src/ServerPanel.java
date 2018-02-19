@@ -214,25 +214,18 @@ public class ServerPanel extends JPanel
 			stringBuilder.append ( "Server > Received \"" + filename + "\" with options \"" + options + "\" and chunk-size of \"" + chunkSize + "\"" );
 
 			ArrayList <Byte> transferredBytes = new ArrayList<> ();
-			String clientInput = "";
+			String clientInput;
 
 			while ( ( clientInput = bufferedReader.readLine () ) != null )
 			{
 				if ( clientInput.equals ( "FILE-DONE" ) )
 				{
-					System.out.println ( "Server > FILE-DONE" );
+					stringBuilder.append ( "\n" + "Server > FILE-DONE" );
 
 					break;
 				}
-				else if ( clientInput.equals ( "FILE-FAILED" ) )
-				{
-					System.out.println ( "Server > FILE-FAILED" );
 
-					logTextArea.append ( "\"" + filename + "\" failed to transfer" + "\n" );
-					return;
-				}
-
-				// TODO -> Split Hash and Data into Separate Strings
+				// TODO -> Split Hash and Data into Separate Strings ( [ 0 ] is Hash and [ 1 ] is Data )
 				String [] hashAndData = clientInput.split ( " && " );
 
 				// TODO -> Get Client's Hash Value and Convert it to Bytes
@@ -280,22 +273,35 @@ public class ServerPanel extends JPanel
 				Long serverHashValue = Utility.hash ( tempDataBytes );
 
 				stringBuilder.append ( "\n" + "Server > Client's Plain Hash Value > " + clientHashValue );
-				stringBuilder.append ( "\n" + "Server > Plain Hash Value > " + serverHashValue + "\n" );
+				stringBuilder.append ( "\n" + "Server > Plain Hash Value > " + serverHashValue );
 
-				/*
-				if ( ! hashValue.equals ( clientHashValue ) )
+				if ( serverHashValue.longValue () != clientHashValue.longValue () )
 				{
-					System.out.println ( "Server > " + "RETRY" );
-					stringBuilder.append ( "\n" + "Server > " + "RETRY" );
+					stringBuilder.append ( "\n" + "Server > Hash Comparison Result > RETRY" + "\n" );
 
-					printWriter.println ( "RETRY" );
+					logTextArea.append ( "\"" + filename + "\" failed to transfer" + "\n" );
+					stringBuilder.append ( "\"" + filename + "\" failed to transfer" + "\n" );
 				}
 				else
 				{
-					System.out.println ( "Server > " + "SUCCESS" );
-					stringBuilder.append ( "\n" + "Server > " + "SUCCESS" );
+					stringBuilder.append ( "\n" + "Server > Hash Comparison Result > SUCCESS" + "\n" );
+				}
 
-					printWriter.println ( "SUCCESS" );
+				/*
+				if ( ! serverHashValue.equals ( clientHashValue ) )
+				{
+					System.out.println ( "Server > " + "RETRY" );
+
+					stringBuilder.append ( "\n" + "Server > " + "RETRYING" + "\n" );
+					logTextArea.append ( "\"" + filename + "\" failed to transfer" + "\n" );
+
+					printWriter.println ( "RETRY" );
+
+					return;
+				}
+				else
+				{
+					stringBuilder.append ( "\n" + "Server > " + "SUCCESS" + "\n" );
 				}
 				*/
 
@@ -305,7 +311,7 @@ public class ServerPanel extends JPanel
 			}
 
 			System.out.println ( stringBuilder.toString () );
-			System.out.println ( "Server > Finished Receiving Bytes" );
+			System.out.println ( "Server > Finished Receiving Bytes" + "\n" );
 
 			Path filePath = Paths.get ( saveToPath.toString (), filename );
 
@@ -695,32 +701,32 @@ public class ServerPanel extends JPanel
 					.addGroup(layout.createParallelGroup()
 						.addGroup(layout.createSequentialGroup()
 							.addComponent(staticStatusLabel)
-							.addContainerGap(318, Short.MAX_VALUE))
+							.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 						.addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
 							.addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
 								.addGroup(layout.createSequentialGroup()
 									.addComponent(xorButton, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
+									.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 									.addComponent(xorClearButton))
-								.addComponent(portTextField, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
-								.addComponent(logScrollPane, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
-								.addComponent(saveScrollPane, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
-								.addComponent(xorScrollPane, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
-								.addComponent(credentialScrollPane, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
-								.addComponent(dynamicStatusLabel, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
+								.addComponent(portTextField, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
+								.addComponent(logScrollPane, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
+								.addComponent(saveScrollPane, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
+								.addComponent(xorScrollPane, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
+								.addComponent(credentialScrollPane, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
+								.addComponent(dynamicStatusLabel, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
 								.addGroup(GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
 									.addComponent(credentialButton, GroupLayout.PREFERRED_SIZE, 180, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
 									.addComponent(credentialClearButton))
-								.addComponent(stopButton, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
-								.addComponent(startButton, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE))
+								.addComponent(stopButton, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
+								.addComponent(startButton, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE))
 							.addGap(50, 50, 50))
 						.addGroup(layout.createSequentialGroup()
 							.addGroup(layout.createParallelGroup()
 								.addComponent(saveButton)
 								.addComponent(logLabel)
 								.addComponent(portLabel))
-							.addGap(0, 153, Short.MAX_VALUE))))
+							.addGap(0, 0, Short.MAX_VALUE))))
 		);
 		layout.setVerticalGroup(
 			layout.createParallelGroup()

@@ -199,68 +199,113 @@ public class ServerPanel extends JPanel
 			// TODO -> Receive filename
 			String filename = bufferedReader.readLine ();
 
+			// TODO -> Receive File-Options and Chunk-Size from Server
+			String [] fileInfo = bufferedReader.readLine ().split ( " && " );
+
 			// TODO -> Receive options
-			String options = bufferedReader.readLine ();
+			String options = fileInfo[0];
+
 			boolean asciiArmoring = options.startsWith ( "A" );
 			String fileOption = options.substring ( options.length () - 1 );
 
 			// TODO -> Receive Chunk Size
-			int chunkSize = Integer.parseInt ( bufferedReader.readLine () );
+			int chunkSize = Integer.parseInt ( fileInfo[1] );
 
 			stringBuilder.append ( "Server > Received \"" + filename + "\" with options \"" + options + "\" and chunk-size of \"" + chunkSize + "\"" );
 
 			ArrayList <Byte> transferredBytes = new ArrayList<> ();
-
 			String clientInput = "";
 
-			for ( boolean shouldContinue = true, retrying = false; shouldContinue; )
+			while ( ( clientInput = bufferedReader.readLine () ) != null )
 			{
-				if ( !retrying )
+				if ( clientInput.equals ( "FILE-DONE" ) )
 				{
-					clientInput = bufferedReader.readLine ();
+					System.out.println ( "Server > FILE-DONE" );
 
-					if ( clientInput.equals ( "FILE-DONE" ) )
-					{
-						shouldContinue = false;
-						continue;
-					}
+					break;
+				}
+				else if ( clientInput.equals ( "FILE-FAILED" ) )
+				{
+					System.out.println ( "Server > FILE-FAILED" );
+
+					logTextArea.append ( "\"" + filename + "\" failed to transfer" + "\n" );
+					return;
 				}
 
-				byte [] tempBytes = new byte [chunkSize];
+				// TODO -> Split Hash and Data into Separate Strings
+				String [] hashAndData = clientInput.split ( " && " );
 
-				// TODO -> Decode ASCII-Armored String, if ASCII-Armoring was requested
+				// TODO -> Get Client's Hash Value and Convert it to Bytes
+				String clientHashString = hashAndData[0];
+				byte [] clientHashBytes = Utility.stringToBytes ( clientHashString );
+
+				// TODO -> Get Client's String of Data Bytes
+				String clientDataString = hashAndData[1];
+
+				byte [] tempDataBytes;
+
+				// TODO -> Decode Data Bytes using ASCII-Armoring, if ASCII-Armoring was requested
 				if ( asciiArmoring )
 				{
-					System.out.println ( "Client > BASE64 > " + clientInput );
+					stringBuilder.append ( "\n" + "Server > BASE64 > " + clientDataString );
 
-					tempBytes = MIME.base64Decoding ( clientInput );
+					tempDataBytes = MIME.base64Decoding ( clientDataString );
 				}
-				// TODO -> If ASCII-Armoring is not request, process Bytes
+				// TODO -> If ASCII-Armoring is not request, process Data Bytes normally
 				else
 				{
-					String[] byteStrings = clientInput.replaceAll ( "[\\p{Punct}&&[^+-]]", "" ).split ( "\\p{Space}" );
-					for ( int count = 0; count < byteStrings.length; ++count)
-						tempBytes[count] = new Byte ( byteStrings[count] );
+					tempDataBytes = Utility.stringToBytes ( clientDataString );
 				}
 
-				// TODO -> Decrypt using XOR Cipher, is available
+				// TODO -> Decrypt using Hash Bytes and Data Bytes using XOR Cipher, is available
 				if ( xorKey != null )
 				{
-					System.out.println ( "Client > XOR Bytes > " + clientInput );
+					stringBuilder.append ( "\n" + "Server > XOR Bytes > " + clientDataString );
+					stringBuilder.append ( "\n" + "Server > XOR Hash Bytes > " + clientHashString );
 
-					tempBytes = XORCipher.decrypt ( tempBytes, xorKey );
-					clientInput = Arrays.toString ( tempBytes );
+					tempDataBytes = XORCipher.decrypt ( tempDataBytes, xorKey );
+					clientHashBytes = XORCipher.decrypt ( clientHashBytes, xorKey );
+
+					clientDataString = Arrays.toString ( tempDataBytes );
+					clientHashString = Arrays.toString ( clientHashBytes );
 				}
 
-				stringBuilder.append ( "\n" + "Server > Plain Bytes > " + clientInput );
+				// TODO -> Output the Plain ( Decrypted ) Hash Bytes and Data Bytes
+				stringBuilder.append ( "\n" + "Server > Plain Bytes > " + clientDataString );
+				stringBuilder.append ( "\n" + "Server > Plain Hash Bytes > " + clientHashString );
+
+				// TODO -> Compute Server-Side Hash Value ( Using Data Bytes ) and Compare With The Client-Hash-Value
+				// TODO -> If matching, proceed, but if not, then inform Client to retry
+				Long clientHashValue = Utility.bytesToLong ( clientHashBytes );
+				Long serverHashValue = Utility.hash ( tempDataBytes );
+
+				stringBuilder.append ( "\n" + "Server > Client's Plain Hash Value > " + clientHashValue );
+				stringBuilder.append ( "\n" + "Server > Plain Hash Value > " + serverHashValue + "\n" );
+
+				/*
+				if ( ! hashValue.equals ( clientHashValue ) )
+				{
+					System.out.println ( "Server > " + "RETRY" );
+					stringBuilder.append ( "\n" + "Server > " + "RETRY" );
+
+					printWriter.println ( "RETRY" );
+				}
+				else
+				{
+					System.out.println ( "Server > " + "SUCCESS" );
+					stringBuilder.append ( "\n" + "Server > " + "SUCCESS" );
+
+					printWriter.println ( "SUCCESS" );
+				}
+				*/
 
 				// TODO -> Store Bytes with all other transferred Bytes
-				for ( byte byteValue : tempBytes )
+				for ( byte byteValue : tempDataBytes )
 					transferredBytes.add ( byteValue );
 			}
 
 			System.out.println ( stringBuilder.toString () );
-			System.out.println ( "Server > DONE" );
+			System.out.println ( "Server > Finished Receiving Bytes" );
 
 			Path filePath = Paths.get ( saveToPath.toString (), filename );
 

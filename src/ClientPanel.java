@@ -1,4 +1,3 @@
-import javax.swing.border.*;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.BindingGroup;
@@ -17,6 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Date;
+
 /*
  * Created by JFormDesigner on Thu Jan 25 02:18:08 PST 2018
  */
@@ -147,39 +147,40 @@ public class ClientPanel extends JPanel
 
 				// TODO -> Get file options and send to Server
 				String fileOptions = ( armoringCheckBox.isSelected () ? "A" : "-" ) + ( copyRadioButton.isSelected () ? "C" : "O" );
-				printWriter.println ( fileOptions );
 
-				// TODO -> Send Chunk Size to Server
-				printWriter.println ( chunkSize );
+				// TODO -> Send File-Options and Chunk-Size to Server
+				printWriter.println ( fileOptions + " && " + chunkSize );
 
+				byte [] hashBytes;
 				byte [] bytes = new byte [chunkSize];
 
-				for ( boolean shouldContinue = true, retrying = false; shouldContinue; )
+				while ( fileInputStream.read ( bytes ) > 0 )
 				{
-					if ( !retrying )
-					{
-						int bytesRead = fileInputStream.read ( bytes );
+					// TODO -> Calculate Hash of Bytes
+					Long hashValue = Utility.hash ( bytes );
+					hashBytes = Utility.longToBytes ( hashValue );
 
-						if ( bytesRead < 0 )
-						{
-							shouldContinue = false;
-							continue;
-						}
-					}
+					String hashString = Arrays.toString ( hashBytes );
+					System.out.println ( "Client > Plain Hash Bytes > " + hashString );
 
+					// TODO -> Display Read Bytes
 					String stringOfBytes = Arrays.toString ( bytes );
 					System.out.println ( "Client > Plain Bytes > " + stringOfBytes );
 
-					// TODO -> Encrypt with XOR Key, if available
+					// TODO -> Encrypt Hash and Data Bytes with XOR Key, if available
 					if ( xorKey != null )
 					{
+						hashBytes = XORCipher.encrypt ( bytes, xorKey );
 						bytes = XORCipher.encrypt ( bytes, xorKey );
 
+						hashString = Arrays.toString ( hashBytes );
 						stringOfBytes = Arrays.toString ( bytes );
+
+						System.out.println ( "Client > XOR Hash Bytes > " + hashString );
 						System.out.println ( "Client > XOR Bytes > " + stringOfBytes );
 					}
 
-					// TODO -> Apply ASCII Armoring, if available
+					// TODO -> Apply ASCII Armoring to Data Bytes, if available
 					if ( armoringCheckBox.isSelected () )
 					{
 						stringOfBytes = MIME.base64Encoding ( bytes );
@@ -187,8 +188,43 @@ public class ClientPanel extends JPanel
 						System.out.println ( "Client > BASE64 > " + stringOfBytes );
 					}
 
-					// TODO -> Send String of Bytes to the Server ( Could be the ASCII-Armored String if requested )
-					printWriter.println ( stringOfBytes );
+					// TODO -> Send Hash Bytes and Data Bytes to the Server ( Data Bytes Could be in ASCII-Armored format if requested )
+					printWriter.println ( hashString + " && " + stringOfBytes );
+
+					// TODO -> Respond to Server's Data Integrity Response
+					/*
+					while ( !bufferedReader.ready () )
+					{
+						System.out.println ( "Client > Waiting for Server's Response" );
+					}
+						// TODO -> Wait for Server's Response
+
+					String serverResponse = bufferedReader.readLine ();
+					System.out.println ( "Client > Server Response > " + serverResponse );
+
+					if ( serverResponse.equals ( "RETRY" ) )
+					{
+						message = "File failed to transfer. Retry?";
+						int optionType = JOptionPane.showConfirmDialog ( getParent (), message,null, JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE );
+
+						if ( optionType == JOptionPane.NO_OPTION )
+						{
+							// TODO -> Print Cancellation message
+							System.out.println ( "Client > File transfer was cancelled" );
+
+							// TODO -> Inform Server of Cancellation
+							printWriter.println ( "FILE-FAILED" );
+
+							return;
+						}
+						else
+						{
+							// TODO -> Resend Hash value and Data Bytes
+							printWriter.println ( hashValue );
+							printWriter.println ( stringOfBytes );
+						}
+					}
+					*/
 				}
 
 				System.out.println ( "Client > Finished Writing Bytes" );
@@ -267,13 +303,22 @@ public class ClientPanel extends JPanel
 					for ( looping = true; looping; )
 					{
 						// TODO -> This is the Server telling us they are closing the connection
-						if ( bufferedReader.ready () && bufferedReader.readLine ().equals ( "QUIT" ) )
+						if ( bufferedReader.ready () )
 						{
-							looping = false;
+							String serverResponse = bufferedReader.readLine ();
 
-							// TODO -> Inform Client
-							message = "Server has terminated the connection";
-							JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.ERROR_MESSAGE );
+							if ( serverResponse.equals ( "QUIT" ) )
+							{
+								looping = false;
+
+								// TODO -> Inform Client
+								message = "Server has terminated the connection";
+								JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.ERROR_MESSAGE );
+							}
+							else
+							{
+								System.out.println ( "Client > Receive Response > " + serverResponse );
+							}
 						}
 					}
 				}

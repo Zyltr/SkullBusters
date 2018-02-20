@@ -4,38 +4,35 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {seq t {space :p:25:p, par t {seq l {comp fileTrasnferLabel:::p::p, space :0:0:x}, comp fileProgressBar::l::548:x, comp fileProgressLabel::l::548:x, comp cancelButton::l::548:x}, space :p:25:p}}"
-			"$verticalGroup": "par l {seq l {space :p:25:p, comp fileTrasnferLabel:::p::p, space s:::p, comp fileProgressBar:::p::p, space :::p, comp fileProgressLabel:::p::p, space ::112:x, comp cancelButton:::p::p, space :p:25:p}}"
+			"$horizontalGroup": "par l {seq t {space :p:25:p, par t {comp cancelButton::::408:x, comp progressBar1::l::408:x, seq l {comp transferLabel:::p::p, space :0:242:x}, comp progressLabel::l::408:x}, space :p:25:p}}"
+			"$verticalGroup": "par l {seq l {space :p:25:p, comp transferLabel:::p::p, space s:::p, comp progressBar1:::p::p, space s:::p, comp progressLabel:::p::p, space ::33:x, comp cancelButton:::p::p, space :p:25:p}}"
 		} ) {
 			name: "this"
-			"title": "Progress"
+			"defaultCloseOperation": 0
 			add( new FormComponent( "javax.swing.JLabel" ) {
-				name: "fileTrasnferLabel"
-				"text": "File Transfer Progress"
-				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 3, false )
-				auxiliary() {
-					"JavaCodeGenerator.variableLocal": true
-				}
+				name: "transferLabel"
+				"text": "Transfer Progress"
+				"font": new com.jformdesigner.model.SwingDerivedFont( null, 131073, 5, false )
 			} )
 			add( new FormComponent( "javax.swing.JProgressBar" ) {
-				name: "fileProgressBar"
+				name: "progressBar1"
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
-				name: "fileProgressLabel"
+				name: "progressLabel"
 				"text": "0 %"
-				"horizontalAlignment": 0
-				"font": new com.jformdesigner.model.SwingDerivedFont( null, 3, 3, false )
+				"font": new com.jformdesigner.model.SwingDerivedFont( null, 3, 0, false )
 				"foreground": new java.awt.Color( 153, 0, 0, 255 )
+				"horizontalAlignment": 0
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "cancelButton"
 				"text": "Cancel"
-				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 5, false )
+				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 3, false )
 				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cancelButtonActionPerformed", true ) )
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 0 )
-			"size": new java.awt.Dimension( 600, 300 )
+			"size": new java.awt.Dimension( 460, 230 )
 		} )
 	}
 }

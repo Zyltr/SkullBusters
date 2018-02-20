@@ -53,21 +53,6 @@ public class Utility
         return bytesString.toString ();
     }
 
-    // TODO -> Converts Bytes to String
-    // TODO -> [ 72,14, -1 ] -> "BinaryResult#1, ..."
-    public static String bytesToString ( byte... bytes )
-    {
-        StringBuilder stringBuilder = new StringBuilder ();
-
-        for ( byte aByte : bytes )
-        {
-            if ( stringBuilder.length () == 0 ) stringBuilder.append ( Byte.toString ( aByte ) );
-            else stringBuilder.append ( " " + Byte.toString ( aByte ) );
-        }
-
-        return stringBuilder.toString ();
-    }
-
     // TODO -> Convert Binary Text separated by whitespace to Bytes
     public static byte[] stringToBytes ( String stringOfBytes )
     {

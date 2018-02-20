@@ -215,15 +215,19 @@ public class ServerPanel extends JPanel
 
 			ArrayList <Byte> transferredBytes = new ArrayList<> ();
 			String clientInput;
+			boolean shouldRetry = false;
 
 			while ( ( clientInput = bufferedReader.readLine () ) != null )
 			{
-				if ( clientInput.equals ( "FILE-DONE" ) )
+				if ( clientInput.equals ( "BYTES-DONE" ) )
 				{
-					stringBuilder.append ( "\n" + "Server > FILE-DONE" );
+					stringBuilder.append ( "\n" + "Server > BYTES-DONE" );
 
 					break;
 				}
+
+				if ( shouldRetry )
+					continue;
 
 				// TODO -> Split Hash and Data into Separate Strings ( [ 0 ] is Hash and [ 1 ] is Data )
 				String [] hashAndData = clientInput.split ( " && " );
@@ -253,7 +257,7 @@ public class ServerPanel extends JPanel
 				// TODO -> Decrypt using Hash Bytes and Data Bytes using XOR Cipher, is available
 				if ( xorKey != null )
 				{
-					stringBuilder.append ( "\n" + "Server > XOR Bytes > " + clientDataString );
+					stringBuilder.append ( "\n" + "Server > XOR Data Bytes > " + clientDataString );
 					stringBuilder.append ( "\n" + "Server > XOR Hash Bytes > " + clientHashString );
 
 					tempDataBytes = XORCipher.decrypt ( tempDataBytes, xorKey );
@@ -264,7 +268,7 @@ public class ServerPanel extends JPanel
 				}
 
 				// TODO -> Output the Plain ( Decrypted ) Hash Bytes and Data Bytes
-				stringBuilder.append ( "\n" + "Server > Plain Bytes > " + clientDataString );
+				stringBuilder.append ( "\n" + "Server > Plain Data Bytes > " + clientDataString );
 				stringBuilder.append ( "\n" + "Server > Plain Hash Bytes > " + clientHashString );
 
 				// TODO -> Compute Server-Side Hash Value ( Using Data Bytes ) and Compare With The Client-Hash-Value
@@ -277,37 +281,26 @@ public class ServerPanel extends JPanel
 
 				if ( serverHashValue.longValue () != clientHashValue.longValue () )
 				{
-					stringBuilder.append ( "\n" + "Server > Hash Comparison Result > RETRY" + "\n" );
+					stringBuilder.append ( "\n" + "Server > Hash Comparison Result > RETRYING" + "\n" );
 
 					logTextArea.append ( "\"" + filename + "\" failed to transfer" + "\n" );
-					stringBuilder.append ( "\"" + filename + "\" failed to transfer" + "\n" );
-				}
-				else
-				{
-					stringBuilder.append ( "\n" + "Server > Hash Comparison Result > SUCCESS" + "\n" );
-				}
+					stringBuilder.append ( "Server > \"" + filename + "\" failed to transfer" + "\n" );
 
-				/*
-				if ( ! serverHashValue.equals ( clientHashValue ) )
-				{
-					System.out.println ( "Server > " + "RETRY" );
+					System.out.println ( stringBuilder.toString () );
 
-					stringBuilder.append ( "\n" + "Server > " + "RETRYING" + "\n" );
-					logTextArea.append ( "\"" + filename + "\" failed to transfer" + "\n" );
-
-					printWriter.println ( "RETRY" );
-
-					return;
+					shouldRetry = true;
+					continue;
 				}
-				else
-				{
-					stringBuilder.append ( "\n" + "Server > " + "SUCCESS" + "\n" );
-				}
-				*/
 
 				// TODO -> Store Bytes with all other transferred Bytes
 				for ( byte byteValue : tempDataBytes )
 					transferredBytes.add ( byteValue );
+			}
+
+			if ( shouldRetry )
+			{
+				printWriter.println ( "FILE-RETRY" );
+				return;
 			}
 
 			System.out.println ( stringBuilder.toString () );
@@ -345,6 +338,8 @@ public class ServerPanel extends JPanel
 					break;
 				}
 			}
+
+			printWriter.println ( "FILE-SUCCESS" );
 		}
 		catch ( IOException ioe )
 		{

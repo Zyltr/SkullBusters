@@ -1,11 +1,11 @@
-JFDML JFormDesigner: "7.0.0.0.58" Java: "1.8.0_144" encoding: "UTF-8"
+JFDML JFormDesigner: "7.0.0.0.58" Java: "9.0.4" encoding: "UTF-8"
 
 new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 			"$horizontalGroup": "par l {seq l {space :p:25:p, par l {seq {comp staticStatusLabel:::p::p, space :::x}, seq t {par t {seq t {comp xorButton:::p:160:p, space :::x, comp xorClearButton:::p::p}, comp portTextField::l::0:x, comp logScrollPane::l::0:x, comp saveScrollPane::l::0:x, comp xorScrollPane::l::0:x, comp credentialScrollPane::l::0:x, comp dynamicStatusLabel::l::0:x, seq l {comp credentialButton:::p:180:p, space ::66:x, comp credentialClearButton:::p::p}, comp stopButton::l::0:x, comp startButton::t::0:x}, space :p:50:p}, seq {par l {comp saveButton:::p::p, comp logLabel:::p::p, comp portLabel:::p::p}, space :0:0:x}}}}"
-			"$verticalGroup": "par l {seq l {space :p:25:p, comp staticStatusLabel:::p::p, space s:::p, comp dynamicStatusLabel:::p::p, space s:::p, par b {comp credentialClearButton::b:p::p, comp credentialButton::b:p::p}, space s:::p, comp credentialScrollPane:::p:30:p, space s:::p, par b {comp xorButton::b:p::p, comp xorClearButton::b:p::p}, space s:::p, comp xorScrollPane:::p:28:p, space s:::p, comp saveButton:::p::p, space :p:18:p, comp saveScrollPane:::p:31:p, space s:::p, comp portLabel:::p::p, space s:::p, comp portTextField:::p:32:p, space :p:18:p, comp logLabel:::p::p, space s:::p, comp logScrollPane:::p:200:p, space ::39:x, comp startButton:::p::p, space :::p, comp stopButton:::p::p, space :p:25:p}}"
+			"$verticalGroup": "par l {seq l {space :p:25:p, comp staticStatusLabel:::p::p, space s:::p, comp dynamicStatusLabel:::p::p, space s:::p, par b {comp credentialClearButton::b:p::p, comp credentialButton::b:p::p}, space s:::p, comp credentialScrollPane:::p:31:p, space s:::p, par b {comp xorButton::b:p::p, comp xorClearButton::b:p::p}, space s:::p, comp xorScrollPane:::p:31:p, space s:::p, comp saveButton:::p::p, space :p:18:p, comp saveScrollPane:::p:31:p, space s:::p, comp portLabel:::p::p, space s:::p, comp portTextField:::p:32:p, space :p:18:p, comp logLabel:::p::p, space s:::p, comp logScrollPane:::p:200:p, space ::35:x, comp startButton:::p::p, space :::p, comp stopButton:::p::p, space :p:25:p}}"
 		} ) {
 			name: "this"
 			"preferredSize": new java.awt.Dimension( 400, 900 )
@@ -27,7 +27,7 @@ new FormModel {
 				auxiliary() {
 					"JavaCodeGenerator.variableLocal": true
 				}
-				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "credentialsButtonActionPerformed", true ) )
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "credentialsButtonActionPerformed", false ) )
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "saveButton"
@@ -38,19 +38,22 @@ new FormModel {
 				auxiliary() {
 					"JavaCodeGenerator.variableLocal": true
 				}
-				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "saveToButtonActionPerformed", true ) )
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "saveToButtonActionPerformed", false ) )
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "startButton"
 				"text": "Start"
 				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 5, false )
-				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "startButtonActionPerformed", true ) )
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "startButtonActionPerformed", false ) )
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "stopButton"
 				"text": "Stop"
 				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 5, false )
-				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "stopButtonActionPerformed", true ) )
+				auxiliary() {
+					"JavaCodeGenerator.variableLocal": true
+				}
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "stopButtonActionPerformed", false ) )
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "portLabel"
@@ -66,6 +69,7 @@ new FormModel {
 				"border": new javax.swing.border.MatteBorder( 0, 0, 1, 0, new java.awt.Color( 204, 204, 204, 255 ) )
 				"foreground": new java.awt.Color( 153, 0, 0, 255 )
 				"font": new com.jformdesigner.model.SwingDerivedFont( null, 3, 0, false )
+				"columns": 1
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "dynamicStatusLabel"
@@ -85,6 +89,7 @@ new FormModel {
 				name: "logScrollPane"
 				"verticalScrollBarPolicy": 22
 				"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+				"autoscrolls": true
 				auxiliary() {
 					"JavaCodeGenerator.variableLocal": true
 				}
@@ -95,6 +100,8 @@ new FormModel {
 					"editable": false
 					"font": new com.jformdesigner.model.SwingDerivedFont( null, 3, 0, false )
 					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					"tabSize": 0
+					"columns": 1
 				} )
 			} )
 			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
@@ -112,6 +119,7 @@ new FormModel {
 					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
 					"tabSize": 0
 					"rows": 1
+					"columns": 1
 				} )
 			} )
 			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
@@ -140,7 +148,7 @@ new FormModel {
 				auxiliary() {
 					"JavaCodeGenerator.variableLocal": true
 				}
-				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "xorButtonActionPerformed", true ) )
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "xorButtonActionPerformed", false ) )
 			} )
 			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 				name: "xorScrollPane"
@@ -157,6 +165,7 @@ new FormModel {
 					"foreground": new java.awt.Color( 153, 0, 0, 255 )
 					"font": new com.jformdesigner.model.SwingDerivedFont( null, 3, 0, false )
 					"editable": false
+					"columns": 1
 				} )
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
@@ -167,7 +176,7 @@ new FormModel {
 				auxiliary() {
 					"JavaCodeGenerator.variableLocal": true
 				}
-				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "credentialClearButtonActionPerformed", true ) )
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "credentialClearButtonActionPerformed", false ) )
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "xorClearButton"
@@ -177,7 +186,7 @@ new FormModel {
 				auxiliary() {
 					"JavaCodeGenerator.variableLocal": true
 				}
-				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "xorClearButtonActionPerformed", true ) )
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "xorClearButtonActionPerformed", false ) )
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 0 )
@@ -185,16 +194,36 @@ new FormModel {
 		} )
 		addBindingGroup( new FormBindingGroup( class org.jdesktop.beansbinding.BindingGroup ) {
 			"name": "bindingGroup"
-			addBinding( new FormBinding( "startButton", "${!enabled}", "stopButton", "enabled" ) )
-			addBinding( new FormBinding( "startButton", "enabled", "saveButton", "enabled" ) )
-			addBinding( new FormBinding( "startButton", "enabled", "portTextField", "enabled" ) )
-			addBinding( new FormBinding( "startButton", "enabled", "saveTextArea", "enabled" ) )
-			addBinding( new FormBinding( "startButton", "enabled", "credentialTextArea", "enabled" ) )
-			addBinding( new FormBinding( "startButton", "enabled", "xorButton", "enabled" ) )
-			addBinding( new FormBinding( "startButton", "enabled", "credentialButton", "enabled" ) )
-			addBinding( new FormBinding( "startButton", "enabled", "xorTextArea", "enabled" ) )
-			addBinding( new FormBinding( "startButton", "enabled", "credentialClearButton", "enabled" ) )
-			addBinding( new FormBinding( "startButton", "enabled", "xorClearButton", "enabled" ) )
+			addBinding( new FormBinding( "startButton", "${!enabled}", "stopButton", "enabled" ) {
+				"updateStrategy": enum org.jdesktop.beansbinding.AutoBinding$UpdateStrategy READ
+			} )
+			addBinding( new FormBinding( "startButton", "enabled", "saveButton", "enabled" ) {
+				"updateStrategy": enum org.jdesktop.beansbinding.AutoBinding$UpdateStrategy READ
+			} )
+			addBinding( new FormBinding( "startButton", "enabled", "portTextField", "enabled" ) {
+				"updateStrategy": enum org.jdesktop.beansbinding.AutoBinding$UpdateStrategy READ
+			} )
+			addBinding( new FormBinding( "startButton", "enabled", "saveTextArea", "enabled" ) {
+				"updateStrategy": enum org.jdesktop.beansbinding.AutoBinding$UpdateStrategy READ
+			} )
+			addBinding( new FormBinding( "startButton", "enabled", "credentialTextArea", "enabled" ) {
+				"updateStrategy": enum org.jdesktop.beansbinding.AutoBinding$UpdateStrategy READ
+			} )
+			addBinding( new FormBinding( "startButton", "enabled", "xorButton", "enabled" ) {
+				"updateStrategy": enum org.jdesktop.beansbinding.AutoBinding$UpdateStrategy READ
+			} )
+			addBinding( new FormBinding( "startButton", "enabled", "credentialButton", "enabled" ) {
+				"updateStrategy": enum org.jdesktop.beansbinding.AutoBinding$UpdateStrategy READ
+			} )
+			addBinding( new FormBinding( "startButton", "enabled", "xorTextArea", "enabled" ) {
+				"updateStrategy": enum org.jdesktop.beansbinding.AutoBinding$UpdateStrategy READ
+			} )
+			addBinding( new FormBinding( "startButton", "enabled", "credentialClearButton", "enabled" ) {
+				"updateStrategy": enum org.jdesktop.beansbinding.AutoBinding$UpdateStrategy READ
+			} )
+			addBinding( new FormBinding( "startButton", "enabled", "xorClearButton", "enabled" ) {
+				"updateStrategy": enum org.jdesktop.beansbinding.AutoBinding$UpdateStrategy READ
+			} )
 		} )
 	}
 }

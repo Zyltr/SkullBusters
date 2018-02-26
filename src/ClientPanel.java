@@ -70,7 +70,7 @@ public class ClientPanel extends JPanel implements ThreadCompleteListener
 
             if ( failedAuthentication )
             {
-                disconnectButton.doClick();
+                disconnectButtonActionPerformed ();
             }
             else
             {
@@ -90,7 +90,7 @@ public class ClientPanel extends JPanel implements ThreadCompleteListener
 
         // TODO -> This Will Execute When the Server Requests Termination, not the Client
         if ( serverIsQuitting )
-            disconnectButton.doClick ();
+            disconnectButtonActionPerformed ();
     }
 
     private void startQuitThread ()

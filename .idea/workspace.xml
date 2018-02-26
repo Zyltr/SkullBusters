@@ -20,12 +20,29 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="ServerPanel.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ServerPanel.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ServerPanel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="625">
-              <caret line="654" column="0" lean-forward="false" selection-start-line="654" selection-start-column="0" selection-end-line="654" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="105">
+              <caret line="27" column="73" lean-forward="true" selection-start-line="27" selection-start-column="73" selection-end-line="27" selection-end-column="73" />
+              <folding>
+                <element signature="method#initComponents#0;class#ServerPanel#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ClientPanel.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/ClientPanel.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="489">
+              <caret line="93" column="5" lean-forward="true" selection-start-line="93" selection-start-column="5" selection-end-line="93" selection-end-column="5" />
+              <folding>
+                <element signature="method#ClientPanel#0;class#ClientPanel#0" expanded="false" />
+                <element signature="method#startQuitThread#0;class#ClientPanel#0" expanded="false" />
+                <element signature="method#xorButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+                <element signature="method#initComponents#0;class#ClientPanel#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -77,8 +94,8 @@
         <option value="$PROJECT_DIR$/src/ProgressBarDemo.java" />
         <option value="$PROJECT_DIR$/src/ProgressDialog.java" />
         <option value="$PROJECT_DIR$/src/AboutDialog.java" />
-        <option value="$PROJECT_DIR$/src/ClientPanel.java" />
         <option value="$PROJECT_DIR$/src/ServerPanel.java" />
+        <option value="$PROJECT_DIR$/src/ClientPanel.java" />
       </list>
     </option>
   </component>
@@ -108,10 +125,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
-      <pane id="Scratches" />
-      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -128,6 +141,10 @@
           <select />
         </subPane>
       </pane>
+      <pane id="AndroidView" />
+      <pane id="Scratches" />
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -333,11 +350,12 @@
       <workItem from="1519616289856" duration="72000" />
       <workItem from="1519634395102" duration="538000" />
       <workItem from="1519658962722" duration="684000" />
+      <workItem from="1519664687840" duration="65000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="265769000" />
+    <option name="totallyTimeSpent" value="265834000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -353,6 +371,7 @@
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32958034" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3282353" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -376,7 +395,6 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3285568" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32958034" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
@@ -406,7 +424,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="method#initComponents#0;class#ServerPanel#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -415,11 +435,10 @@
         <state relative-caret-position="135">
           <caret line="29" column="39" lean-forward="false" selection-start-line="29" selection-start-column="39" selection-end-line="29" selection-end-column="39" />
           <folding>
-            <element signature="imports" expanded="false" />
             <element signature="method#ClientPanel#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#notifyOfThreadComplete#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#startQuitThread#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#xorButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+            <element signature="method#initComponents#0;class#ClientPanel#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -428,7 +447,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="method#initComponents#0;class#ServerPanel#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -437,11 +458,10 @@
         <state relative-caret-position="135">
           <caret line="29" column="39" lean-forward="true" selection-start-line="29" selection-start-column="39" selection-end-line="29" selection-end-column="39" />
           <folding>
-            <element signature="imports" expanded="false" />
             <element signature="method#ClientPanel#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#notifyOfThreadComplete#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#startQuitThread#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#xorButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+            <element signature="method#initComponents#0;class#ClientPanel#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -450,7 +470,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="method#initComponents#0;class#ServerPanel#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -459,11 +481,10 @@
         <state relative-caret-position="3240">
           <caret line="237" column="66" lean-forward="true" selection-start-line="237" selection-start-column="66" selection-end-line="237" selection-end-column="66" />
           <folding>
-            <element signature="imports" expanded="false" />
             <element signature="method#ClientPanel#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#notifyOfThreadComplete#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#startQuitThread#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#xorButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+            <element signature="method#initComponents#0;class#ClientPanel#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -472,7 +493,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="method#initComponents#0;class#ServerPanel#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -481,11 +504,10 @@
         <state relative-caret-position="3570">
           <caret line="238" column="5" lean-forward="true" selection-start-line="238" selection-start-column="5" selection-end-line="238" selection-end-column="5" />
           <folding>
-            <element signature="imports" expanded="false" />
             <element signature="method#ClientPanel#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#notifyOfThreadComplete#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#startQuitThread#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#xorButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+            <element signature="method#initComponents#0;class#ClientPanel#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -494,7 +516,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="method#initComponents#0;class#ServerPanel#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -503,11 +527,10 @@
         <state relative-caret-position="225">
           <caret line="15" column="18" lean-forward="true" selection-start-line="15" selection-start-column="18" selection-end-line="15" selection-end-column="18" />
           <folding>
-            <element signature="imports" expanded="false" />
             <element signature="method#ClientPanel#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#notifyOfThreadComplete#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#startQuitThread#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#xorButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+            <element signature="method#initComponents#0;class#ClientPanel#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -516,7 +539,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="method#initComponents#0;class#ServerPanel#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -525,11 +550,10 @@
         <state relative-caret-position="3120">
           <caret line="232" column="5" lean-forward="true" selection-start-line="232" selection-start-column="5" selection-end-line="232" selection-end-column="5" />
           <folding>
-            <element signature="imports" expanded="false" />
             <element signature="method#ClientPanel#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#notifyOfThreadComplete#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#startQuitThread#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#xorButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+            <element signature="method#initComponents#0;class#ClientPanel#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -538,7 +562,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3315">
           <caret line="221" column="9" lean-forward="true" selection-start-line="221" selection-start-column="9" selection-end-line="221" selection-end-column="9" />
-          <folding />
+          <folding>
+            <element signature="method#initComponents#0;class#ServerPanel#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -547,11 +573,10 @@
         <state relative-caret-position="3555">
           <caret line="237" column="0" lean-forward="true" selection-start-line="237" selection-start-column="0" selection-end-line="237" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="false" />
             <element signature="method#ClientPanel#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#notifyOfThreadComplete#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#startQuitThread#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#xorButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+            <element signature="method#initComponents#0;class#ClientPanel#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -561,11 +586,10 @@
         <state relative-caret-position="1530">
           <caret line="123" column="0" lean-forward="true" selection-start-line="123" selection-start-column="0" selection-end-line="123" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="false" />
             <element signature="method#ClientPanel#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#notifyOfThreadComplete#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#startQuitThread#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#xorButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+            <element signature="method#initComponents#0;class#ClientPanel#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -574,7 +598,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2160">
           <caret line="144" column="54" lean-forward="true" selection-start-line="144" selection-start-column="54" selection-end-line="144" selection-end-column="54" />
-          <folding />
+          <folding>
+            <element signature="method#initComponents#0;class#ServerPanel#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -583,11 +609,10 @@
         <state relative-caret-position="2535">
           <caret line="192" column="5" lean-forward="true" selection-start-line="192" selection-start-column="5" selection-end-line="192" selection-end-column="5" />
           <folding>
-            <element signature="imports" expanded="false" />
             <element signature="method#ClientPanel#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#notifyOfThreadComplete#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#startQuitThread#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#xorButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+            <element signature="method#initComponents#0;class#ClientPanel#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -597,11 +622,10 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="false" />
             <element signature="method#ClientPanel#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#notifyOfThreadComplete#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#startQuitThread#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#xorButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+            <element signature="method#initComponents#0;class#ClientPanel#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -610,7 +634,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="method#initComponents#0;class#ServerPanel#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -619,11 +645,10 @@
         <state relative-caret-position="1605">
           <caret line="107" column="0" lean-forward="false" selection-start-line="107" selection-start-column="0" selection-end-line="107" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="false" />
             <element signature="method#ClientPanel#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#notifyOfThreadComplete#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#startQuitThread#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#xorButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+            <element signature="method#initComponents#0;class#ClientPanel#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -632,7 +657,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="method#initComponents#0;class#ServerPanel#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -641,11 +668,10 @@
         <state relative-caret-position="600">
           <caret line="51" column="8" lean-forward="false" selection-start-line="51" selection-start-column="8" selection-end-line="51" selection-end-column="8" />
           <folding>
-            <element signature="imports" expanded="false" />
             <element signature="method#ClientPanel#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#notifyOfThreadComplete#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#startQuitThread#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#xorButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+            <element signature="method#initComponents#0;class#ClientPanel#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -654,7 +680,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="method#initComponents#0;class#ServerPanel#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -663,11 +691,10 @@
         <state relative-caret-position="990">
           <caret line="77" column="35" lean-forward="false" selection-start-line="77" selection-start-column="35" selection-end-line="77" selection-end-column="35" />
           <folding>
-            <element signature="imports" expanded="false" />
             <element signature="method#ClientPanel#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#notifyOfThreadComplete#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#startQuitThread#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#xorButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+            <element signature="method#initComponents#0;class#ClientPanel#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -729,14 +756,7 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ProgressFrame.java" />
-    <entry file="file://$PROJECT_DIR$/src/ProgressBarDemo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="795">
-          <caret line="129" column="1" lean-forward="false" selection-start-line="129" selection-start-column="1" selection-end-line="129" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ProgressBarDemo.java" />
     <entry file="file://$PROJECT_DIR$/src/Skullbusters.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
@@ -753,19 +773,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ClientPanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="585" column="49" lean-forward="false" selection-start-line="585" selection-start-column="49" selection-end-line="585" selection-end-column="49" />
-          <folding>
-            <element signature="method#ClientPanel#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#notifyOfThreadComplete#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#startQuitThread#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#xorButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/ProgressDialog.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="28">
@@ -776,9 +783,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ServerPanel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="625">
-          <caret line="654" column="0" lean-forward="false" selection-start-line="654" selection-start-column="0" selection-end-line="654" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="105">
+          <caret line="27" column="73" lean-forward="true" selection-start-line="27" selection-start-column="73" selection-end-line="27" selection-end-column="73" />
+          <folding>
+            <element signature="method#initComponents#0;class#ServerPanel#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ClientPanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="489">
+          <caret line="93" column="5" lean-forward="true" selection-start-line="93" selection-start-column="5" selection-end-line="93" selection-end-column="5" />
+          <folding>
+            <element signature="method#ClientPanel#0;class#ClientPanel#0" expanded="false" />
+            <element signature="method#startQuitThread#0;class#ClientPanel#0" expanded="false" />
+            <element signature="method#xorButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+            <element signature="method#initComponents#0;class#ClientPanel#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

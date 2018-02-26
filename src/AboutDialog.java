@@ -37,7 +37,7 @@ public class AboutDialog extends JDialog
 		setName("aboutDialog");
 		setResizable(false);
 		setModal(true);
-		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		Container contentPane = getContentPane();
 
 		//======== bulldogPanel ========

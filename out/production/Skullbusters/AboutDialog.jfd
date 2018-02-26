@@ -12,7 +12,7 @@ new FormModel {
 			"name": "aboutDialog"
 			"resizable": false
 			"modal": true
-			"defaultCloseOperation": 0
+			"defaultCloseOperation": 2
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 				"$horizontalGroup": "par l {seq l {space :p:15:p, comp bulldogLabel:::p::p, space :p:15:p}}"
 				"$verticalGroup": "par l {seq t {space :p:15:p, comp bulldogLabel:::p::p, space :p:15:p}}"

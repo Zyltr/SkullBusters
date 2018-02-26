@@ -1,4 +1,3 @@
-import javax.swing.border.*;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.BindingGroup;
@@ -26,7 +25,7 @@ import java.util.*;
 */
 
 
-public class ServerPanel extends JPanel
+public class ServerPanel extends JPanel implements ThreadCompleteListener
 {
 	// TODO -> Debug Variables : Used for Debugging purposes only
 	private ArrayList<String> debugCredentials = new ArrayList<> ( Collections.singletonList ( "Debug : " ) );
@@ -48,10 +47,17 @@ public class ServerPanel extends JPanel
 	private PrintWriter printWriter = null;
 	private BufferedReader bufferedReader = null;
 
+	private NotifyingThread serverThread = null;
+	private NotifyingThread fileThread = null;
+	private NotifyingThread responseThread = null;
+
 	// TODO -> Useful for controlling Thread initiated by the "Start Server" Button
-	private volatile boolean looping = false;
+	private volatile boolean serverIsQuitting = false;
+
+	// TODO -> When Set, Tells Server to Restart if a Disconnect Occurs
 	private volatile boolean shouldRestartServer = false;
 
+	private volatile boolean clientIsQuitting = false;
 
 	public ServerPanel ()
 	{
@@ -77,6 +83,98 @@ public class ServerPanel extends JPanel
 				return "Directory";
 			}
 		} );
+	}
+
+
+	@Override
+	public void notifyOfThreadComplete ( final  Thread thread )
+	{
+		if ( thread == serverThread )
+		{
+			// TODO -> Remove Listener and Nullify Thread ( Not needed anymore )
+			serverThread.removeListener ( this );
+			serverThread = null;
+
+			// TODO -> Set This Flag When Server Socket Failed to be opened ( Typically due to an Exception )
+			// TODO -> Or User presses Disconnect before a connection could be made
+			if ( clientSocket == null )
+			{
+				serverIsQuitting = true;
+
+				logTextArea.append ( "Server decided to terminate connection" + "\n" );
+			}
+
+			if ( shouldRestartServer || serverIsQuitting )
+			{
+				stopButton.doClick ();
+			}
+			else
+			{
+				startResponseThread ();
+			}
+		}
+		else if ( thread == fileThread )
+		{
+			fileThread.removeListener ( this );
+			fileThread = null;
+		}
+		else if ( thread == responseThread )
+		{
+			responseThread.removeListener( this );
+			responseThread = null;
+
+			if ( clientIsQuitting )
+				stopButton.doClick ();
+		}
+	}
+
+	// TODO -> Waits For Input From The Client
+	private void startResponseThread ()
+	{
+		responseThread = new NotifyingThread() {
+			@Override
+			public void doRun() {
+				while ( !clientIsQuitting && !serverIsQuitting )
+				{
+					try
+					{
+						// TODO -> Only accept messages when Accepting File Thread is Null
+						// TODO -> If Accepting File Thread is not Null, then a File is being Processed
+						if ( fileThread == null && bufferedReader.ready () )
+						{
+							String serverInput = bufferedReader.readLine ();
+
+							System.out.println ( "Server > Received Message \"" + serverInput + "\"" );
+
+							// TODO -> Client has sent Quit message.
+							if ( serverInput.equals ( "CLIENT-QUIT" ) )
+							{
+								// TODO -> Update Log
+								String clientHostAddress = clientSocket.getInetAddress ().getHostAddress ();
+								logTextArea.append ( clientHostAddress + " has decided to close the connection" + "\n" );
+
+								// TODO -> Set Flags
+								clientIsQuitting = true;
+								shouldRestartServer = true;
+							}
+							// TODO -> Client has sent File message
+							else if ( serverInput.equals ("CLIENT-FILE") )
+							{
+								System.out.println ( "Server > Processing File Request" );
+								startFileThread ();
+							}
+						}
+					}
+					catch ( IOException ioe )
+					{
+						ioe.printStackTrace ();
+					}
+				}
+			}
+		};
+
+		responseThread.addListener( this );
+		responseThread.start();
 	}
 
 
@@ -190,162 +288,166 @@ public class ServerPanel extends JPanel
 	}
 
 
-	private void processFileRequest ()
+	private void startFileThread ()
 	{
-		try
-		{
-			StringBuilder stringBuilder = new StringBuilder ( );
-
-			// TODO -> Receive filename
-			String filename = bufferedReader.readLine ();
-
-			// TODO -> Receive File-Options and Chunk-Size from Server
-			String [] fileInfo = bufferedReader.readLine ().split ( " && " );
-
-			// TODO -> Receive options
-			String options = fileInfo[0];
-
-			boolean asciiArmoring = options.startsWith ( "A" );
-			String fileOption = options.substring ( options.length () - 1 );
-
-			// TODO -> Receive Chunk Size
-			int chunkSize = Integer.parseInt ( fileInfo[1] );
-
-			stringBuilder.append ( "Server > Received \"" + filename + "\" with options \"" + options + "\" and chunk-size of \"" + chunkSize + "\"" );
-
-			ArrayList <Byte> transferredBytes = new ArrayList<> ();
-			String clientInput;
-			boolean shouldRetry = false;
-
-			while ( ( clientInput = bufferedReader.readLine () ) != null )
-			{
-				if ( clientInput.equals ( "BYTES-DONE" ) )
+		fileThread = new NotifyingThread() {
+			@Override
+			public void doRun() {
+				try
 				{
-					stringBuilder.append ( "\n" + "Server > BYTES-DONE" );
+					// TODO -> Receive filename
+					String filename = bufferedReader.readLine ();
 
-					break;
-				}
+					// TODO -> Receive File-Options and Chunk-Size from Server
+					String [] fileInfo = bufferedReader.readLine ().split ( " && " );
 
-				if ( shouldRetry )
-					continue;
+					// TODO -> Receive options
+					String options = fileInfo[0];
 
-				// TODO -> Split Hash and Data into Separate Strings ( [ 0 ] is Hash and [ 1 ] is Data )
-				String [] hashAndData = clientInput.split ( " && " );
+					// TODO -> Receive size of file in Bytes
+					Long sizeOfFile = new Long ( fileInfo[1] );
 
-				// TODO -> Get Client's Hash Value and Convert it to Bytes
-				String clientHashString = hashAndData[0];
-				byte [] clientHashBytes = Utility.stringToBytes ( clientHashString );
+					boolean asciiArmoring = options.startsWith ( "A" );
+					String fileOption = options.substring ( options.length () - 1 );
 
-				// TODO -> Get Client's String of Data Bytes
-				String clientDataString = hashAndData[1];
+					// TODO -> Receive Chunk Size
+					int chunkSize = Integer.parseInt ( fileInfo[2] );
 
-				byte [] tempDataBytes;
+					System.out.println ( "Server > Received \"" + filename + "\" with options \"" + options + "\" of size \"" + sizeOfFile + "\" in bytes and chunk-size of \"" + chunkSize + "\"" );
 
-				// TODO -> Decode Data Bytes using ASCII-Armoring, if ASCII-Armoring was requested
-				if ( asciiArmoring )
-				{
-					stringBuilder.append ( "\n" + "Server > BASE64 > " + clientDataString );
+					byte [] dataBytes = new byte [sizeOfFile.intValue()];
+					int counter = 0;
 
-					tempDataBytes = MIME.base64Decoding ( clientDataString );
-				}
-				// TODO -> If ASCII-Armoring is not request, process Data Bytes normally
-				else
-				{
-					tempDataBytes = Utility.stringToBytes ( clientDataString );
-				}
+					String clientInput;
 
-				// TODO -> Decrypt using Hash Bytes and Data Bytes using XOR Cipher, is available
-				if ( xorKey != null )
-				{
-					stringBuilder.append ( "\n" + "Server > XOR Data Bytes > " + clientDataString );
-					stringBuilder.append ( "\n" + "Server > XOR Hash Bytes > " + clientHashString );
-
-					tempDataBytes = XORCipher.decrypt ( tempDataBytes, xorKey );
-					clientHashBytes = XORCipher.decrypt ( clientHashBytes, xorKey );
-
-					clientDataString = Arrays.toString ( tempDataBytes );
-					clientHashString = Arrays.toString ( clientHashBytes );
-				}
-
-				// TODO -> Output the Plain ( Decrypted ) Hash Bytes and Data Bytes
-				stringBuilder.append ( "\n" + "Server > Plain Data Bytes > " + clientDataString );
-				stringBuilder.append ( "\n" + "Server > Plain Hash Bytes > " + clientHashString );
-
-				// TODO -> Compute Server-Side Hash Value ( Using Data Bytes ) and Compare With The Client-Hash-Value
-				// TODO -> If matching, proceed, but if not, then inform Client to retry
-				Long clientHashValue = Utility.bytesToLong ( clientHashBytes );
-				Long serverHashValue = Utility.hash ( tempDataBytes );
-
-				stringBuilder.append ( "\n" + "Server > Client's Plain Hash Value > " + clientHashValue );
-				stringBuilder.append ( "\n" + "Server > Plain Hash Value > " + serverHashValue );
-
-				if ( serverHashValue.longValue () != clientHashValue.longValue () )
-				{
-					stringBuilder.append ( "\n" + "Server > Hash Comparison Result > RETRYING" + "\n" );
-
-					logTextArea.append ( "\"" + filename + "\" failed to transfer" + "\n" );
-					stringBuilder.append ( "Server > \"" + filename + "\" failed to transfer" + "\n" );
-
-					System.out.println ( stringBuilder.toString () );
-
-					shouldRetry = true;
-					continue;
-				}
-
-				// TODO -> Store Bytes with all other transferred Bytes
-				for ( byte byteValue : tempDataBytes )
-					transferredBytes.add ( byteValue );
-			}
-
-			if ( shouldRetry )
-			{
-				printWriter.println ( "FILE-RETRY" );
-				return;
-			}
-
-			System.out.println ( stringBuilder.toString () );
-			System.out.println ( "Server > Finished Receiving Bytes" + "\n" );
-
-			Path filePath = Paths.get ( saveToPath.toString (), filename );
-
-			byte [] fileBytes = new byte [transferredBytes.size ()];
-			for ( int count = 0; count < transferredBytes.size (); ++count )
-				fileBytes[count] = transferredBytes.get ( count );
-
-			switch ( fileOption )
-			{
-				case "C":
-				{
-					if ( Files.exists ( filePath ) )
+					while ( !serverIsQuitting && ( clientInput = bufferedReader.readLine () ) != null )
 					{
-						int lastPeriod = filename.lastIndexOf ( "." );
-						filename = filename.substring ( 0, lastPeriod ) + "@" + ( new Date () ) + "." + filename.substring ( lastPeriod + 1 );
-						filePath = Paths.get ( saveToPath.toString (), filename );
+						if ( clientInput.equals ( "BYTES-DONE" ) )
+						{
+							System.out.println ( "Server > File > BYTES-DONE" );
+
+							break;
+						}
+						else if ( clientInput.equals ( "FILE-CANCELLED" ) )
+						{
+							System.out.println ( "Transfer of file \"" + filename + "\" was cancelled" );
+							logTextArea.append ( "Transfer of file \"" + filename + "\" was cancelled" );
+
+							return;
+						}
+
+						// TODO -> Split Hash and Data into Separate Strings ( [ 0 ] is Hash and [ 1 ] is Data )
+						String [] hashAndData = clientInput.split ( " && " );
+
+						// TODO -> Get Client's Hash Value and Convert it to Bytes
+						String clientHashString = hashAndData[0];
+						byte [] clientHashBytes = Utility.stringToBytes ( clientHashString );
+
+						// TODO -> Get Client's String of Data Bytes
+						String clientDataString = hashAndData[1];
+
+						byte [] tempDataBytes;
+
+						// TODO -> Decode Data Bytes using ASCII-Armoring, if ASCII-Armoring was requested
+						if ( asciiArmoring )
+						{
+							System.out.println ("Server > BASE64 > " + clientDataString );
+
+							tempDataBytes = MIME.base64Decoding ( clientDataString );
+						}
+						// TODO -> If ASCII-Armoring is not request, process Data Bytes normally
+						else
+						{
+							tempDataBytes = Utility.stringToBytes ( clientDataString );
+						}
+
+						// TODO -> Decrypt using Hash Bytes and Data Bytes using XOR Cipher, is available
+						if ( xorKey != null )
+						{
+							System.out.println ( "Server > XOR Data Bytes > " + clientDataString );
+							System.out.println ( "Server > XOR Hash Bytes > " + clientHashString );
+
+							tempDataBytes = XORCipher.decrypt ( tempDataBytes, xorKey );
+							clientHashBytes = XORCipher.decrypt ( clientHashBytes, xorKey );
+
+							clientDataString = Arrays.toString ( tempDataBytes );
+							clientHashString = Arrays.toString ( clientHashBytes );
+						}
+
+						// TODO -> Output the Plain ( Decrypted ) Hash Bytes and Data Bytes
+						System.out.println ( "Server > Plain Data Bytes > " + clientDataString );
+						System.out.println ( "Server > Plain Hash Bytes > " + clientHashString );
+
+						// TODO -> Compute Server-Side Hash Value ( Using Data Bytes ) and Compare With The Client-Hash-Value
+						// TODO -> If matching, proceed, but if not, then inform Client to retry
+						Long clientHashValue = Utility.bytesToLong ( clientHashBytes );
+						Long serverHashValue = Utility.hash ( tempDataBytes );
+
+						System.out.println ( "Server > Client's Plain Hash Value > " + clientHashValue );
+						System.out.println ( "Server > Plain Hash Value > " + serverHashValue );
+
+						Boolean identicalHash = serverHashValue.equals ( clientHashValue );
+
+						if ( !identicalHash )
+						{
+							System.out.println ("Server > Hash Comparison Result > FAILED" );
+
+							printWriter.println ( "SERVER-HASH-FAILED" );
+						}
+						else
+						{
+							System.out.println ("Server > Hash Comparison Result > SUCCESS" );
+
+							printWriter.println ( "SERVER-HASH-SUCCESS" );
+
+							// TODO -> Store Bytes with all other transferred Bytes
+							for ( byte byteValue : tempDataBytes )
+								if ( counter < dataBytes.length )
+									dataBytes[counter++] = byteValue;
+						}
 					}
 
-					Files.write ( filePath, fileBytes, StandardOpenOption.CREATE, StandardOpenOption.WRITE );
+					if ( !serverIsQuitting )
+					{
+						Path filePath = Paths.get ( saveToPath.toString (), filename );
 
-					logTextArea.append ( "\"" + filename + "\" was copied" + "\n" );
+						switch ( fileOption )
+						{
+							case "C":
+							{
+								if ( Files.exists ( filePath ) )
+								{
+									int lastPeriod = filename.lastIndexOf ( "." );
+									filename = filename.substring ( 0, lastPeriod ) + "@" + ( new Date () ) + "." + filename.substring ( lastPeriod + 1 );
+									filePath = Paths.get ( saveToPath.toString (), filename );
+								}
 
-					break;
+								Files.write ( filePath, dataBytes, StandardOpenOption.CREATE, StandardOpenOption.WRITE );
+
+								logTextArea.append ( "\"" + filename + "\" was copied" + "\n" );
+
+								break;
+							}
+							case "O":
+							{
+								Files.write ( filePath, dataBytes, StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING );
+
+								logTextArea.append ( "\"" + filename + "\" was overwritten" + "\n" );
+
+								break;
+							}
+						}
+					}
 				}
-				case "O":
+				catch ( IOException ioe )
 				{
-					Files.write ( filePath, fileBytes, StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING );
-
-					logTextArea.append ( "\"" + filename + "\" was overwritten" + "\n" );
-
-					break;
+					ioe.printStackTrace ();
 				}
 			}
+		};
 
-			printWriter.println ( "FILE-SUCCESS" );
-		}
-		catch ( IOException ioe )
-		{
-			String stackTrace = Arrays.toString ( ioe.getStackTrace () );
-			System.out.println ( "Server @ " + new Date () + " > " + stackTrace );
-		}
+		fileThread.addListener(this);
+		fileThread.start();
 	}
 
 
@@ -354,108 +456,85 @@ public class ServerPanel extends JPanel
 	{
 		// TODO -> The Thread that will manage the conversation between the Server and Client
 		// TODO -> Necessary because if not done as a separate thread, then it will block the main GUI Thread (Very Bad) (Will cause GUI to freeze)
-		new Thread ( () -> {
-			try
+		serverThread = new NotifyingThread () {
+			@Override
+			public void doRun ()
 			{
-				// TODO -> Parse Port. If not a valid Integer, Exception will be thrown
-				String portString = portTextField.getText ();
-				Integer port = Integer.parseInt ( portString );
-
-				// TODO -> Update GUI
-				dynamicStatusLabel.setText ( "Listening" );
-				startButton.setEnabled ( false );
-
-				// TODO -> Update Log to show Server is now Listening
-				logTextArea.append ( "Server is now listening" + "\n" );
-
-				// TODO -> Initialize Socket/Stream Variables
-				serverSocket = new ServerSocket ( port );
-				clientSocket = serverSocket.accept ();
-
-				printWriter = new PrintWriter ( clientSocket.getOutputStream (), true );
-				bufferedReader = new BufferedReader ( new InputStreamReader ( clientSocket.getInputStream () ) );
-
-				// TODO -> Receive Credentials from Client
-				String credentials = bufferedReader.readLine ();
-
-				// TODO -> Check to see if they match any of the stores Credentials
-				Boolean didPass = credentialsList.contains ( credentials ) || debugCredentials.contains ( credentials );
-
-				// TODO -> Return result fo Authentication
-				printWriter.println ( didPass );
-
-				if ( didPass )
+				try
 				{
-					// TODO -> Update GUI with new Status and log the Client's connection
-					dynamicStatusLabel.setText ( "Running" );
+					// TODO -> Parse Port. If not a valid Integer, Exception will be thrown
+					String portString = portTextField.getText ();
+					Integer port = Integer.parseInt ( portString );
 
-					String clientHostAddress = clientSocket.getInetAddress ().getHostAddress ();
-					logTextArea.append ( clientHostAddress + " has connected" + "\n" );
+					// TODO -> Update GUI
+					dynamicStatusLabel.setText ( "Listening" );
+					startButton.setEnabled ( false );
 
-					// TODO -> Start accepting data
-					for ( looping = true; looping; )
+					// TODO -> Update Log to show Server is now Listening
+					logTextArea.append ( "Server is now listening" + "\n" );
+
+					// TODO -> Initialize Socket/Stream Variables
+					serverSocket = new ServerSocket ( port );
+					clientSocket = serverSocket.accept ();
+
+					printWriter = new PrintWriter ( clientSocket.getOutputStream (), true );
+					bufferedReader = new BufferedReader ( new InputStreamReader ( clientSocket.getInputStream () ) );
+
+					// TODO -> Try to Authenticate Client
+					String credentials = bufferedReader.readLine ();
+
+					// TODO -> Check to see if they match any of the stored Credentials
+					boolean validClient = credentialsList.contains ( credentials ) || debugCredentials.contains ( credentials );
+
+					if ( !validClient )
 					{
-						if ( bufferedReader.ready () )
-						{
-							String clientInput = bufferedReader.readLine ();
+						// TODO -> Send Failed Response to Client
+						printWriter.println ( "AUTH-FAILED" );
 
-							System.out.println ( "Server > Buffer is ready and contains \"" + clientInput + "\"" );
+						// TODO -> Set Flag to Restart Server for Next Client
+						shouldRestartServer = true;
 
-							// TODO -> If the Client sends a QUIT message, close the connection and restart the Server for the next connection
-							if ( clientInput.equals ( "QUIT" ) )
-							{
-								looping = false;
-								shouldRestartServer = true;
-								logTextArea.append ( clientHostAddress + " has decided to close the connection" + "\n" );
-							}
+						// TODO -> Log Failed Message to Log Text Area
+						String clientHostAddress = clientSocket.getInetAddress ().getHostAddress ();
+						logTextArea.append ( clientHostAddress + " tried to connect but failed authentication" + "\n" );
+					}
+					else
+					{
+						// TODO -> Send Success Response to Client
+						printWriter.println ( "AUTH-SUCCESS" );
 
-							// TODO -> Here, the Client is now beginning to send file data
-							else if ( clientInput.equals ( "FILE" ) )
-							{
-								processFileRequest ();
-							}
-						}
+						// TODO -> Log Success Message to Log Text Area
+						String clientHostAddress = clientSocket.getInetAddress ().getHostAddress ();
+						logTextArea.append ( clientHostAddress + " has connected" + "\n" );
+
+						// TODO -> Update GUI with new Status and log the Client's connection
+						dynamicStatusLabel.setText ( "Running" );
+					}
+				}
+				catch ( IOException ioe )
+				{
+					// TODO -> Usually occurs when Port cannot be bound. E.g : Port 22 (SSH)
+					if ( ioe instanceof BindException )
+					{
+						message = "Port \"" + portTextField.getText () + "\" is not usable";
+						JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.ERROR_MESSAGE );
 					}
 
-					logTextArea.append ( clientHostAddress + " has disconnected." + "\n" );
+					ioe.printStackTrace ();
 				}
-
-				// TODO -> Authentication has failed, so restart the Server and let another person try to connect
-				else
+				catch ( NumberFormatException nfe )
 				{
-					shouldRestartServer = true;
-					logTextArea.append ( "Client failed authentication" + "\n" );
-				}
-			}
-			catch ( IOException ioe )
-			{
-				// TODO -> Usually occurs when Port cannot be bound. E.g : Port 22 (SSH)
-				if ( ioe instanceof BindException )
-				{
-					message = "Port \"" + portTextField.getText () + "\" is not usable";
+					// TODO -> Triggered when a Port is not a valid Integer. E.g : Port "Hello, World!"
+					message = "\"Port\" must be a number";
 					JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.ERROR_MESSAGE );
+
+					nfe.printStackTrace ();
 				}
+			}
+		};
 
-				String stackTrace = Arrays.toString ( ioe.getStackTrace () );
-				System.out.println ( "Server @ " + new Date () + " > " + stackTrace );
-			}
-			catch ( NumberFormatException nfe )
-			{
-				// TODO -> Triggered when a Port is not a valid Integer. E.g : Port "Hello, World!"
-				message = "\"Port\" must be a number";
-				JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.ERROR_MESSAGE );
-
-				String stackTrace = Arrays.toString ( nfe.getStackTrace () );
-				System.out.println ( "Server @ " + new Date () + " > " + stackTrace );
-			}
-			finally
-			{
-				// TODO -> This check occurs when a Client connects and disconnects
-				// TODO -> Rather than having to restart the Server manually, this will do it automatically
-				if ( shouldRestartServer )
-					stopButtonActionPerformed ( null );
-			}
-		} ).start ();
+		serverThread.addListener ( this );
+		serverThread.start ();
 	}
 
 
@@ -487,15 +566,22 @@ public class ServerPanel extends JPanel
 		}
 	}
 
+
 	// TODO -> Attempts to close any connections and tries to restore GUI for future connections
 	private void stopButtonActionPerformed ( ActionEvent actionEvent )
 	{
-		if ( looping )
+		// TODO -> This is called when Response Thread is active and Server presses Disconnect
+		if ( responseThread != null && !clientIsQuitting )
 		{
-			// TODO -> Alert Client that Server chose to close connection by sending "QUIT"
-			// TODO -> Setting "looping" to false stops Thread's Loop, and eventually ends the Thread
-			printWriter.println ( "QUIT" );
-			looping = false;
+			serverIsQuitting = true;
+
+			// TODO -> Message Client that Server is Quitting
+			if ( printWriter != null )
+			{
+				printWriter.println ( "SERVER-QUIT" );
+			}
+
+			logTextArea.append ( "Server decided to terminate connection" + "\n" );
 		}
 
 		try
@@ -504,15 +590,14 @@ public class ServerPanel extends JPanel
 		}
 		catch ( IOException ioe )
 		{
-			String stackTrace = Arrays.toString ( ioe.getStackTrace () );
-			System.out.println ( "Server @ " + new Date () + " > " + stackTrace );
+			ioe.printStackTrace ();
 		}
 
 		// TODO -> Restore GUI
 		dynamicStatusLabel.setText ( "Stopped" );
 		startButton.setEnabled ( true );
 
-		if ( actionEvent != null )
+		if ( !shouldRestartServer )
 		{
 			xorKey = null;
 
@@ -523,6 +608,12 @@ public class ServerPanel extends JPanel
 		}
 
 		logTextArea.append ( "Server was terminated " + "\n\n" );
+
+		if ( serverIsQuitting )
+			serverIsQuitting = false;
+
+		if ( clientIsQuitting )
+			clientIsQuitting = false;
 
 		// TODO -> Restart Server, if requested
 		if ( shouldRestartServer )

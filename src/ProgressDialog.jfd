@@ -4,18 +4,19 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {seq t {space :p:25:p, par t {comp cancelButton::::408:x, comp progressBar1::l::408:x, seq l {comp transferLabel:::p::p, space :0:242:x}, comp progressLabel::l::408:x}, space :p:25:p}}"
-			"$verticalGroup": "par l {seq l {space :p:25:p, comp transferLabel:::p::p, space s:::p, comp progressBar1:::p::p, space s:::p, comp progressLabel:::p::p, space ::33:x, comp cancelButton:::p::p, space :p:25:p}}"
+			"$horizontalGroup": "par l {seq l {space :p:25:p, par l {comp progressBar::::348:x, seq l {comp transferLabel:::p::p, space :0:182:x}, comp progressLabel::l::348:x, comp cancelButton::l::348:x}, space :p:25:p}}"
+			"$verticalGroup": "par l {seq l {space :p:25:p, comp transferLabel:::p::p, space s:::p, comp progressBar:::p::p, space :::p, comp progressLabel:::p::p, space ::15:x, comp cancelButton:::p::p, space :p:25:p}}"
 		} ) {
 			name: "this"
 			"defaultCloseOperation": 0
+			"modal": true
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "transferLabel"
 				"text": "Transfer Progress"
 				"font": new com.jformdesigner.model.SwingDerivedFont( null, 131073, 5, false )
 			} )
 			add( new FormComponent( "javax.swing.JProgressBar" ) {
-				name: "progressBar1"
+				name: "progressBar"
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "progressLabel"
@@ -32,7 +33,7 @@ new FormModel {
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 0 )
-			"size": new java.awt.Dimension( 460, 230 )
+			"size": new java.awt.Dimension( 400, 200 )
 		} )
 	}
 }

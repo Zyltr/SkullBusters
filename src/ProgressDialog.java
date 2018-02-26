@@ -1,7 +1,6 @@
-import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.GroupLayout;
+import java.awt.*;
+import java.awt.event.ActionEvent;
 /*
  * Created by JFormDesigner on Tue Feb 20 10:13:05 PST 2018
  */
@@ -18,8 +17,13 @@ public class ProgressDialog extends JDialog
     private void cancelButtonActionPerformed ( ActionEvent e )
     {
         // TODO -> Cancel File Transfer
-        System.out.println ( "Progress Dialog > Cancelled" );
         dispose ();
+    }
+
+    public void updateProgressBar ( int newValue )
+    {
+        progressBar.setValue ( newValue );
+        progressLabel.setText ( newValue + " %" );
     }
 
     private void initComponents ()
@@ -27,12 +31,13 @@ public class ProgressDialog extends JDialog
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
 		// Generated using JFormDesigner Evaluation license - Erik Huerta
 		transferLabel = new JLabel();
-		progressBar1 = new JProgressBar();
+		progressBar = new JProgressBar();
 		progressLabel = new JLabel();
 		cancelButton = new JButton();
 
 		//======== this ========
 		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+		setModal(true);
 		Container contentPane = getContentPane();
 
 		//---- transferLabel ----
@@ -54,15 +59,15 @@ public class ProgressDialog extends JDialog
 		contentPane.setLayout(contentPaneLayout);
 		contentPaneLayout.setHorizontalGroup(
 			contentPaneLayout.createParallelGroup()
-				.addGroup(GroupLayout.Alignment.TRAILING, contentPaneLayout.createSequentialGroup()
+				.addGroup(contentPaneLayout.createSequentialGroup()
 					.addGap(25, 25, 25)
-					.addGroup(contentPaneLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-						.addComponent(cancelButton, GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
-						.addComponent(progressBar1, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
-						.addGroup(GroupLayout.Alignment.LEADING, contentPaneLayout.createSequentialGroup()
+					.addGroup(contentPaneLayout.createParallelGroup()
+						.addComponent(progressBar, GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE)
+						.addGroup(contentPaneLayout.createSequentialGroup()
 							.addComponent(transferLabel)
-							.addGap(0, 242, Short.MAX_VALUE))
-						.addComponent(progressLabel, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE))
+							.addGap(0, 182, Short.MAX_VALUE))
+						.addComponent(progressLabel, GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE)
+						.addComponent(cancelButton, GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE))
 					.addGap(25, 25, 25))
 		);
 		contentPaneLayout.setVerticalGroup(
@@ -71,10 +76,10 @@ public class ProgressDialog extends JDialog
 					.addGap(25, 25, 25)
 					.addComponent(transferLabel)
 					.addGap(18, 18, 18)
-					.addComponent(progressBar1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(18, 18, 18)
+					.addComponent(progressBar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 					.addComponent(progressLabel)
-					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
 					.addComponent(cancelButton)
 					.addGap(25, 25, 25))
 		);
@@ -86,7 +91,7 @@ public class ProgressDialog extends JDialog
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
 	// Generated using JFormDesigner Evaluation license - Erik Huerta
 	private JLabel transferLabel;
-	private JProgressBar progressBar1;
+	private JProgressBar progressBar;
 	private JLabel progressLabel;
 	private JButton cancelButton;
     // JFormDesigner - End of variables declaration  //GEN-END:variables

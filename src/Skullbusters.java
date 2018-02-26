@@ -1,10 +1,11 @@
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.GroupLayout;
-
-import org.jdesktop.beansbinding.*;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
+import org.jdesktop.beansbinding.BeanProperty;
+import org.jdesktop.beansbinding.BindingGroup;
+import org.jdesktop.beansbinding.Bindings;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
 /*
  * Created by JFormDesigner on Thu Jan 25 00:54:42 PST 2018
  */

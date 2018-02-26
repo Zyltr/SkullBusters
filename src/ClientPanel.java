@@ -11,18 +11,17 @@ import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.*;
-import java.lang.reflect.InvocationTargetException;
 import java.net.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
-import java.util.Date;
+import java.util.Random;
 
 /*
  * Created by JFormDesigner on Thu Jan 25 02:18:08 PST 2018
  */
 
-public class ClientPanel extends JPanel
+public class ClientPanel extends JPanel implements ThreadCompleteListener
 {
     // TODO -> Used for JOptionPane messages
     private String message;
@@ -42,8 +41,14 @@ public class ClientPanel extends JPanel
     private PrintWriter printWriter = null;
     private BufferedReader bufferedReader = null;
 
+    private NotifyingThread connectThread = null;
+    private NotifyingThread quitThread = null;
+    private NotifyingThread fileTransferThread = null;
+
     // TODO -> Useful for controlling Thread initiated by the "Connect" Button
-    private volatile boolean looping = false;
+    private volatile boolean clientIsQuitting = false;
+    private volatile boolean serverIsQuitting = false;
+    private volatile boolean failedAuthentication = false;
 
     public ClientPanel ()
     {
@@ -54,6 +59,81 @@ public class ClientPanel extends JPanel
         fileChooser.setFileSelectionMode ( JFileChooser.FILES_ONLY );
     }
 
+
+    @Override
+    public void notifyOfThreadComplete ( final Thread thread )
+    {
+        if ( thread == connectThread )
+        {
+            connectThread.removeListener( this );
+            connectThread = null;
+
+            if ( failedAuthentication )
+            {
+                disconnectButton.doClick();
+            }
+            else
+            {
+                startQuitThread();
+            }
+        }
+        else if ( thread == quitThread )
+        {
+            quitThread.removeListener ( this );
+            quitThread = null;
+        }
+        else if ( thread == fileTransferThread )
+        {
+            fileTransferThread.removeListener ( this );
+            fileTransferThread = null;
+        }
+
+        // TODO -> This Will Execute When the Server Requests Termination, not the Client
+        if ( serverIsQuitting )
+            disconnectButton.doClick ();
+    }
+
+    private void startQuitThread ()
+    {
+        // TODO -> Begin the Thread that Will Only Listens For Server's Quit Message
+        quitThread = new NotifyingThread ()
+        {
+            @Override
+            public void doRun ()
+            {
+                while ( !clientIsQuitting && !serverIsQuitting )
+                {
+                    try
+                    {
+                        if ( fileTransferThread == null && bufferedReader.ready () )
+                        {
+                            String clientInput = bufferedReader.readLine ();
+
+                            System.out.println ( "Client > Received message \"" + clientInput + "\"" );
+
+                            if ( clientInput.equals ( "SERVER-QUIT" ) )
+                            {
+                                // TODO -> Set Server Quit Flag
+                                serverIsQuitting = true;
+
+                                // TODO -> Present Message to Client
+                                message = "Server has closed the connection";
+                                JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.INFORMATION_MESSAGE );
+                            }
+                        }
+                    }
+                    catch ( IOException ioe )
+                    {
+                        ioe.printStackTrace ();
+                    }
+                }
+            }
+        };
+
+        // TODO -> This Thread Will only Listen for the Server's Quit Response, Which May Never Happen
+        quitThread.addListener ( this );
+        quitThread.start ();
+    }
 
     // TODO -> Attempts to open file to be used as XOR-Key
     private void xorButtonActionPerformed ( ActionEvent e )
@@ -132,81 +212,161 @@ public class ClientPanel extends JPanel
     // TODO -> Tries to send file to Server
     private void sendFileButtonActionPerformed ( ActionEvent e )
     {
-        // TODO -> Send Files here
-        // TODO -> First, check to see that file path is a valid file
-        if ( filePath != null && Files.exists ( filePath ) && Files.isReadable ( filePath ) && printWriter != null )
+        ProgressDialog progressDialog = new ProgressDialog ( null );
+
+        fileTransferThread = new NotifyingThread ()
         {
-            try ( FileInputStream fileInputStream = new FileInputStream ( filePath.toFile () ) )
+            @Override
+            public void doRun ()
             {
-                // TODO -> Notify Server File will be sent
-                printWriter.println ( "FILE" );
-
-                // TODO -> Get filename and send to Server
-                String filename = filePath.getFileName ().toString ();
-                printWriter.println ( filename );
-
-                // TODO -> Get file options and send to Server
-                String fileOptions = ( armoringCheckBox.isSelected () ? "A" : "-" ) + ( copyRadioButton.isSelected () ? "C" : "O" );
-
-                // TODO -> Send File-Options and Chunk-Size to Server
-                printWriter.println ( fileOptions + " && " + chunkSize );
-
-                byte[] hashBytes, dataBytes = new byte[chunkSize];
-                String hashString, dataString;
-
-                while ( fileInputStream.read ( dataBytes ) > 0 )
+                // TODO -> Send Files here
+                // TODO -> First, check to see that file path is a valid file
+                if ( filePath != null && Files.exists ( filePath ) && Files.isReadable ( filePath ) )
                 {
-                    // TODO -> Calculate Hash of Bytes
-                    hashBytes = Utility.longToBytes ( Utility.hash ( dataBytes ) );
-
-                    hashString = Arrays.toString ( hashBytes );
-                    System.out.println ( "Client > Plain Hash Bytes > " + hashString );
-
-                    // TODO -> Display Read Bytes
-                    dataString = Arrays.toString ( dataBytes );
-                    System.out.println ( "Client > Plain Data Bytes > " + dataString );
-
-                    // TODO -> Encrypt Hash and Data Bytes with XOR Key, if available
-                    if ( xorKey != null )
+                    try ( FileInputStream fileInputStream = new FileInputStream ( filePath.toFile () ) )
                     {
-                        hashBytes = XORCipher.encrypt ( hashBytes, xorKey );
-                        dataBytes = XORCipher.encrypt ( dataBytes, xorKey );
+                        // TODO -> Inform Server a File is about to be Transferred
+                        printWriter.println ( "CLIENT-FILE" );
 
-                        hashString = Arrays.toString ( hashBytes );
-                        dataString = Arrays.toString ( dataBytes );
+                        // TODO -> Get filename and send to Server
+                        String filename = filePath.getFileName ().toString ();
+                        printWriter.println ( filename );
 
-                        System.out.println ( "Client > XOR Hash Bytes > " + hashString );
-                        System.out.println ( "Client > XOR Data Bytes > " + dataString );
+                        // TODO -> Get file options and send to Server
+                        String fileOptions = ( armoringCheckBox.isSelected () ? "A" : "-" ) + ( copyRadioButton.isSelected () ? "C" : "O" );
+
+                        // TODO -> Get Size of File in Bytes
+                        long sizeOfFile = fileInputStream.getChannel().size();
+
+                        // TODO -> Send File-Options and Chunk-Size to Server
+                        printWriter.println ( fileOptions + " && " + sizeOfFile + " && " + chunkSize );
+
+                        long fileSize = fileInputStream.getChannel ().size ();
+                        long bytesRead, totalBytesCurrentlyRead = 0;
+
+                        boolean retrying = false;
+                        byte[] hashBytes, dataBytes = new byte[chunkSize];
+                        String hashString = "", dataString = "";
+
+                        while ( !serverIsQuitting )
+                        {
+                            if ( retrying )
+                            {
+                                printWriter.println ( hashString + " && " + dataString );
+                            }
+                            else
+                            {
+                                if ( ( bytesRead = fileInputStream.read ( dataBytes ) ) < 0 )
+                                {
+                                    // TODO -> Inform Server Bytes are Done
+                                    printWriter.println ( "BYTES-DONE" );
+                                    break;
+                                }
+
+                                // TODO -> Calculate Hash of Bytes
+                                hashBytes = Utility.longToBytes ( Utility.hash ( dataBytes ) );
+
+                                hashString = Arrays.toString ( hashBytes );
+                                System.out.println ( "Client > Plain Hash Bytes > " + hashString );
+
+                                // TODO -> Display Read Bytes
+                                dataString = Arrays.toString ( dataBytes );
+                                System.out.println ( "Client > Plain Data Bytes > " + dataString );
+
+                                // TODO -> Encrypt Hash and Data Bytes with XOR Key, if available
+                                if ( xorKey != null )
+                                {
+                                    hashBytes = XORCipher.encrypt ( hashBytes, xorKey );
+                                    dataBytes = XORCipher.encrypt ( dataBytes, xorKey );
+
+                                    hashString = Arrays.toString ( hashBytes );
+                                    dataString = Arrays.toString ( dataBytes );
+
+                                    System.out.println ( "Client > XOR Hash Bytes > " + hashString );
+                                    System.out.println ( "Client > XOR Data Bytes > " + dataString );
+                                }
+
+                                // TODO -> Apply ASCII Armoring to Data Bytes, if available
+                                if ( armoringCheckBox.isSelected () )
+                                {
+                                    dataString = MIME.base64Encoding ( dataBytes );
+
+                                    System.out.println ( "Client > BASE64 > " + dataString );
+                                }
+
+                                if ( ! progressDialog.isShowing () )
+                                {
+                                    System.out.println ( "Client > Progress Bar was Closed Prematurely" );
+                                    printWriter.println ( "FILE-CANCELLED" );
+                                    return;
+                                }
+
+                                // TODO -> Send Hash Bytes and Data Bytes to the Server ( Data Bytes Could be in ASCII-Armored format if requested )
+                                printWriter.println ( hashString + " && " + dataString );
+
+                                // TODO -> Update Progress Bar
+                                totalBytesCurrentlyRead += bytesRead * 100;
+                                double percentage = totalBytesCurrentlyRead / fileSize;
+
+                                progressDialog.updateProgressBar (  ( int ) ( percentage )  );
+                            }
+
+                            // TODO -> Get Hash Result
+                            String dataIntegrityResult =  bufferedReader.readLine ();
+                            System.out.println ( "Client > Data Integrity Result > " + dataIntegrityResult );
+
+                            if ( dataIntegrityResult.equals ( "SERVER-HASH-FAILED" ) )
+                            {
+                                message = "File failed to transfer. Retry?";
+                                int optionType = JOptionPane.showConfirmDialog ( getParent (), message,null, JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE );
+
+                                if ( optionType == JOptionPane.YES_OPTION )
+                                {
+                                    System.out.println ( "Client > Retrying" );
+
+                                    retrying = true;
+                                }
+                                else
+                                {
+                                    System.out.println ( "Client > Cancelling File Transfer" );
+
+                                    printWriter.println ( "FILE-CANCELLED" );
+                                    return;
+                                }
+                            }
+                            else if ( dataIntegrityResult.equals ( "SERVER-HASH-SUCCESS" ) )
+                            {
+                                if ( retrying )
+                                    retrying = false;
+                            }
+                        }
+
+                        System.out.println ( "Client > Finished Writing Bytes" );
+
+                        message = "\"" + filename + "\" was successfully transferred";
+                        JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.INFORMATION_MESSAGE );
                     }
-
-                    // TODO -> Apply ASCII Armoring to Data Bytes, if available
-                    if ( armoringCheckBox.isSelected () )
+                    catch ( IOException ioe )
                     {
-                        dataString = MIME.base64Encoding ( dataBytes );
-
-                        System.out.println ( "Client > BASE64 > " + dataString );
+                        ioe.printStackTrace ();
                     }
-
-                    // TODO -> Send Hash Bytes and Data Bytes to the Server ( Data Bytes Could be in ASCII-Armored format if requested )
-                    printWriter.println ( hashString + " && " + dataString );
+                    finally
+                    {
+                        progressDialog.dispose ();
+                    }
                 }
-
-                System.out.println ( "Client > Finished Writing Bytes" );
-
-                printWriter.println ( "BYTES-DONE" );
+                else
+                {
+                    message = "File could not be found";
+                    JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.ERROR_MESSAGE );
+                }
             }
-            catch ( IOException ioe )
-            {
-                System.out.println ( "ERROR" );
-                String stackTrace = Arrays.toString ( ioe.getStackTrace () );
-                System.out.println ( "Client @ " + new Date () + " > " + stackTrace );
-            }
-        }
-        else
-        {
-            message = "File could not be found";
-            JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.ERROR_MESSAGE );
-        }
+        };
+
+        fileTransferThread.addListener ( this );
+        fileTransferThread.start ();
+
+        progressDialog.setVisible ( true );
     }
 
 
@@ -221,137 +381,103 @@ public class ClientPanel extends JPanel
     // TODO -> Ultimately, tries to connect to Server after performing many checks
     private void connectButtonActionPerformed ( ActionEvent e )
     {
-        new Thread ( () -> {
-            try
-            {
-                // TODO -> Get name of server
-                String host = serverTextField.getText ();
-
-                // TODO -> Parse Port. If not a valid Integer, Exception will be thrown
-                String portString = portTextField.getText ();
-                Integer port = Integer.parseInt ( portString );
-
-                // TODO -> Try to open Socket
-                serverSocket = new Socket ( host, port );
-
-                // TODO -> Create I/O which will be used for communication between the Client and Server
-                printWriter = new PrintWriter ( serverSocket.getOutputStream (), true );
-                bufferedReader = new BufferedReader ( new InputStreamReader ( serverSocket.getInputStream () ) );
-
-                // TODO -> Prepare Username and Password that will be sent to Server
-                String username = usernameTextField.getText ();
-                String password = new String ( passwordField.getPassword () );
-
-                String credentials = username + " : " + password;
-
-                // TODO -> Send Credentials to Server
-                printWriter.println ( credentials );
-
-                // TODO -> Read Authentication response
-                Boolean didPass = Boolean.valueOf ( bufferedReader.readLine () );
-
-                if ( didPass )
+        connectThread = new NotifyingThread() {
+            @Override
+            public void doRun() {
+                try
                 {
-                    // TODO -> Inform Client connection has been established
-                    message = "Connection established";
-                    JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.INFORMATION_MESSAGE );
+                    // TODO -> Get name of server
+                    String host = serverTextField.getText ();
 
-                    // TODO -> Update GUI
-                    dynamicStatusLabel.setText ( "Connected" );
-                    connectButton.setEnabled ( false );
+                    // TODO -> Parse Port. If not a valid Integer, Exception will be thrown
+                    String portString = portTextField.getText ();
+                    Integer port = Integer.parseInt ( portString );
 
-                    // TODO -> Create loop that will listen for the "QUIT" message from Server, if it ever occurs
-                    for ( looping = true; looping; )
+                    // TODO -> Try to open Socket
+                    serverSocket = new Socket ( host, port );
+
+                    // TODO -> Create I/O which will be used for communication between the Client and Server
+                    printWriter = new PrintWriter ( serverSocket.getOutputStream (), true );
+                    bufferedReader = new BufferedReader ( new InputStreamReader ( serverSocket.getInputStream () ) );
+
+                    // TODO -> Prepare Username and Password that will be sent to Server
+                    String username = usernameTextField.getText ();
+                    String password = new String ( passwordField.getPassword () );
+
+                    String credentials = username + " : " + password;
+
+                    // TODO -> Send Credentials to Server
+                    printWriter.println ( credentials );
+
+                    // TODO -> Read Authentication response
+                    boolean passedAuthentication =  bufferedReader.readLine ().equals ( "AUTH-SUCCESS" );
+
+                    if ( !passedAuthentication )
                     {
-                        // TODO -> This is the Server telling us they are closing the connection
-                        if ( bufferedReader.ready () )
-                        {
-                            String serverResponse = bufferedReader.readLine ();
-                            System.out.println ( "Client > Received Response > " + serverResponse );
+                        // TODO -> Update Failed Authentication Flag
+                        failedAuthentication = true;
 
-                            if ( serverResponse.equals ( "QUIT" ) )
-                            {
-                                looping = false;
+                        // TODO -> Authentication Failed so Inform Client
+                        message = "Authentication has failed";
+                        JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.ERROR_MESSAGE );
+                    }
+                    else
+                    {
+                        // TODO -> Update GUI to Reflect Connection Status
+                        dynamicStatusLabel.setText ( "Connected" );
+                        connectButton.setEnabled ( false );
 
-                                // TODO -> Inform Client
-                                message = "Server has terminated the connection";
-                                JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.ERROR_MESSAGE );
-                            }
-                            else if ( serverResponse.equals ( "FILE-RETRY" ) )
-                            {
-                                message = "File failed to transfer. Retry?";
-                                int optionType = JOptionPane.showConfirmDialog ( getParent (), message,null, JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE );
+                        // TODO -> Inform Client Connection Has Been Established
+                        String serverHostName = serverSocket.getInetAddress ().getHostName ();
 
-                                if ( optionType == JOptionPane.YES_OPTION )
-                                {
-                                    System.out.println ( "Client > Retrying" );
-
-                                    sendFileButtonActionPerformed ( null );
-                                }
-                                else
-                                {
-                                    System.out.println ( "Client > Cancelling File Transfer" );
-                                }
-                            }
-                            else if ( serverResponse.equals ( "FILE-SUCCESS" ) )
-                            {
-                                String filename = filePath.getFileName ().toString ();
-                                message = "\"" + filename + "\" was successfully transferred";
-                                JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.INFORMATION_MESSAGE );
-                            }
-                        }
+                        message = "Connection with " + serverHostName + " was established";
+                        JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.INFORMATION_MESSAGE );
                     }
                 }
-                else
+                catch ( IOException ioe )
                 {
-                    message = "Authentication has failed";
-                    JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.ERROR_MESSAGE );
-                }
-            }
-            catch ( IOException ioe )
-            {
-                // TODO -> Usually occurs when Port cannot be bound. E.g : Port 22 (SSH)
-                if ( ioe instanceof BindException )
-                {
-                    message = String.format ( "%s\n%s", "Bind Exception", "Port \"" + portTextField.getText () + "\" is not usable" );
-                    JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.ERROR_MESSAGE );
-                }
-                else if ( ioe instanceof NoRouteToHostException )
-                {
-                    message = String.format ( "%s\n%s", "No Route to Host Exception", "Host \"" + serverTextField.getText () + "\" is unreachable" );
-                    JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.ERROR_MESSAGE );
-                }
-                else if ( ioe instanceof ConnectException )
-                {
-                    message = String.format ( "%s\n%s", "Connect Exception", "Connection was refused" );
-                    JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.ERROR_MESSAGE );
-                }
-                else if ( ioe instanceof UnknownHostException )
-                {
-                    message = String.format ( "%s\n%s", "Unknown Host Exception", "Invalid hostname for \"Server\"" );
-                    JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.ERROR_MESSAGE );
-                }
-                else if ( ioe instanceof SocketException )
-                {
-                    message = "Network is unreachable";
-                    JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.ERROR_MESSAGE );
-                }
+                    // TODO -> Usually occurs when Port cannot be bound. E.g : Port 22 (SSH)
+                    if ( ioe instanceof BindException )
+                    {
+                        message = String.format ( "%s\n%s", "Bind Exception", "Port \"" + portTextField.getText () + "\" is not usable" );
+                        JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.ERROR_MESSAGE );
+                    }
+                    else if ( ioe instanceof NoRouteToHostException )
+                    {
+                        message = String.format ( "%s\n%s", "No Route to Host Exception", "Host \"" + serverTextField.getText () + "\" is unreachable" );
+                        JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.ERROR_MESSAGE );
+                    }
+                    else if ( ioe instanceof ConnectException )
+                    {
+                        message = String.format ( "%s\n%s", "Connect Exception", "Connection was refused" );
+                        JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.ERROR_MESSAGE );
+                    }
+                    else if ( ioe instanceof UnknownHostException )
+                    {
+                        message = String.format ( "%s\n%s", "Unknown Host Exception", "Invalid hostname for \"Server\"" );
+                        JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.ERROR_MESSAGE );
+                    }
+                    else if ( ioe instanceof SocketException )
+                    {
+                        message = "Network is unreachable";
+                        JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.ERROR_MESSAGE );
+                    }
 
-                System.out.println ( Arrays.toString ( ioe.getStackTrace () ) );
-            }
-            catch ( NumberFormatException nfe )
-            {
-                // TODO -> Triggered when a Port is not a valid Integer. E.g : Port "Hello, World!"
-                message = String.format ( "%s\n%s", "Number Format Exception", "\"Port\" must be a number." );
-                JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.ERROR_MESSAGE );
+                    ioe.printStackTrace ();
+                }
+                catch ( NumberFormatException nfe )
+                {
+                    // TODO -> Triggered when a Port is not a valid Integer. E.g : Port "Hello, World!"
+                    message = String.format ( "%s\n%s", "Number Format Exception", "\"Port\" must be a number." );
+                    JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.ERROR_MESSAGE );
 
-                System.out.println ( Arrays.toString ( nfe.getStackTrace () ) );
+                    nfe.printStackTrace ();
+                }
             }
-            finally
-            {
-                disconnectButtonActionPerformed ( null );
-            }
-        } ).start ();
+        };
+
+        connectThread.addListener( this );
+        connectThread.start();
     }
 
 
@@ -383,12 +509,12 @@ public class ClientPanel extends JPanel
     // TODO -> Attempts to close any connections and tries to restore GUI for future connections
     private void disconnectButtonActionPerformed ( ActionEvent actionEvent )
     {
-        if ( looping )
+        if ( quitThread != null && !serverIsQuitting )
         {
-            // TODO -> Alert Server that Client chose to close connection by sending "QUIT"
-            // TODO -> Setting "looping" to false stops Thread's Loop, and eventually ends the Thread.
-            printWriter.println ( "QUIT" );
-            looping = false;
+            clientIsQuitting = true;
+
+            if ( printWriter != null )
+                printWriter.println ( "CLIENT-QUIT" );
         }
 
         try
@@ -397,13 +523,27 @@ public class ClientPanel extends JPanel
         }
         catch ( IOException ioe )
         {
-            String stackTrace = Arrays.toString ( ioe.getStackTrace () );
-            System.out.println ( "Client @ " + new Date () + " > " + stackTrace );
+            ioe.printStackTrace ();
         }
 
         // TODO -> Restore GUI
         dynamicStatusLabel.setText ( "Stopped" );
         connectButton.setEnabled ( true );
+
+        if ( failedAuthentication )
+        {
+            failedAuthentication = false;
+        }
+
+        if ( clientIsQuitting )
+        {
+            clientIsQuitting = false;
+        }
+
+        if ( serverIsQuitting )
+        {
+            serverIsQuitting = false;
+        }
     }
 
 

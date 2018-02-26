@@ -1,10 +1,11 @@
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.GroupLayout;
-import javax.swing.border.*;
-
-import org.jdesktop.beansbinding.*;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
+import org.jdesktop.beansbinding.BeanProperty;
+import org.jdesktop.beansbinding.BindingGroup;
+import org.jdesktop.beansbinding.Bindings;
+
+import javax.swing.*;
+import javax.swing.border.BevelBorder;
+import java.awt.*;
 /*
  * Created by JFormDesigner on Sun Jan 28 21:23:50 PST 2018
  */

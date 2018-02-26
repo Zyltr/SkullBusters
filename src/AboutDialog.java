@@ -30,13 +30,14 @@ public class AboutDialog extends JDialog
 		JLabel memberLabel3 = new JLabel();
 		JLabel memberLabel4 = new JLabel();
 		JLabel memberLabel5 = new JLabel();
-		projectLabel = new JLabel();
+		JLabel projectLabel = new JLabel();
 
 		//======== this ========
 		setTitle("About Skullbusters");
 		setName("aboutDialog");
 		setResizable(false);
 		setModal(true);
+		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		Container contentPane = getContentPane();
 
 		//======== bulldogPanel ========
@@ -45,7 +46,7 @@ public class AboutDialog extends JDialog
 			bulldogPanel.setBorder(new BevelBorder(BevelBorder.RAISED));
 
 			//---- bulldogLabel ----
-			bulldogLabel.setIcon(new ImageIcon("/Users/Erik/IdeaProjects/Skullbusters/src/Images/Bulldog.jpg"));
+			bulldogLabel.setIcon(new ImageIcon("/Users/Erik/Documents/GitHub/Skullbusters/src/Images/Bulldog.jpg"));
 			bulldogLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
 			GroupLayout bulldogPanelLayout = new GroupLayout(bulldogPanel);
@@ -172,7 +173,6 @@ public class AboutDialog extends JDialog
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
 	// Generated using JFormDesigner Evaluation license - Erik Huerta
-	private JLabel projectLabel;
 	private BindingGroup bindingGroup;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 }

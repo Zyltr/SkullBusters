@@ -30,10 +30,10 @@ public class ProgressDialog extends JDialog
     {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
 		// Generated using JFormDesigner Evaluation license - Erik Huerta
-		transferLabel = new JLabel();
+		JLabel transferLabel = new JLabel();
 		progressBar = new JProgressBar();
 		progressLabel = new JLabel();
-		cancelButton = new JButton();
+		JButton cancelButton = new JButton();
 
 		//======== this ========
 		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -90,9 +90,7 @@ public class ProgressDialog extends JDialog
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
 	// Generated using JFormDesigner Evaluation license - Erik Huerta
-	private JLabel transferLabel;
 	private JProgressBar progressBar;
 	private JLabel progressLabel;
-	private JButton cancelButton;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 }

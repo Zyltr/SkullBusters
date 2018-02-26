@@ -35,9 +35,9 @@ public class Skullbusters extends JFrame
 		JScrollPane clientScrollPane = new JScrollPane ( new ClientPanel () );
 
 		//======== this ========
-		setName("frame");
 		setTitle("Skullbusters's FTP Tool");
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		setName("frame");
 		Container contentPane = getContentPane();
 
 		//======== menuBar ========

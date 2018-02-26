@@ -1,4 +1,4 @@
-JFDML JFormDesigner: "7.0.0.0.58" Java: "1.8.0_144" encoding: "UTF-8"
+JFDML JFormDesigner: "7.0.0.0.58" Java: "9.0.4" encoding: "UTF-8"
 
 new FormModel {
 	contentType: "form/swing"
@@ -12,6 +12,7 @@ new FormModel {
 			"name": "aboutDialog"
 			"resizable": false
 			"modal": true
+			"defaultCloseOperation": 0
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 				"$horizontalGroup": "par l {seq l {space :p:15:p, comp bulldogLabel:::p::p, space :p:15:p}}"
 				"$verticalGroup": "par l {seq t {space :p:15:p, comp bulldogLabel:::p::p, space :p:15:p}}"
@@ -24,7 +25,7 @@ new FormModel {
 				}
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "bulldogLabel"
-					"icon": new com.jformdesigner.model.SwingIcon( 1, "/Users/Erik/IdeaProjects/Skullbusters/src/Images/Bulldog.jpg" )
+					"icon": new com.jformdesigner.model.SwingIcon( 1, "/Users/Erik/Documents/GitHub/Skullbusters/src/Images/Bulldog.jpg" )
 					"horizontalAlignment": 0
 					auxiliary() {
 						"JavaCodeGenerator.variableLocal": true
@@ -95,6 +96,9 @@ new FormModel {
 				"text": "Cal Poly Pomona CS 380 Project"
 				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 5, false )
 				"horizontalAlignment": 0
+				auxiliary() {
+					"JavaCodeGenerator.variableLocal": true
+				}
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 0 )

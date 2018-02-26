@@ -106,7 +106,7 @@ public class ServerPanel extends JPanel implements ThreadCompleteListener
 
 			if ( shouldRestartServer || serverIsQuitting )
 			{
-				stopButton.doClick ();
+				stopButtonActionPerformed ();
 			}
 			else
 			{
@@ -124,7 +124,7 @@ public class ServerPanel extends JPanel implements ThreadCompleteListener
 			responseThread = null;
 
 			if ( clientIsQuitting )
-				stopButton.doClick ();
+				stopButtonActionPerformed ();
 		}
 	}
 
@@ -179,7 +179,7 @@ public class ServerPanel extends JPanel implements ThreadCompleteListener
 
 
 	// TODO -> Attempts to open Credentials file and populate Credentials ArrayList
-	private void credentialsButtonActionPerformed ( ActionEvent e )
+	private void credentialsButtonActionPerformed ()
 	{
 		// TODO -> Find credentials file that will be used by the Server ( Should be Strings )
 		JFileChooser fileChooser = new JFileChooser ( FileSystemView.getFileSystemView ().getDefaultDirectory () );
@@ -218,7 +218,7 @@ public class ServerPanel extends JPanel implements ThreadCompleteListener
 	}
 
 
-	private void credentialClearButtonActionPerformed(ActionEvent e)
+	private void credentialClearButtonActionPerformed()
 	{
 		// TODO -> Clear Credential Text Area
 		credentialTextArea.setText ( null );
@@ -226,7 +226,7 @@ public class ServerPanel extends JPanel implements ThreadCompleteListener
 
 
 	// TODO -> Attempts to open file to be used as XOR-Key
-	private void xorButtonActionPerformed ( ActionEvent e )
+	private void xorButtonActionPerformed ()
 	{
 		// TODO -> Load XOR Key file that will be used by the Server
 		JFileChooser fileChooser = new JFileChooser ( FileSystemView.getFileSystemView ().getDefaultDirectory () );
@@ -269,7 +269,7 @@ public class ServerPanel extends JPanel implements ThreadCompleteListener
 	}
 
 
-	private void xorClearButtonActionPerformed(ActionEvent e)
+	private void xorClearButtonActionPerformed()
 	{
 		// TODO -> Clear XOR Text Area
 		xorTextArea.setText ( null );
@@ -277,7 +277,7 @@ public class ServerPanel extends JPanel implements ThreadCompleteListener
 
 
 	// TODO -> Attempts to find new "Save To" path
-	private void saveToButtonActionPerformed ( ActionEvent e )
+	private void saveToButtonActionPerformed ()
 	{
 		if ( saveToFileChooser.showOpenDialog ( getParent () ) == JFileChooser.APPROVE_OPTION )
 		{
@@ -452,7 +452,7 @@ public class ServerPanel extends JPanel implements ThreadCompleteListener
 
 
 	// TODO -> As the name of the function implies, it performs many checks and if successful, starts the Server
-	private void startButtonActionPerformed ( ActionEvent e )
+	private void startButtonActionPerformed ()
 	{
 		// TODO -> The Thread that will manage the conversation between the Server and Client
 		// TODO -> Necessary because if not done as a separate thread, then it will block the main GUI Thread (Very Bad) (Will cause GUI to freeze)
@@ -568,7 +568,7 @@ public class ServerPanel extends JPanel implements ThreadCompleteListener
 
 
 	// TODO -> Attempts to close any connections and tries to restore GUI for future connections
-	private void stopButtonActionPerformed ( ActionEvent actionEvent )
+	private void stopButtonActionPerformed ()
 	{
 		// TODO -> This is called when Response Thread is active and Server presses Disconnect
 		if ( responseThread != null && !clientIsQuitting )
@@ -632,7 +632,7 @@ public class ServerPanel extends JPanel implements ThreadCompleteListener
 		JButton credentialButton = new JButton();
 		JButton saveButton = new JButton();
 		startButton = new JButton();
-		stopButton = new JButton();
+		JButton stopButton = new JButton();
 		JLabel portLabel = new JLabel();
 		portTextField = new JTextField();
 		dynamicStatusLabel = new JLabel();
@@ -662,24 +662,24 @@ public class ServerPanel extends JPanel implements ThreadCompleteListener
 		credentialButton.setFont(credentialButton.getFont().deriveFont(credentialButton.getFont().getStyle() | Font.BOLD, credentialButton.getFont().getSize() + 5f));
 		credentialButton.setHorizontalAlignment(SwingConstants.LEADING);
 		credentialButton.setToolTipText("Click");
-		credentialButton.addActionListener(e -> credentialsButtonActionPerformed(e));
+		credentialButton.addActionListener(e -> credentialsButtonActionPerformed());
 
 		//---- saveButton ----
 		saveButton.setText("Save-Files-To Path");
 		saveButton.setFont(saveButton.getFont().deriveFont(saveButton.getFont().getStyle() | Font.BOLD, saveButton.getFont().getSize() + 5f));
 		saveButton.setToolTipText("Click");
 		saveButton.setHorizontalAlignment(SwingConstants.LEADING);
-		saveButton.addActionListener(e -> saveToButtonActionPerformed(e));
+		saveButton.addActionListener(e -> saveToButtonActionPerformed());
 
 		//---- startButton ----
 		startButton.setText("Start");
 		startButton.setFont(startButton.getFont().deriveFont(startButton.getFont().getStyle() | Font.BOLD, startButton.getFont().getSize() + 5f));
-		startButton.addActionListener(e -> startButtonActionPerformed(e));
+		startButton.addActionListener(e -> startButtonActionPerformed());
 
 		//---- stopButton ----
 		stopButton.setText("Stop");
 		stopButton.setFont(stopButton.getFont().deriveFont(stopButton.getFont().getStyle() | Font.BOLD, stopButton.getFont().getSize() + 5f));
-		stopButton.addActionListener(e -> stopButtonActionPerformed(e));
+		stopButton.addActionListener(e -> stopButtonActionPerformed());
 
 		//---- portLabel ----
 		portLabel.setText("Port");
@@ -690,6 +690,7 @@ public class ServerPanel extends JPanel implements ThreadCompleteListener
 		portTextField.setBorder(new MatteBorder(0, 0, 1, 0, new Color(204, 204, 204)));
 		portTextField.setForeground(new Color(153, 0, 0));
 		portTextField.setFont(portTextField.getFont().deriveFont(Font.BOLD|Font.ITALIC));
+		portTextField.setColumns(1);
 
 		//---- dynamicStatusLabel ----
 		dynamicStatusLabel.setText("Stopped");
@@ -704,6 +705,7 @@ public class ServerPanel extends JPanel implements ThreadCompleteListener
 		{
 			logScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 			logScrollPane.setBorder(null);
+			logScrollPane.setAutoscrolls(true);
 
 			//---- logTextArea ----
 			logTextArea.setForeground(new Color(153, 0, 0));
@@ -711,6 +713,8 @@ public class ServerPanel extends JPanel implements ThreadCompleteListener
 			logTextArea.setEditable(false);
 			logTextArea.setFont(logTextArea.getFont().deriveFont(Font.BOLD|Font.ITALIC));
 			logTextArea.setBorder(null);
+			logTextArea.setTabSize(0);
+			logTextArea.setColumns(1);
 			logScrollPane.setViewportView(logTextArea);
 		}
 
@@ -726,6 +730,7 @@ public class ServerPanel extends JPanel implements ThreadCompleteListener
 			saveTextArea.setBorder(null);
 			saveTextArea.setTabSize(0);
 			saveTextArea.setRows(1);
+			saveTextArea.setColumns(1);
 			saveScrollPane.setViewportView(saveTextArea);
 		}
 
@@ -749,7 +754,7 @@ public class ServerPanel extends JPanel implements ThreadCompleteListener
 		xorButton.setFont(xorButton.getFont().deriveFont(xorButton.getFont().getStyle() | Font.BOLD, xorButton.getFont().getSize() + 5f));
 		xorButton.setToolTipText("Click");
 		xorButton.setHorizontalAlignment(SwingConstants.LEADING);
-		xorButton.addActionListener(e -> xorButtonActionPerformed(e));
+		xorButton.addActionListener(e -> xorButtonActionPerformed());
 
 		//======== xorScrollPane ========
 		{
@@ -763,6 +768,7 @@ public class ServerPanel extends JPanel implements ThreadCompleteListener
 			xorTextArea.setForeground(new Color(153, 0, 0));
 			xorTextArea.setFont(xorTextArea.getFont().deriveFont(Font.BOLD|Font.ITALIC));
 			xorTextArea.setEditable(false);
+			xorTextArea.setColumns(1);
 			xorScrollPane.setViewportView(xorTextArea);
 		}
 
@@ -770,13 +776,13 @@ public class ServerPanel extends JPanel implements ThreadCompleteListener
 		credentialClearButton.setText("Clear");
 		credentialClearButton.setFont(credentialClearButton.getFont().deriveFont(credentialClearButton.getFont().getStyle() | Font.BOLD));
 		credentialClearButton.setToolTipText("Click");
-		credentialClearButton.addActionListener(e -> credentialClearButtonActionPerformed(e));
+		credentialClearButton.addActionListener(e -> credentialClearButtonActionPerformed());
 
 		//---- xorClearButton ----
 		xorClearButton.setText("Clear");
 		xorClearButton.setFont(xorClearButton.getFont().deriveFont(xorClearButton.getFont().getStyle() | Font.BOLD));
 		xorClearButton.setToolTipText("Click");
-		xorClearButton.addActionListener(e -> xorClearButtonActionPerformed(e));
+		xorClearButton.addActionListener(e -> xorClearButtonActionPerformed());
 
 		GroupLayout layout = new GroupLayout(this);
 		setLayout(layout);
@@ -826,13 +832,13 @@ public class ServerPanel extends JPanel implements ThreadCompleteListener
 						.addComponent(credentialClearButton)
 						.addComponent(credentialButton))
 					.addGap(18, 18, 18)
-					.addComponent(credentialScrollPane, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+					.addComponent(credentialScrollPane, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
 					.addGap(18, 18, 18)
 					.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 						.addComponent(xorButton)
 						.addComponent(xorClearButton))
 					.addGap(18, 18, 18)
-					.addComponent(xorScrollPane, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
+					.addComponent(xorScrollPane, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
 					.addGap(18, 18, 18)
 					.addComponent(saveButton)
 					.addGap(18, 18, 18)
@@ -845,7 +851,7 @@ public class ServerPanel extends JPanel implements ThreadCompleteListener
 					.addComponent(logLabel)
 					.addGap(18, 18, 18)
 					.addComponent(logScrollPane, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
 					.addComponent(startButton)
 					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 					.addComponent(stopButton)
@@ -854,34 +860,34 @@ public class ServerPanel extends JPanel implements ThreadCompleteListener
 
 		//---- bindings ----
 		bindingGroup = new BindingGroup();
-		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
+		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ,
 			startButton, ELProperty.create("${!enabled}"),
 			stopButton, BeanProperty.create("enabled")));
-		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
+		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ,
 			startButton, BeanProperty.create("enabled"),
 			saveButton, BeanProperty.create("enabled")));
-		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
+		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ,
 			startButton, BeanProperty.create("enabled"),
 			portTextField, BeanProperty.create("enabled")));
-		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
+		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ,
 			startButton, BeanProperty.create("enabled"),
 			saveTextArea, BeanProperty.create("enabled")));
-		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
+		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ,
 			startButton, BeanProperty.create("enabled"),
 			credentialTextArea, BeanProperty.create("enabled")));
-		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
+		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ,
 			startButton, BeanProperty.create("enabled"),
 			xorButton, BeanProperty.create("enabled")));
-		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
+		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ,
 			startButton, BeanProperty.create("enabled"),
 			credentialButton, BeanProperty.create("enabled")));
-		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
+		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ,
 			startButton, BeanProperty.create("enabled"),
 			xorTextArea, BeanProperty.create("enabled")));
-		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
+		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ,
 			startButton, BeanProperty.create("enabled"),
 			credentialClearButton, BeanProperty.create("enabled")));
-		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
+		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ,
 			startButton, BeanProperty.create("enabled"),
 			xorClearButton, BeanProperty.create("enabled")));
 		bindingGroup.bind();
@@ -891,7 +897,6 @@ public class ServerPanel extends JPanel implements ThreadCompleteListener
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
 	// Generated using JFormDesigner Evaluation license - Erik Huerta
 	private JButton startButton;
-	private JButton stopButton;
 	private JTextField portTextField;
 	private JLabel dynamicStatusLabel;
 	private JTextArea logTextArea;

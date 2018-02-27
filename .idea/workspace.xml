@@ -20,13 +20,64 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="AboutDialog.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/AboutDialog.java">
+      <file leaf-file-name="ServerPanel.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/ServerPanel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="12" column="40" lean-forward="true" selection-start-line="12" selection-start-column="40" selection-end-line="12" selection-end-column="40" />
+            <state relative-caret-position="1110">
+              <caret line="291" column="35" lean-forward="true" selection-start-line="291" selection-start-column="35" selection-end-line="291" selection-end-column="35" />
               <folding>
-                <element signature="method#initComponents#0;class#AboutDialog#0" expanded="false" />
+                <element signature="method#ServerPanel#0;class#ServerPanel#0" expanded="false" />
+                <element signature="e#2577#2578#0" expanded="true" />
+                <element signature="e#2614#2615#0" expanded="true" />
+                <element signature="e#2668#2669#0" expanded="true" />
+                <element signature="e#2697#2698#0" expanded="true" />
+                <element signature="method#threadCompletedNotification#0;class#ServerPanel#0" expanded="false" />
+                <element signature="method#startResponseThread#0;class#ServerPanel#0" expanded="false" />
+                <element signature="e#3494#4789#0" expanded="true" />
+                <element signature="e#4788#4789#0" expanded="true" />
+                <element signature="method#credentialsButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+                <element signature="method#credentialClearButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+                <element signature="method#xorButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+                <element signature="method#xorClearButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+                <element signature="method#saveToButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+                <element signature="method#startFileThread#0;class#ServerPanel#0" expanded="false" />
+                <element signature="e#8738#14118#0" expanded="true" />
+                <element signature="e#14117#14118#0" expanded="true" />
+                <element signature="method#startButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+                <element signature="e#14429#17556#0" expanded="true" />
+                <element signature="e#17555#17556#0" expanded="true" />
+                <element signature="method#stopButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+                <element signature="e#17903#18014#0" expanded="false" />
+                <element signature="method#initComponents#0;class#ServerPanel#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ClientPanel.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/ClientPanel.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="23" column="75" lean-forward="true" selection-start-line="23" selection-start-column="75" selection-end-line="23" selection-end-column="75" />
+              <folding>
+                <element signature="method#ClientPanel#0;class#ClientPanel#0" expanded="false" />
+                <element signature="method#threadCompletedNotification#0;class#ClientPanel#0" expanded="false" />
+                <element signature="method#startQuitThread#0;class#ClientPanel#0" expanded="false" />
+                <element signature="e#2918#4218#0" expanded="true" />
+                <element signature="e#4217#4218#0" expanded="true" />
+                <element signature="method#xorButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+                <element signature="method#xorClearButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+                <element signature="method#fileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+                <element signature="method#fileClearButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+                <element signature="method#sendFileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+                <element signature="e#7220#14757#0" expanded="true" />
+                <element signature="e#14756#14757#0" expanded="true" />
+                <element signature="method#chunkSizeSliderStateChanged#0;class#ClientPanel#0" expanded="false" />
+                <element signature="method#connectButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+                <element signature="e#15330#20329#0" expanded="true" />
+                <element signature="e#20328#20329#0" expanded="true" />
+                <element signature="method#disconnectButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+                <element signature="method#initComponents#0;class#ClientPanel#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -38,6 +89,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Singleton" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -78,9 +130,14 @@
         <option value="$PROJECT_DIR$/src/ProgressFrame.java" />
         <option value="$PROJECT_DIR$/src/ProgressBarDemo.java" />
         <option value="$PROJECT_DIR$/src/ProgressDialog.java" />
-        <option value="$PROJECT_DIR$/src/ServerPanel.java" />
-        <option value="$PROJECT_DIR$/src/ClientPanel.java" />
         <option value="$PROJECT_DIR$/src/AboutDialog.java" />
+        <option value="$PROJECT_DIR$/src/ThreadCompletionListener.java" />
+        <option value="$PROJECT_DIR$/src/NotificationRunnable.java" />
+        <option value="$PROJECT_DIR$/src/TaskListener.java" />
+        <option value="$PROJECT_DIR$/src/NotificationThread.java" />
+        <option value="$PROJECT_DIR$/src/NotifyingThread.java" />
+        <option value="$PROJECT_DIR$/src/ClientPanel.java" />
+        <option value="$PROJECT_DIR$/src/ServerPanel.java" />
       </list>
     </option>
   </component>
@@ -90,7 +147,7 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6" fullScreen="true">
+  <component name="ProjectFrameBounds" fullScreen="true">
     <option name="width" value="1440" />
     <option name="height" value="900" />
   </component>
@@ -110,9 +167,10 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
+      <pane id="AndroidView" />
       <pane id="Scope" />
       <pane id="PackagesPane" />
-      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -129,7 +187,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -142,6 +199,11 @@
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -336,12 +398,14 @@
       <workItem from="1519634395102" duration="538000" />
       <workItem from="1519658962722" duration="684000" />
       <workItem from="1519664687840" duration="65000" />
-      <workItem from="1519664795068" duration="90000" />
+      <workItem from="1519664795068" duration="202000" />
+      <workItem from="1519670413953" duration="42000" />
+      <workItem from="1519670476117" duration="23830000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="265924000" />
+    <option name="totallyTimeSpent" value="289908000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -353,8 +417,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1440" height="900" extended-state="6" />
-    <editor active="true" />
+    <frame x="0" y="0" width="1440" height="900" extended-state="0" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32958034" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -364,13 +427,14 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31218013" sideWeight="0.5025543" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27529413" sideWeight="0.49744573" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31411764" sideWeight="0.49744573" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32958034" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24166666" sideWeight="0.4940476" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32958034" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Learn" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -383,7 +447,6 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32958034" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -402,7 +465,7 @@
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="41" />
+      <option name="time" value="47" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -412,75 +475,28 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="method#initComponents#0;class#ServerPanel#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ClientPanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="29" column="39" lean-forward="false" selection-start-line="29" selection-start-column="39" selection-end-line="29" selection-end-column="39" />
-          <folding>
-            <element signature="method#ClientPanel#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#startQuitThread#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#xorButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#initComponents#0;class#ClientPanel#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ServerPanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="method#initComponents#0;class#ServerPanel#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ClientPanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="29" column="39" lean-forward="true" selection-start-line="29" selection-start-column="39" selection-end-line="29" selection-end-column="39" />
-          <folding>
-            <element signature="method#ClientPanel#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#startQuitThread#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#xorButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#initComponents#0;class#ClientPanel#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ServerPanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="method#initComponents#0;class#ServerPanel#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ClientPanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3240">
-          <caret line="237" column="66" lean-forward="true" selection-start-line="237" selection-start-column="66" selection-end-line="237" selection-end-column="66" />
-          <folding>
-            <element signature="method#ClientPanel#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#startQuitThread#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#xorButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#initComponents#0;class#ClientPanel#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ServerPanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
+            <element signature="method#ServerPanel#0;class#ServerPanel#0" expanded="false" />
+            <element signature="e#2577#2578#0" expanded="true" />
+            <element signature="e#2614#2615#0" expanded="true" />
+            <element signature="e#2668#2669#0" expanded="true" />
+            <element signature="e#2697#2698#0" expanded="true" />
+            <element signature="method#threadCompletedNotification#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#startResponseThread#0;class#ServerPanel#0" expanded="false" />
+            <element signature="e#3494#4789#0" expanded="true" />
+            <element signature="e#4788#4789#0" expanded="true" />
+            <element signature="method#credentialsButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#credentialClearButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#xorButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#xorClearButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#saveToButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#startFileThread#0;class#ServerPanel#0" expanded="false" />
+            <element signature="e#8738#14118#0" expanded="true" />
+            <element signature="e#14117#14118#0" expanded="true" />
+            <element signature="method#startButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="e#14429#17556#0" expanded="true" />
+            <element signature="e#17555#17556#0" expanded="true" />
+            <element signature="method#stopButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="e#17903#18014#0" expanded="false" />
             <element signature="method#initComponents#0;class#ServerPanel#0" expanded="false" />
           </folding>
         </state>
@@ -504,6 +520,28 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
+            <element signature="method#ServerPanel#0;class#ServerPanel#0" expanded="false" />
+            <element signature="e#2577#2578#0" expanded="true" />
+            <element signature="e#2614#2615#0" expanded="true" />
+            <element signature="e#2668#2669#0" expanded="true" />
+            <element signature="e#2697#2698#0" expanded="true" />
+            <element signature="method#threadCompletedNotification#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#startResponseThread#0;class#ServerPanel#0" expanded="false" />
+            <element signature="e#3494#4789#0" expanded="true" />
+            <element signature="e#4788#4789#0" expanded="true" />
+            <element signature="method#credentialsButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#credentialClearButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#xorButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#xorClearButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#saveToButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#startFileThread#0;class#ServerPanel#0" expanded="false" />
+            <element signature="e#8738#14118#0" expanded="true" />
+            <element signature="e#14117#14118#0" expanded="true" />
+            <element signature="method#startButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="e#14429#17556#0" expanded="true" />
+            <element signature="e#17555#17556#0" expanded="true" />
+            <element signature="method#stopButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="e#17903#18014#0" expanded="false" />
             <element signature="method#initComponents#0;class#ServerPanel#0" expanded="false" />
           </folding>
         </state>
@@ -527,6 +565,28 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
+            <element signature="method#ServerPanel#0;class#ServerPanel#0" expanded="false" />
+            <element signature="e#2577#2578#0" expanded="true" />
+            <element signature="e#2614#2615#0" expanded="true" />
+            <element signature="e#2668#2669#0" expanded="true" />
+            <element signature="e#2697#2698#0" expanded="true" />
+            <element signature="method#threadCompletedNotification#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#startResponseThread#0;class#ServerPanel#0" expanded="false" />
+            <element signature="e#3494#4789#0" expanded="true" />
+            <element signature="e#4788#4789#0" expanded="true" />
+            <element signature="method#credentialsButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#credentialClearButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#xorButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#xorClearButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#saveToButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#startFileThread#0;class#ServerPanel#0" expanded="false" />
+            <element signature="e#8738#14118#0" expanded="true" />
+            <element signature="e#14117#14118#0" expanded="true" />
+            <element signature="method#startButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="e#14429#17556#0" expanded="true" />
+            <element signature="e#17555#17556#0" expanded="true" />
+            <element signature="method#stopButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="e#17903#18014#0" expanded="false" />
             <element signature="method#initComponents#0;class#ServerPanel#0" expanded="false" />
           </folding>
         </state>
@@ -550,6 +610,28 @@
         <state relative-caret-position="3315">
           <caret line="221" column="9" lean-forward="true" selection-start-line="221" selection-start-column="9" selection-end-line="221" selection-end-column="9" />
           <folding>
+            <element signature="method#ServerPanel#0;class#ServerPanel#0" expanded="false" />
+            <element signature="e#2577#2578#0" expanded="true" />
+            <element signature="e#2614#2615#0" expanded="true" />
+            <element signature="e#2668#2669#0" expanded="true" />
+            <element signature="e#2697#2698#0" expanded="true" />
+            <element signature="method#threadCompletedNotification#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#startResponseThread#0;class#ServerPanel#0" expanded="false" />
+            <element signature="e#3494#4789#0" expanded="true" />
+            <element signature="e#4788#4789#0" expanded="true" />
+            <element signature="method#credentialsButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#credentialClearButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#xorButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#xorClearButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#saveToButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#startFileThread#0;class#ServerPanel#0" expanded="false" />
+            <element signature="e#8738#14118#0" expanded="true" />
+            <element signature="e#14117#14118#0" expanded="true" />
+            <element signature="method#startButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="e#14429#17556#0" expanded="true" />
+            <element signature="e#17555#17556#0" expanded="true" />
+            <element signature="method#stopButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="e#17903#18014#0" expanded="false" />
             <element signature="method#initComponents#0;class#ServerPanel#0" expanded="false" />
           </folding>
         </state>
@@ -586,6 +668,28 @@
         <state relative-caret-position="2160">
           <caret line="144" column="54" lean-forward="true" selection-start-line="144" selection-start-column="54" selection-end-line="144" selection-end-column="54" />
           <folding>
+            <element signature="method#ServerPanel#0;class#ServerPanel#0" expanded="false" />
+            <element signature="e#2577#2578#0" expanded="true" />
+            <element signature="e#2614#2615#0" expanded="true" />
+            <element signature="e#2668#2669#0" expanded="true" />
+            <element signature="e#2697#2698#0" expanded="true" />
+            <element signature="method#threadCompletedNotification#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#startResponseThread#0;class#ServerPanel#0" expanded="false" />
+            <element signature="e#3494#4789#0" expanded="true" />
+            <element signature="e#4788#4789#0" expanded="true" />
+            <element signature="method#credentialsButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#credentialClearButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#xorButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#xorClearButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#saveToButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#startFileThread#0;class#ServerPanel#0" expanded="false" />
+            <element signature="e#8738#14118#0" expanded="true" />
+            <element signature="e#14117#14118#0" expanded="true" />
+            <element signature="method#startButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="e#14429#17556#0" expanded="true" />
+            <element signature="e#17555#17556#0" expanded="true" />
+            <element signature="method#stopButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="e#17903#18014#0" expanded="false" />
             <element signature="method#initComponents#0;class#ServerPanel#0" expanded="false" />
           </folding>
         </state>
@@ -622,6 +726,28 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
+            <element signature="method#ServerPanel#0;class#ServerPanel#0" expanded="false" />
+            <element signature="e#2577#2578#0" expanded="true" />
+            <element signature="e#2614#2615#0" expanded="true" />
+            <element signature="e#2668#2669#0" expanded="true" />
+            <element signature="e#2697#2698#0" expanded="true" />
+            <element signature="method#threadCompletedNotification#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#startResponseThread#0;class#ServerPanel#0" expanded="false" />
+            <element signature="e#3494#4789#0" expanded="true" />
+            <element signature="e#4788#4789#0" expanded="true" />
+            <element signature="method#credentialsButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#credentialClearButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#xorButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#xorClearButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#saveToButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#startFileThread#0;class#ServerPanel#0" expanded="false" />
+            <element signature="e#8738#14118#0" expanded="true" />
+            <element signature="e#14117#14118#0" expanded="true" />
+            <element signature="method#startButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="e#14429#17556#0" expanded="true" />
+            <element signature="e#17555#17556#0" expanded="true" />
+            <element signature="method#stopButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="e#17903#18014#0" expanded="false" />
             <element signature="method#initComponents#0;class#ServerPanel#0" expanded="false" />
           </folding>
         </state>
@@ -645,6 +771,28 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
+            <element signature="method#ServerPanel#0;class#ServerPanel#0" expanded="false" />
+            <element signature="e#2577#2578#0" expanded="true" />
+            <element signature="e#2614#2615#0" expanded="true" />
+            <element signature="e#2668#2669#0" expanded="true" />
+            <element signature="e#2697#2698#0" expanded="true" />
+            <element signature="method#threadCompletedNotification#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#startResponseThread#0;class#ServerPanel#0" expanded="false" />
+            <element signature="e#3494#4789#0" expanded="true" />
+            <element signature="e#4788#4789#0" expanded="true" />
+            <element signature="method#credentialsButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#credentialClearButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#xorButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#xorClearButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#saveToButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#startFileThread#0;class#ServerPanel#0" expanded="false" />
+            <element signature="e#8738#14118#0" expanded="true" />
+            <element signature="e#14117#14118#0" expanded="true" />
+            <element signature="method#startButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="e#14429#17556#0" expanded="true" />
+            <element signature="e#17555#17556#0" expanded="true" />
+            <element signature="method#stopButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="e#17903#18014#0" expanded="false" />
             <element signature="method#initComponents#0;class#ServerPanel#0" expanded="false" />
           </folding>
         </state>
@@ -668,6 +816,28 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
+            <element signature="method#ServerPanel#0;class#ServerPanel#0" expanded="false" />
+            <element signature="e#2577#2578#0" expanded="true" />
+            <element signature="e#2614#2615#0" expanded="true" />
+            <element signature="e#2668#2669#0" expanded="true" />
+            <element signature="e#2697#2698#0" expanded="true" />
+            <element signature="method#threadCompletedNotification#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#startResponseThread#0;class#ServerPanel#0" expanded="false" />
+            <element signature="e#3494#4789#0" expanded="true" />
+            <element signature="e#4788#4789#0" expanded="true" />
+            <element signature="method#credentialsButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#credentialClearButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#xorButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#xorClearButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#saveToButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#startFileThread#0;class#ServerPanel#0" expanded="false" />
+            <element signature="e#8738#14118#0" expanded="true" />
+            <element signature="e#14117#14118#0" expanded="true" />
+            <element signature="method#startButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="e#14429#17556#0" expanded="true" />
+            <element signature="e#17555#17556#0" expanded="true" />
+            <element signature="method#stopButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="e#17903#18014#0" expanded="false" />
             <element signature="method#initComponents#0;class#ServerPanel#0" expanded="false" />
           </folding>
         </state>
@@ -744,10 +914,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ProgressFrame.java" />
     <entry file="file://$PROJECT_DIR$/src/ProgressBarDemo.java" />
+    <entry file="file://$PROJECT_DIR$/src/AboutDialog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="12" column="40" lean-forward="true" selection-start-line="12" selection-start-column="40" selection-end-line="12" selection-end-column="40" />
+          <folding>
+            <element signature="method#initComponents#0;class#AboutDialog#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Skullbusters.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="24" column="0" lean-forward="true" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+        <state relative-caret-position="15">
+          <caret line="12" column="40" lean-forward="false" selection-start-line="12" selection-start-column="40" selection-end-line="12" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ThreadCompleteListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="4" lean-forward="false" selection-start-line="2" selection-start-column="4" selection-end-line="2" selection-end-column="56" />
           <folding />
         </state>
       </provider>
@@ -760,35 +948,107 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ClientPanel.java">
+    <entry file="file://$PROJECT_DIR$/src/NotificationRunnable.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="489">
-          <caret line="93" column="5" lean-forward="true" selection-start-line="93" selection-start-column="5" selection-end-line="93" selection-end-column="5" />
+        <state relative-caret-position="-217">
+          <caret line="16" column="62" lean-forward="true" selection-start-line="16" selection-start-column="62" selection-end-line="16" selection-end-column="62" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/TaskListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" column="46" lean-forward="true" selection-start-line="17" selection-start-column="46" selection-end-line="17" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ThreadCompletionListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="1" lean-forward="true" selection-start-line="3" selection-start-column="1" selection-end-line="3" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/NotifyingThread.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="52" lean-forward="true" selection-start-line="3" selection-start-column="52" selection-end-line="3" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/NotificationThread.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" column="55" lean-forward="true" selection-start-line="16" selection-start-column="55" selection-end-line="16" selection-end-column="55" />
           <folding>
-            <element signature="method#ClientPanel#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#startQuitThread#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#xorButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#initComponents#0;class#ClientPanel#0" expanded="false" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#1208#1209#0" expanded="true" />
+            <element signature="e#1250#1251#0" expanded="true" />
+            <element signature="e#1521#1522#0" expanded="true" />
+            <element signature="e#1566#1567#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ServerPanel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="27" column="73" lean-forward="false" selection-start-line="27" selection-start-column="73" selection-end-line="27" selection-end-column="73" />
+        <state relative-caret-position="1110">
+          <caret line="291" column="35" lean-forward="true" selection-start-line="291" selection-start-column="35" selection-end-line="291" selection-end-column="35" />
           <folding>
+            <element signature="method#ServerPanel#0;class#ServerPanel#0" expanded="false" />
+            <element signature="e#2577#2578#0" expanded="true" />
+            <element signature="e#2614#2615#0" expanded="true" />
+            <element signature="e#2668#2669#0" expanded="true" />
+            <element signature="e#2697#2698#0" expanded="true" />
+            <element signature="method#threadCompletedNotification#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#startResponseThread#0;class#ServerPanel#0" expanded="false" />
+            <element signature="e#3494#4789#0" expanded="true" />
+            <element signature="e#4788#4789#0" expanded="true" />
+            <element signature="method#credentialsButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#credentialClearButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#xorButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#xorClearButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#saveToButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="method#startFileThread#0;class#ServerPanel#0" expanded="false" />
+            <element signature="e#8738#14118#0" expanded="true" />
+            <element signature="e#14117#14118#0" expanded="true" />
+            <element signature="method#startButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="e#14429#17556#0" expanded="true" />
+            <element signature="e#17555#17556#0" expanded="true" />
+            <element signature="method#stopButtonActionPerformed#0;class#ServerPanel#0" expanded="false" />
+            <element signature="e#17903#18014#0" expanded="false" />
             <element signature="method#initComponents#0;class#ServerPanel#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/AboutDialog.java">
+    <entry file="file://$PROJECT_DIR$/src/ClientPanel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="12" column="40" lean-forward="true" selection-start-line="12" selection-start-column="40" selection-end-line="12" selection-end-column="40" />
+        <state relative-caret-position="90">
+          <caret line="23" column="75" lean-forward="true" selection-start-line="23" selection-start-column="75" selection-end-line="23" selection-end-column="75" />
           <folding>
-            <element signature="method#initComponents#0;class#AboutDialog#0" expanded="false" />
+            <element signature="method#ClientPanel#0;class#ClientPanel#0" expanded="false" />
+            <element signature="method#threadCompletedNotification#0;class#ClientPanel#0" expanded="false" />
+            <element signature="method#startQuitThread#0;class#ClientPanel#0" expanded="false" />
+            <element signature="e#2918#4218#0" expanded="true" />
+            <element signature="e#4217#4218#0" expanded="true" />
+            <element signature="method#xorButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+            <element signature="method#xorClearButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+            <element signature="method#fileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+            <element signature="method#fileClearButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+            <element signature="method#sendFileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+            <element signature="e#7220#14757#0" expanded="true" />
+            <element signature="e#14756#14757#0" expanded="true" />
+            <element signature="method#chunkSizeSliderStateChanged#0;class#ClientPanel#0" expanded="false" />
+            <element signature="method#connectButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+            <element signature="e#15330#20329#0" expanded="true" />
+            <element signature="e#20328#20329#0" expanded="true" />
+            <element signature="method#disconnectButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+            <element signature="method#initComponents#0;class#ClientPanel#0" expanded="false" />
           </folding>
         </state>
       </provider>

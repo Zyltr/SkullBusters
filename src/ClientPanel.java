@@ -21,7 +21,7 @@ import java.util.Random;
  * Created by JFormDesigner on Thu Jan 25 02:18:08 PST 2018
  */
 
-public class ClientPanel extends JPanel implements ThreadCompleteListener
+public class ClientPanel extends JPanel implements ThreadCompletionListener
 {
     // TODO -> Used for JOptionPane messages
     private String message;
@@ -38,12 +38,12 @@ public class ClientPanel extends JPanel implements ThreadCompleteListener
 
     // TODO -> Required Server Variables
     private Socket serverSocket = null;
-    private PrintWriter printWriter = null;
-    private BufferedReader bufferedReader = null;
+    private PrintWriter serverPrintWriter = null;
+    private BufferedReader serverBufferedReader = null;
 
-    private NotifyingThread connectThread = null;
-    private NotifyingThread quitThread = null;
-    private NotifyingThread fileTransferThread = null;
+    private NotificationThread connectThread = null;
+    private NotificationThread quitThread = null;
+    private NotificationThread fileTransferThread = null;
 
     // TODO -> Useful for controlling Thread initiated by the "Connect" Button
     private volatile boolean clientIsQuitting = false;
@@ -59,32 +59,24 @@ public class ClientPanel extends JPanel implements ThreadCompleteListener
         fileChooser.setFileSelectionMode ( JFileChooser.FILES_ONLY );
     }
 
-
     @Override
-    public void notifyOfThreadComplete ( final Thread thread )
+    public void threadCompletedNotification ( Thread thread )
     {
-        if ( thread == connectThread )
+        if ( thread.equals ( connectThread ) )
         {
-            connectThread.removeListener( this );
             connectThread = null;
 
             if ( failedAuthentication )
-            {
                 disconnectButtonActionPerformed ();
-            }
             else
-            {
                 startQuitThread();
-            }
         }
-        else if ( thread == quitThread )
+        else if ( thread.equals ( quitThread ) )
         {
-            quitThread.removeListener ( this );
             quitThread = null;
         }
-        else if ( thread == fileTransferThread )
+        else if ( thread.equals ( fileTransferThread ) )
         {
-            fileTransferThread.removeListener ( this );
             fileTransferThread = null;
         }
 
@@ -96,18 +88,17 @@ public class ClientPanel extends JPanel implements ThreadCompleteListener
     private void startQuitThread ()
     {
         // TODO -> Begin the Thread that Will Only Listens For Server's Quit Message
-        quitThread = new NotifyingThread ()
-        {
+        quitThread = new NotificationThread () {
             @Override
-            public void doRun ()
+            public void notifyingRunnable ()
             {
                 while ( !clientIsQuitting && !serverIsQuitting )
                 {
                     try
                     {
-                        if ( fileTransferThread == null && bufferedReader.ready () )
+                        if ( fileTransferThread == null && serverBufferedReader.ready () )
                         {
-                            String clientInput = bufferedReader.readLine ();
+                            String clientInput = serverBufferedReader.readLine ();
 
                             System.out.println ( "Client > Received message \"" + clientInput + "\"" );
 
@@ -214,10 +205,9 @@ public class ClientPanel extends JPanel implements ThreadCompleteListener
     {
         ProgressDialog progressDialog = new ProgressDialog ( null );
 
-        fileTransferThread = new NotifyingThread ()
-        {
+        fileTransferThread = new NotificationThread () {
             @Override
-            public void doRun ()
+            public void notifyingRunnable ()
             {
                 // TODO -> Send Files here
                 // TODO -> First, check to see that file path is a valid file
@@ -226,11 +216,11 @@ public class ClientPanel extends JPanel implements ThreadCompleteListener
                     try ( FileInputStream fileInputStream = new FileInputStream ( filePath.toFile () ) )
                     {
                         // TODO -> Inform Server a File is about to be Transferred
-                        printWriter.println ( "CLIENT-FILE" );
+                        serverPrintWriter.println ( "CLIENT-FILE" );
 
                         // TODO -> Get filename and send to Server
                         String filename = filePath.getFileName ().toString ();
-                        printWriter.println ( filename );
+                        serverPrintWriter.println ( filename );
 
                         // TODO -> Get file options and send to Server
                         String fileOptions = ( armoringCheckBox.isSelected () ? "A" : "-" ) + ( copyRadioButton.isSelected () ? "C" : "O" );
@@ -239,7 +229,7 @@ public class ClientPanel extends JPanel implements ThreadCompleteListener
                         long sizeOfFile = fileInputStream.getChannel().size();
 
                         // TODO -> Send File-Options and Chunk-Size to Server
-                        printWriter.println ( fileOptions + " && " + sizeOfFile + " && " + chunkSize );
+                        serverPrintWriter.println ( fileOptions + " && " + sizeOfFile + " && " + chunkSize );
 
                         long fileSize = fileInputStream.getChannel ().size ();
                         long bytesRead, totalBytesCurrentlyRead = 0;
@@ -252,14 +242,14 @@ public class ClientPanel extends JPanel implements ThreadCompleteListener
                         {
                             if ( retrying )
                             {
-                                printWriter.println ( hashString + " && " + dataString );
+                                serverPrintWriter.println ( hashString + " && " + dataString );
                             }
                             else
                             {
                                 if ( ( bytesRead = fileInputStream.read ( dataBytes ) ) < 0 )
                                 {
                                     // TODO -> Inform Server Bytes are Done
-                                    printWriter.println ( "BYTES-DONE" );
+                                    serverPrintWriter.println ( "BYTES-DONE" );
                                     break;
                                 }
 
@@ -297,12 +287,12 @@ public class ClientPanel extends JPanel implements ThreadCompleteListener
                                 if ( ! progressDialog.isShowing () )
                                 {
                                     System.out.println ( "Client > Progress Bar was Closed Prematurely" );
-                                    printWriter.println ( "FILE-CANCELLED" );
+                                    serverPrintWriter.println ( "FILE-CANCELLED" );
                                     return;
                                 }
 
                                 // TODO -> Send Hash Bytes and Data Bytes to the Server ( Data Bytes Could be in ASCII-Armored format if requested )
-                                printWriter.println ( hashString + " && " + dataString );
+                                serverPrintWriter.println ( hashString + " && " + dataString );
 
                                 // TODO -> Update Progress Bar
                                 totalBytesCurrentlyRead += bytesRead * 100;
@@ -312,7 +302,7 @@ public class ClientPanel extends JPanel implements ThreadCompleteListener
                             }
 
                             // TODO -> Get Hash Result
-                            String dataIntegrityResult =  bufferedReader.readLine ();
+                            String dataIntegrityResult =  serverBufferedReader.readLine ();
                             System.out.println ( "Client > Data Integrity Result > " + dataIntegrityResult );
 
                             if ( dataIntegrityResult.equals ( "SERVER-HASH-FAILED" ) )
@@ -330,7 +320,7 @@ public class ClientPanel extends JPanel implements ThreadCompleteListener
                                 {
                                     System.out.println ( "Client > Cancelling File Transfer" );
 
-                                    printWriter.println ( "FILE-CANCELLED" );
+                                    serverPrintWriter.println ( "FILE-CANCELLED" );
                                     return;
                                 }
                             }
@@ -381,9 +371,10 @@ public class ClientPanel extends JPanel implements ThreadCompleteListener
     // TODO -> Ultimately, tries to connect to Server after performing many checks
     private void connectButtonActionPerformed ()
     {
-        connectThread = new NotifyingThread() {
+        connectThread = new NotificationThread () {
             @Override
-            public void doRun() {
+            public void notifyingRunnable ()
+            {
                 try
                 {
                     // TODO -> Get name of server
@@ -397,20 +388,20 @@ public class ClientPanel extends JPanel implements ThreadCompleteListener
                     serverSocket = new Socket ( host, port );
 
                     // TODO -> Create I/O which will be used for communication between the Client and Server
-                    printWriter = new PrintWriter ( serverSocket.getOutputStream (), true );
-                    bufferedReader = new BufferedReader ( new InputStreamReader ( serverSocket.getInputStream () ) );
+                    serverPrintWriter = new PrintWriter ( serverSocket.getOutputStream (), true );
+                    serverBufferedReader = new BufferedReader ( new InputStreamReader ( serverSocket.getInputStream () ) );
 
                     // TODO -> Prepare Username and Password that will be sent to Server
                     String username = usernameTextField.getText ();
                     String password = new String ( passwordField.getPassword () );
 
-                    String credentials = username + " : " + password;
+                    String credentials = AES.encrypt ( username + ":" + password, username );
 
                     // TODO -> Send Credentials to Server
-                    printWriter.println ( credentials );
+                    serverPrintWriter.println ( credentials );
 
                     // TODO -> Read Authentication response
-                    failedAuthentication =  bufferedReader.readLine ().equals ( "AUTH-FAILED" );
+                    failedAuthentication =  serverBufferedReader.readLine ().equals ( "AUTH-FAILED" );
 
                     if ( failedAuthentication )
                     {
@@ -460,7 +451,7 @@ public class ClientPanel extends JPanel implements ThreadCompleteListener
                         JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.ERROR_MESSAGE );
                     }
 
-                    ioe.printStackTrace ();
+                    ioe.printStackTrace ( System.err );
                 }
                 catch ( NumberFormatException nfe )
                 {
@@ -468,59 +459,53 @@ public class ClientPanel extends JPanel implements ThreadCompleteListener
                     message = String.format ( "%s\n%s", "Number Format Exception", "\"Port\" must be a number." );
                     JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.ERROR_MESSAGE );
 
-                    nfe.printStackTrace ();
+                    nfe.printStackTrace ( System.err );
                 }
             }
         };
 
-        connectThread.addListener( this );
-        connectThread.start();
-    }
-
-
-    // TODO -> Closes all variables needed by the Server
-    private void closeConnection () throws IOException
-    {
-        // TODO -> Destroy any resources used by the Server. Order of destruction is very important
-        // TODO -> https://docs.oracle.com/javase/tutorial/networking/sockets/readingWriting.html
-        if ( bufferedReader != null )
-        {
-            bufferedReader.close ();
-            bufferedReader = null;
-        }
-
-        if ( printWriter != null )
-        {
-            printWriter.close ();
-            printWriter = null;
-        }
-
-        if ( serverSocket != null )
-        {
-            serverSocket.close ();
-            serverSocket = null;
-        }
+        connectThread.setName ( "Client Connect Thread" );
+        connectThread.addListener ( this );
+        connectThread.start ();
     }
 
 
     // TODO -> Attempts to close any connections and tries to restore GUI for future connections
     private void disconnectButtonActionPerformed ()
     {
-        if ( quitThread != null && !serverIsQuitting )
+        // TODO -> When Creating a Quit Thread, if the Client presses disconnect then set the quit Flag ( clientIsQuitting )
+        // TODO -> and then terminate the Thread by setting Flag ( clientIsQuitting ). Afterwards, wait for Thread to completely
+        // TODO -> finish before moving on ( join )
+        if ( quitThread != null )
         {
             clientIsQuitting = true;
 
-            if ( printWriter != null )
-                printWriter.println ( "CLIENT-QUIT" );
+            try
+            {
+                quitThread.join ();
+            }
+            catch ( InterruptedException ie )
+            {
+                ie.printStackTrace ( System.err );
+            }
+
+            if ( serverPrintWriter != null )
+                serverPrintWriter.println ( "CLIENT-QUIT" );
         }
 
         try
         {
-            closeConnection ();
+            if ( serverSocket != null )
+            {
+                serverSocket.close ();
+                serverSocket = null;
+                serverPrintWriter = null;
+                serverBufferedReader = null;
+            }
         }
         catch ( IOException ioe )
         {
-            ioe.printStackTrace ();
+            ioe.printStackTrace ( System.err );
         }
 
         // TODO -> Restore GUI
@@ -528,19 +513,13 @@ public class ClientPanel extends JPanel implements ThreadCompleteListener
         connectButton.setEnabled ( true );
 
         if ( failedAuthentication )
-        {
             failedAuthentication = false;
-        }
 
         if ( clientIsQuitting )
-        {
             clientIsQuitting = false;
-        }
 
         if ( serverIsQuitting )
-        {
             serverIsQuitting = false;
-        }
     }
 
 

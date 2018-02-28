@@ -50,12 +50,12 @@ new FormModel {
 						"JavaCodeGenerator.variableLocal": true
 					}
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
-						name: "aboutMenuItem"
+						name: "aboutMenuItemNew"
 						"text": "About"
 						auxiliary() {
 							"JavaCodeGenerator.variableLocal": true
 						}
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "aboutMenuItemActionPerformed", true ) )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "aboutMenuItemActionPerformed", false ) )
 					} )
 				} )
 			}

@@ -1,6 +1,6 @@
 import java.util.Arrays;
 
-public class XORCipher
+class XORCipher
 {
     public static byte [] encrypt ( byte [] input, byte [] key )
     {

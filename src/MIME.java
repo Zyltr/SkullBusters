@@ -1,9 +1,9 @@
 import java.util.Arrays;
 
-public class MIME
+class MIME
 {
-    private static String base64StringTable = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-    private static char [] base64Table = base64StringTable.toCharArray ();
+    private static final String base64StringTable = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    private static final char [] base64Table = base64StringTable.toCharArray ();
 
     // TODO -> Transforms Bytes to Base 64
     public static String base64Encoding ( byte... bytes )
@@ -74,7 +74,7 @@ public class MIME
             if ( resultBuilder.length () == 0 )
                 resultBuilder.append ( binaryString.substring ( count, count + Byte.SIZE ) );
             else
-                resultBuilder.append ( " " + binaryString.substring ( count, count + Byte.SIZE ) );
+                resultBuilder.append ( " " ).append ( binaryString.substring ( count, count + Byte.SIZE ) );
         }
 
 //        System.out.println ( "Final Binary String : " + resultBuilder.toString () );

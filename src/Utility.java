@@ -1,4 +1,4 @@
-public class Utility
+class Utility
 {
 
     // TODO -> Transforms some byte ( e.g : 1 ) to binary ( e.g : 00000001 ) as 8 bits with sign
@@ -47,7 +47,7 @@ public class Utility
         for ( byte singleByte : bytes )
         {
             if ( bytesString.length () == 0 ) bytesString.append ( binaryRepresentation ( singleByte ) );
-            else bytesString.append ( " " + binaryRepresentation ( singleByte ) );
+            else bytesString.append ( " " ).append ( binaryRepresentation ( singleByte ) );
         }
 
         return bytesString.toString ();

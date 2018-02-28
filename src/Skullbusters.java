@@ -5,19 +5,18 @@ import org.jdesktop.beansbinding.Bindings;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 /*
  * Created by JFormDesigner on Thu Jan 25 00:54:42 PST 2018
  */
 
-public class Skullbusters extends JFrame
+class Skullbusters extends JFrame
 {
-    public Skullbusters ()
+    private Skullbusters ()
     {
         initComponents ();
     }
 
-    private void aboutMenuItemActionPerformed ( ActionEvent e )
+    private void aboutMenuItemActionPerformed ()
     {
         // TODO -> Show About Frame
         new AboutDialog ( this ).setVisible ( true );
@@ -29,7 +28,7 @@ public class Skullbusters extends JFrame
 		// Generated using JFormDesigner Evaluation license - Erik Huerta
 		JMenuBar menuBar = new JMenuBar();
 		JMenu skullbustersMenu = new JMenu();
-		JMenuItem aboutMenuItem = new JMenuItem();
+		JMenuItem aboutMenuItemNew = new JMenuItem();
 		JTabbedPane tabbedPane = new JTabbedPane();
 		JScrollPane serverScrollPane = new JScrollPane ( new ServerPanel () );
 		JScrollPane clientScrollPane = new JScrollPane ( new ClientPanel () );
@@ -47,10 +46,10 @@ public class Skullbusters extends JFrame
 			{
 				skullbustersMenu.setText("Skullbusters");
 
-				//---- aboutMenuItem ----
-				aboutMenuItem.setText("About");
-				aboutMenuItem.addActionListener(e -> aboutMenuItemActionPerformed(e));
-				skullbustersMenu.add(aboutMenuItem);
+				//---- aboutMenuItemNew ----
+				aboutMenuItemNew.setText("About");
+				aboutMenuItemNew.addActionListener(e -> aboutMenuItemActionPerformed());
+				skullbustersMenu.add(aboutMenuItemNew);
 			}
 			menuBar.add(skullbustersMenu);
 		}
@@ -102,13 +101,12 @@ public class Skullbusters extends JFrame
 
     public static void main ( String[] args )
     {
-        SwingUtilities.invokeLater ( () -> {
-            new Skullbusters ().setVisible ( true );
-        } );
+        SwingUtilities.invokeLater ( () -> new Skullbusters ().setVisible ( true ) );
     }
 
-    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
+
+	//GEN-BEGIN:variables
 	// Generated using JFormDesigner Evaluation license - Erik Huerta
 	private BindingGroup bindingGroup;
-    // JFormDesigner - End of variables declaration  //GEN-END:variables
+	// GEN-END:variables
 }

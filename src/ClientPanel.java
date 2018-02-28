@@ -6,16 +6,13 @@ import org.jdesktop.beansbinding.ELProperty;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
-import javax.swing.event.ChangeEvent;
 import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.io.*;
 import java.net.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
-import java.util.Random;
 
 /*
  * Created by JFormDesigner on Thu Jan 25 02:18:08 PST 2018
@@ -28,7 +25,7 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
 
     // TODO -> "Send File" Variables
     private Path filePath = null;
-    private JFileChooser fileChooser = new JFileChooser ( FileSystemView.getFileSystemView ().getHomeDirectory () );
+    private final JFileChooser fileChooser = new JFileChooser ( FileSystemView.getFileSystemView ().getHomeDirectory () );
 
     // TODO -> Variable that will store XOR-Key
     private byte[] xorKey = null;
@@ -48,7 +45,7 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
     // TODO -> Useful for controlling Thread initiated by the "Connect" Button
     private volatile boolean clientIsQuitting = false;
     private volatile boolean serverIsQuitting = false;
-    private volatile boolean failedAuthentication = false;
+    private volatile boolean failedAuthentication = true;
 
     public ClientPanel ()
     {
@@ -69,7 +66,7 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
             if ( failedAuthentication )
                 disconnectButtonActionPerformed ();
             else
-                startQuitThread();
+                startQuitThread ();
         }
         else if ( thread.equals ( quitThread ) )
         {
@@ -88,7 +85,8 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
     private void startQuitThread ()
     {
         // TODO -> Begin the Thread that Will Only Listens For Server's Quit Message
-        quitThread = new NotificationThread () {
+        quitThread = new NotificationThread ()
+        {
             @Override
             public void notifyingRunnable ()
             {
@@ -144,11 +142,11 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
 
                 if ( fileSize > Integer.MAX_VALUE ) throw new IOException ();
 
-                xorKey = new byte[( int ) fileSize];
+                xorKey = new byte[ ( int ) fileSize ];
 
                 // TODO -> Convert Bytes of file to a binary representation
                 for ( Integer inputByte, count = 0; ( inputByte = fileInputStream.read () ) != -1; ++count )
-                    xorKey[count] = inputByte.byteValue ();
+                    xorKey[ count ] = inputByte.byteValue ();
 
                 xorTextArea.setText ( xorPath.toString () );
 
@@ -205,7 +203,8 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
     {
         ProgressDialog progressDialog = new ProgressDialog ( null );
 
-        fileTransferThread = new NotificationThread () {
+        fileTransferThread = new NotificationThread ()
+        {
             @Override
             public void notifyingRunnable ()
             {
@@ -226,7 +225,7 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
                         String fileOptions = ( armoringCheckBox.isSelected () ? "A" : "-" ) + ( copyRadioButton.isSelected () ? "C" : "O" );
 
                         // TODO -> Get Size of File in Bytes
-                        long sizeOfFile = fileInputStream.getChannel().size();
+                        long sizeOfFile = fileInputStream.getChannel ().size ();
 
                         // TODO -> Send File-Options and Chunk-Size to Server
                         serverPrintWriter.println ( fileOptions + " && " + sizeOfFile + " && " + chunkSize );
@@ -235,7 +234,7 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
                         long bytesRead, totalBytesCurrentlyRead = 0;
 
                         boolean retrying = false;
-                        byte[] hashBytes, dataBytes = new byte[chunkSize];
+                        byte[] hashBytes, dataBytes = new byte[ chunkSize ];
                         String hashString = "", dataString = "";
 
                         while ( !serverIsQuitting )
@@ -284,7 +283,7 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
                                     System.out.println ( "Client > BASE64 > " + dataString );
                                 }
 
-                                if ( ! progressDialog.isShowing () )
+                                if ( !progressDialog.isShowing () )
                                 {
                                     System.out.println ( "Client > Progress Bar was Closed Prematurely" );
                                     serverPrintWriter.println ( "FILE-CANCELLED" );
@@ -298,17 +297,17 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
                                 totalBytesCurrentlyRead += bytesRead * 100;
                                 double percentage = totalBytesCurrentlyRead / fileSize;
 
-                                progressDialog.updateProgressBar (  ( int ) ( percentage )  );
+                                progressDialog.updateProgressBar ( ( int ) ( percentage ) );
                             }
 
                             // TODO -> Get Hash Result
-                            String dataIntegrityResult =  serverBufferedReader.readLine ();
+                            String dataIntegrityResult = serverBufferedReader.readLine ();
                             System.out.println ( "Client > Data Integrity Result > " + dataIntegrityResult );
 
                             if ( dataIntegrityResult.equals ( "SERVER-HASH-FAILED" ) )
                             {
                                 message = "File failed to transfer. Retry?";
-                                int optionType = JOptionPane.showConfirmDialog ( getParent (), message,null, JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE );
+                                int optionType = JOptionPane.showConfirmDialog ( getParent (), message, null, JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE );
 
                                 if ( optionType == JOptionPane.YES_OPTION )
                                 {
@@ -371,7 +370,8 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
     // TODO -> Ultimately, tries to connect to Server after performing many checks
     private void connectButtonActionPerformed ()
     {
-        connectThread = new NotificationThread () {
+        connectThread = new NotificationThread ()
+        {
             @Override
             public void notifyingRunnable ()
             {
@@ -401,7 +401,7 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
                     serverPrintWriter.println ( credentials );
 
                     // TODO -> Read Authentication response
-                    failedAuthentication =  serverBufferedReader.readLine ().equals ( "AUTH-FAILED" );
+                    failedAuthentication = serverBufferedReader.readLine ().equals ( "AUTH-FAILED" );
 
                     if ( failedAuthentication )
                     {
@@ -512,8 +512,8 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
         dynamicStatusLabel.setText ( "Stopped" );
         connectButton.setEnabled ( true );
 
-        if ( failedAuthentication )
-            failedAuthentication = false;
+        if ( !failedAuthentication )
+            failedAuthentication = true;
 
         if ( clientIsQuitting )
             clientIsQuitting = false;
@@ -526,436 +526,451 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
     private void initComponents ()
     {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
-		// Generated using JFormDesigner Evaluation license - Erik Huerta
-		JLabel statusLabel = new JLabel();
-		JLabel usernameLabel = new JLabel();
-		usernameTextField = new JTextField();
-		JLabel passwordLabel = new JLabel();
-		passwordField = new JPasswordField();
-		JLabel portLabel = new JLabel();
-		portTextField = new JTextField();
-		JLabel serverLabel = new JLabel();
-		JButton fileButton = new JButton();
-		JLabel fileOptionsLabel = new JLabel();
-		armoringCheckBox = new JCheckBox();
-		overwriteRadioButton = new JRadioButton();
-		JLabel chunkSizeLabel = new JLabel();
-		chunkSizeSlider = new JSlider();
-		JLabel chunkSizeValueLabel = new JLabel();
-		JButton sendFileButton = new JButton();
-		JButton disconnectButton = new JButton();
-		connectButton = new JButton();
-		dynamicStatusLabel = new JLabel();
-		JScrollPane fileScrollPane = new JScrollPane();
-		fileTextArea = new JTextArea();
-		serverTextField = new JTextField();
-		copyRadioButton = new JRadioButton();
-		JButton xorButton = new JButton();
-		JScrollPane xorScrollPane = new JScrollPane();
-		xorTextArea = new JTextArea();
-		JLabel authenticationOptionsLabel = new JLabel();
-		plainRadioButton = new JRadioButton();
-		JButton xorClearButton = new JButton();
-		JButton fileClearButton = new JButton();
-		JSpinner chunkSizeSpinner = new JSpinner();
+        // Generated using JFormDesigner Evaluation license - Erik Huerta
+        JLabel statusLabel = new JLabel ();
+        JLabel usernameLabel = new JLabel ();
+        usernameTextField = new JTextField ();
+        JLabel passwordLabel = new JLabel ();
+        passwordField = new JPasswordField ();
+        JLabel portLabel = new JLabel ();
+        portTextField = new JTextField ();
+        JLabel serverLabel = new JLabel ();
+        JButton fileButton = new JButton ();
+        JLabel fileOptionsLabel = new JLabel ();
+        armoringCheckBox = new JCheckBox ();
+        overwriteRadioButton = new JRadioButton ();
+        JLabel chunkSizeLabel = new JLabel ();
+        chunkSizeSlider = new JSlider ();
+        JLabel chunkSizeValueLabel = new JLabel ();
+        JButton sendFileButton = new JButton ();
+        JButton disconnectButton = new JButton ();
+        connectButton = new JButton ();
+        dynamicStatusLabel = new JLabel ();
+        JScrollPane fileScrollPane = new JScrollPane ();
+        fileTextArea = new JTextArea ();
+        serverTextField = new JTextField ();
+        copyRadioButton = new JRadioButton ();
+        JButton xorButton = new JButton ();
+        JScrollPane xorScrollPane = new JScrollPane ();
+        xorTextArea = new JTextArea ();
+        JLabel authenticationOptionsLabel = new JLabel ();
+        plainRadioButton = new JRadioButton ();
+        JButton xorClearButton = new JButton ();
+        JButton fileClearButton = new JButton ();
+        JSpinner chunkSizeSpinner = new JSpinner ();
 
-		//======== this ========
-		setPreferredSize(new Dimension(400, 1200));
-		setOpaque(false);
-		setMinimumSize(new Dimension(450, 1200));
+        //======== this ========
+        setPreferredSize ( new Dimension ( 400, 1200 ) );
+        setOpaque ( false );
+        setMinimumSize ( new Dimension ( 450, 1200 ) );
 
-		//---- statusLabel ----
-		statusLabel.setText("Status");
-		statusLabel.setFont(statusLabel.getFont().deriveFont(statusLabel.getFont().getStyle() | Font.BOLD, statusLabel.getFont().getSize() + 5f));
+        // JFormDesigner evaluation mark
+        setBorder ( new javax.swing.border.CompoundBorder (
+                new javax.swing.border.TitledBorder ( new javax.swing.border.EmptyBorder ( 0, 0, 0, 0 ),
+                        "JFormDesigner Evaluation", javax.swing.border.TitledBorder.CENTER,
+                        javax.swing.border.TitledBorder.BOTTOM, new java.awt.Font ( "Dialog", java.awt.Font.BOLD, 12 ),
+                        java.awt.Color.red ), getBorder () ) );
+        addPropertyChangeListener ( new java.beans.PropertyChangeListener ()
+        {
+            public void propertyChange ( java.beans.PropertyChangeEvent e )
+            {
+                if ( "border".equals ( e.getPropertyName () ) ) throw new RuntimeException ();
+            }
+        } );
 
-		//---- usernameLabel ----
-		usernameLabel.setText("Username");
-		usernameLabel.setFont(usernameLabel.getFont().deriveFont(usernameLabel.getFont().getStyle() | Font.BOLD, usernameLabel.getFont().getSize() + 5f));
 
-		//---- usernameTextField ----
-		usernameTextField.setBackground(Color.white);
-		usernameTextField.setText("Debug");
-		usernameTextField.setFont(usernameTextField.getFont().deriveFont(Font.BOLD|Font.ITALIC));
-		usernameTextField.setForeground(new Color(153, 0, 0));
-		usernameTextField.setBorder(new MatteBorder(0, 0, 1, 0, new Color(204, 204, 204)));
-		usernameTextField.setPreferredSize(new Dimension(45, 32));
+        //---- statusLabel ----
+        statusLabel.setText ( "Status" );
+        statusLabel.setFont ( statusLabel.getFont ().deriveFont ( statusLabel.getFont ().getStyle () | Font.BOLD, statusLabel.getFont ().getSize () + 5f ) );
 
-		//---- passwordLabel ----
-		passwordLabel.setText("Password");
-		passwordLabel.setFont(passwordLabel.getFont().deriveFont(passwordLabel.getFont().getStyle() | Font.BOLD, passwordLabel.getFont().getSize() + 5f));
+        //---- usernameLabel ----
+        usernameLabel.setText ( "Username" );
+        usernameLabel.setFont ( usernameLabel.getFont ().deriveFont ( usernameLabel.getFont ().getStyle () | Font.BOLD, usernameLabel.getFont ().getSize () + 5f ) );
 
-		//---- passwordField ----
-		passwordField.setBorder(new MatteBorder(0, 0, 1, 0, new Color(204, 204, 204)));
-		passwordField.setBackground(Color.white);
-		passwordField.setFont(passwordField.getFont().deriveFont(Font.BOLD|Font.ITALIC));
-		passwordField.setForeground(new Color(153, 0, 0));
-		passwordField.setPreferredSize(new Dimension(0, 32));
+        //---- usernameTextField ----
+        usernameTextField.setBackground ( Color.white );
+        usernameTextField.setText ( "Debug" );
+        usernameTextField.setFont ( usernameTextField.getFont ().deriveFont ( Font.BOLD | Font.ITALIC ) );
+        usernameTextField.setForeground ( new Color ( 153, 0, 0 ) );
+        usernameTextField.setBorder ( new MatteBorder ( 0, 0, 1, 0, new Color ( 204, 204, 204 ) ) );
+        usernameTextField.setPreferredSize ( new Dimension ( 45, 32 ) );
 
-		//---- portLabel ----
-		portLabel.setText("Server Port");
-		portLabel.setFont(portLabel.getFont().deriveFont(portLabel.getFont().getStyle() | Font.BOLD, portLabel.getFont().getSize() + 5f));
+        //---- passwordLabel ----
+        passwordLabel.setText ( "Password" );
+        passwordLabel.setFont ( passwordLabel.getFont ().deriveFont ( passwordLabel.getFont ().getStyle () | Font.BOLD, passwordLabel.getFont ().getSize () + 5f ) );
 
-		//---- portTextField ----
-		portTextField.setText("1492");
-		portTextField.setBorder(new MatteBorder(0, 0, 1, 0, new Color(204, 204, 204)));
-		portTextField.setFont(portTextField.getFont().deriveFont(Font.BOLD|Font.ITALIC));
-		portTextField.setForeground(new Color(153, 0, 0));
-		portTextField.setPreferredSize(new Dimension(36, 32));
+        //---- passwordField ----
+        passwordField.setBorder ( new MatteBorder ( 0, 0, 1, 0, new Color ( 204, 204, 204 ) ) );
+        passwordField.setBackground ( Color.white );
+        passwordField.setFont ( passwordField.getFont ().deriveFont ( Font.BOLD | Font.ITALIC ) );
+        passwordField.setForeground ( new Color ( 153, 0, 0 ) );
+        passwordField.setPreferredSize ( new Dimension ( 0, 32 ) );
 
-		//---- serverLabel ----
-		serverLabel.setText("Server Address");
-		serverLabel.setFont(serverLabel.getFont().deriveFont(serverLabel.getFont().getStyle() | Font.BOLD, serverLabel.getFont().getSize() + 5f));
+        //---- portLabel ----
+        portLabel.setText ( "Server Port" );
+        portLabel.setFont ( portLabel.getFont ().deriveFont ( portLabel.getFont ().getStyle () | Font.BOLD, portLabel.getFont ().getSize () + 5f ) );
 
-		//---- fileButton ----
-		fileButton.setText("File To Transfer");
-		fileButton.setMinimumSize(new Dimension(92, 29));
-		fileButton.setMaximumSize(new Dimension(92, 29));
-		fileButton.setFont(fileButton.getFont().deriveFont(fileButton.getFont().getStyle() | Font.BOLD, fileButton.getFont().getSize() + 5f));
-		fileButton.setHorizontalAlignment(SwingConstants.LEADING);
-		fileButton.addActionListener(e -> fileButtonActionPerformed());
+        //---- portTextField ----
+        portTextField.setText ( "1492" );
+        portTextField.setBorder ( new MatteBorder ( 0, 0, 1, 0, new Color ( 204, 204, 204 ) ) );
+        portTextField.setFont ( portTextField.getFont ().deriveFont ( Font.BOLD | Font.ITALIC ) );
+        portTextField.setForeground ( new Color ( 153, 0, 0 ) );
+        portTextField.setPreferredSize ( new Dimension ( 36, 32 ) );
 
-		//---- fileOptionsLabel ----
-		fileOptionsLabel.setText("File Option");
-		fileOptionsLabel.setFont(fileOptionsLabel.getFont().deriveFont(fileOptionsLabel.getFont().getStyle() | Font.BOLD, fileOptionsLabel.getFont().getSize() + 5f));
-		fileOptionsLabel.setMinimumSize(new Dimension(95, 17));
-		fileOptionsLabel.setMaximumSize(new Dimension(95, 17));
+        //---- serverLabel ----
+        serverLabel.setText ( "Server Address" );
+        serverLabel.setFont ( serverLabel.getFont ().deriveFont ( serverLabel.getFont ().getStyle () | Font.BOLD, serverLabel.getFont ().getSize () + 5f ) );
 
-		//---- armoringCheckBox ----
-		armoringCheckBox.setText("ASCII Armoring");
-		armoringCheckBox.setFont(armoringCheckBox.getFont().deriveFont(armoringCheckBox.getFont().getStyle() | Font.BOLD));
+        //---- fileButton ----
+        fileButton.setText ( "File To Transfer" );
+        fileButton.setMinimumSize ( new Dimension ( 92, 29 ) );
+        fileButton.setMaximumSize ( new Dimension ( 92, 29 ) );
+        fileButton.setFont ( fileButton.getFont ().deriveFont ( fileButton.getFont ().getStyle () | Font.BOLD, fileButton.getFont ().getSize () + 5f ) );
+        fileButton.setHorizontalAlignment ( SwingConstants.LEADING );
+        fileButton.addActionListener ( e -> fileButtonActionPerformed () );
 
-		//---- overwriteRadioButton ----
-		overwriteRadioButton.setText("Overwrite");
-		overwriteRadioButton.setFont(overwriteRadioButton.getFont().deriveFont(overwriteRadioButton.getFont().getStyle() | Font.BOLD));
+        //---- fileOptionsLabel ----
+        fileOptionsLabel.setText ( "File Option" );
+        fileOptionsLabel.setFont ( fileOptionsLabel.getFont ().deriveFont ( fileOptionsLabel.getFont ().getStyle () | Font.BOLD, fileOptionsLabel.getFont ().getSize () + 5f ) );
+        fileOptionsLabel.setMinimumSize ( new Dimension ( 95, 17 ) );
+        fileOptionsLabel.setMaximumSize ( new Dimension ( 95, 17 ) );
 
-		//---- chunkSizeLabel ----
-		chunkSizeLabel.setText("Chunk Size");
-		chunkSizeLabel.setFont(chunkSizeLabel.getFont().deriveFont(chunkSizeLabel.getFont().getStyle() | Font.BOLD, chunkSizeLabel.getFont().getSize() + 5f));
+        //---- armoringCheckBox ----
+        armoringCheckBox.setText ( "ASCII Armoring" );
+        armoringCheckBox.setFont ( armoringCheckBox.getFont ().deriveFont ( armoringCheckBox.getFont ().getStyle () | Font.BOLD ) );
 
-		//---- chunkSizeSlider ----
-		chunkSizeSlider.setMaximum(1000);
-		chunkSizeSlider.setMinimum(1);
-		chunkSizeSlider.setPaintTicks(true);
-		chunkSizeSlider.setMajorTickSpacing(100);
-		chunkSizeSlider.setValue(64);
-		chunkSizeSlider.setMinorTickSpacing(50);
-		chunkSizeSlider.addChangeListener(e -> chunkSizeSliderStateChanged());
+        //---- overwriteRadioButton ----
+        overwriteRadioButton.setText ( "Overwrite" );
+        overwriteRadioButton.setFont ( overwriteRadioButton.getFont ().deriveFont ( overwriteRadioButton.getFont ().getStyle () | Font.BOLD ) );
 
-		//---- chunkSizeValueLabel ----
-		chunkSizeValueLabel.setText("KB");
-		chunkSizeValueLabel.setFont(chunkSizeValueLabel.getFont().deriveFont(chunkSizeValueLabel.getFont().getStyle() | Font.BOLD, chunkSizeValueLabel.getFont().getSize() + 1f));
+        //---- chunkSizeLabel ----
+        chunkSizeLabel.setText ( "Chunk Size" );
+        chunkSizeLabel.setFont ( chunkSizeLabel.getFont ().deriveFont ( chunkSizeLabel.getFont ().getStyle () | Font.BOLD, chunkSizeLabel.getFont ().getSize () + 5f ) );
 
-		//---- sendFileButton ----
-		sendFileButton.setText("Send");
-		sendFileButton.setFont(sendFileButton.getFont().deriveFont(sendFileButton.getFont().getStyle() | Font.BOLD, sendFileButton.getFont().getSize() + 5f));
-		sendFileButton.addActionListener(e -> sendFileButtonActionPerformed());
+        //---- chunkSizeSlider ----
+        chunkSizeSlider.setMaximum ( 1000 );
+        chunkSizeSlider.setMinimum ( 1 );
+        chunkSizeSlider.setPaintTicks ( true );
+        chunkSizeSlider.setMajorTickSpacing ( 100 );
+        chunkSizeSlider.setValue ( 64 );
+        chunkSizeSlider.setMinorTickSpacing ( 50 );
+        chunkSizeSlider.addChangeListener ( e -> chunkSizeSliderStateChanged () );
 
-		//---- disconnectButton ----
-		disconnectButton.setText("Disconnect");
-		disconnectButton.setFont(disconnectButton.getFont().deriveFont(disconnectButton.getFont().getStyle() | Font.BOLD, disconnectButton.getFont().getSize() + 5f));
-		disconnectButton.addActionListener(e -> disconnectButtonActionPerformed());
+        //---- chunkSizeValueLabel ----
+        chunkSizeValueLabel.setText ( "KB" );
+        chunkSizeValueLabel.setFont ( chunkSizeValueLabel.getFont ().deriveFont ( chunkSizeValueLabel.getFont ().getStyle () | Font.BOLD, chunkSizeValueLabel.getFont ().getSize () + 1f ) );
 
-		//---- connectButton ----
-		connectButton.setText("Connect");
-		connectButton.setFont(connectButton.getFont().deriveFont(connectButton.getFont().getStyle() | Font.BOLD, connectButton.getFont().getSize() + 5f));
-		connectButton.addActionListener(e -> connectButtonActionPerformed());
+        //---- sendFileButton ----
+        sendFileButton.setText ( "Send" );
+        sendFileButton.setFont ( sendFileButton.getFont ().deriveFont ( sendFileButton.getFont ().getStyle () | Font.BOLD, sendFileButton.getFont ().getSize () + 5f ) );
+        sendFileButton.addActionListener ( e -> sendFileButtonActionPerformed () );
 
-		//---- dynamicStatusLabel ----
-		dynamicStatusLabel.setFont(dynamicStatusLabel.getFont().deriveFont(Font.BOLD|Font.ITALIC));
-		dynamicStatusLabel.setForeground(new Color(153, 0, 0));
-		dynamicStatusLabel.setText("Stopped");
+        //---- disconnectButton ----
+        disconnectButton.setText ( "Disconnect" );
+        disconnectButton.setFont ( disconnectButton.getFont ().deriveFont ( disconnectButton.getFont ().getStyle () | Font.BOLD, disconnectButton.getFont ().getSize () + 5f ) );
+        disconnectButton.addActionListener ( e -> disconnectButtonActionPerformed () );
 
-		//======== fileScrollPane ========
-		{
-			fileScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-			fileScrollPane.setBorder(new MatteBorder(0, 0, 1, 0, new Color(204, 204, 204)));
-			fileScrollPane.setPreferredSize(new Dimension(27, 32));
+        //---- connectButton ----
+        connectButton.setText ( "Connect" );
+        connectButton.setFont ( connectButton.getFont ().deriveFont ( connectButton.getFont ().getStyle () | Font.BOLD, connectButton.getFont ().getSize () + 5f ) );
+        connectButton.addActionListener ( e -> connectButtonActionPerformed () );
 
-			//---- fileTextArea ----
-			fileTextArea.setFont(fileTextArea.getFont().deriveFont(Font.BOLD|Font.ITALIC));
-			fileTextArea.setForeground(new Color(153, 0, 0));
-			fileTextArea.setRows(1);
-			fileTextArea.setEditable(false);
-			fileTextArea.setTabSize(0);
-			fileTextArea.setBorder(null);
-			fileTextArea.setColumns(1);
-			fileScrollPane.setViewportView(fileTextArea);
-		}
+        //---- dynamicStatusLabel ----
+        dynamicStatusLabel.setFont ( dynamicStatusLabel.getFont ().deriveFont ( Font.BOLD | Font.ITALIC ) );
+        dynamicStatusLabel.setForeground ( new Color ( 153, 0, 0 ) );
+        dynamicStatusLabel.setText ( "Stopped" );
 
-		//---- serverTextField ----
-		serverTextField.setFont(serverTextField.getFont().deriveFont(Font.BOLD|Font.ITALIC));
-		serverTextField.setForeground(new Color(153, 0, 0));
-		serverTextField.setText("localhost");
-		serverTextField.setBorder(new MatteBorder(0, 0, 1, 0, new Color(204, 204, 204)));
+        //======== fileScrollPane ========
+        {
+            fileScrollPane.setVerticalScrollBarPolicy ( ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER );
+            fileScrollPane.setBorder ( new MatteBorder ( 0, 0, 1, 0, new Color ( 204, 204, 204 ) ) );
+            fileScrollPane.setPreferredSize ( new Dimension ( 27, 32 ) );
 
-		//---- copyRadioButton ----
-		copyRadioButton.setText("Copy");
-		copyRadioButton.setFont(copyRadioButton.getFont().deriveFont(copyRadioButton.getFont().getStyle() | Font.BOLD));
-		copyRadioButton.setSelected(true);
+            //---- fileTextArea ----
+            fileTextArea.setFont ( fileTextArea.getFont ().deriveFont ( Font.BOLD | Font.ITALIC ) );
+            fileTextArea.setForeground ( new Color ( 153, 0, 0 ) );
+            fileTextArea.setRows ( 1 );
+            fileTextArea.setEditable ( false );
+            fileTextArea.setTabSize ( 0 );
+            fileTextArea.setBorder ( null );
+            fileTextArea.setColumns ( 1 );
+            fileScrollPane.setViewportView ( fileTextArea );
+        }
 
-		//---- xorButton ----
-		xorButton.setText("XOR Key");
-		xorButton.setFont(xorButton.getFont().deriveFont(xorButton.getFont().getStyle() | Font.BOLD, xorButton.getFont().getSize() + 5f));
-		xorButton.setActionCommand("XOR-Key File");
-		xorButton.addActionListener(e -> xorButtonActionPerformed());
+        //---- serverTextField ----
+        serverTextField.setFont ( serverTextField.getFont ().deriveFont ( Font.BOLD | Font.ITALIC ) );
+        serverTextField.setForeground ( new Color ( 153, 0, 0 ) );
+        serverTextField.setText ( "localhost" );
+        serverTextField.setBorder ( new MatteBorder ( 0, 0, 1, 0, new Color ( 204, 204, 204 ) ) );
 
-		//======== xorScrollPane ========
-		{
-			xorScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-			xorScrollPane.setBorder(new MatteBorder(0, 0, 1, 0, new Color(204, 204, 204)));
-			xorScrollPane.setPreferredSize(new Dimension(29, 32));
+        //---- copyRadioButton ----
+        copyRadioButton.setText ( "Copy" );
+        copyRadioButton.setFont ( copyRadioButton.getFont ().deriveFont ( copyRadioButton.getFont ().getStyle () | Font.BOLD ) );
+        copyRadioButton.setSelected ( true );
 
-			//---- xorTextArea ----
-			xorTextArea.setFont(xorTextArea.getFont().deriveFont(Font.BOLD|Font.ITALIC));
-			xorTextArea.setForeground(new Color(153, 0, 0));
-			xorTextArea.setRows(1);
-			xorTextArea.setEditable(false);
-			xorTextArea.setTabSize(0);
-			xorTextArea.setBorder(null);
-			xorTextArea.setColumns(1);
-			xorScrollPane.setViewportView(xorTextArea);
-		}
+        //---- xorButton ----
+        xorButton.setText ( "XOR Key" );
+        xorButton.setFont ( xorButton.getFont ().deriveFont ( xorButton.getFont ().getStyle () | Font.BOLD, xorButton.getFont ().getSize () + 5f ) );
+        xorButton.setActionCommand ( "XOR-Key File" );
+        xorButton.addActionListener ( e -> xorButtonActionPerformed () );
 
-		//---- authenticationOptionsLabel ----
-		authenticationOptionsLabel.setText("Authentication");
-		authenticationOptionsLabel.setFont(authenticationOptionsLabel.getFont().deriveFont(authenticationOptionsLabel.getFont().getStyle() | Font.BOLD, authenticationOptionsLabel.getFont().getSize() + 5f));
+        //======== xorScrollPane ========
+        {
+            xorScrollPane.setVerticalScrollBarPolicy ( ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER );
+            xorScrollPane.setBorder ( new MatteBorder ( 0, 0, 1, 0, new Color ( 204, 204, 204 ) ) );
+            xorScrollPane.setPreferredSize ( new Dimension ( 29, 32 ) );
 
-		//---- plainRadioButton ----
-		plainRadioButton.setText("Plain Text");
-		plainRadioButton.setFont(plainRadioButton.getFont().deriveFont(plainRadioButton.getFont().getStyle() | Font.BOLD));
-		plainRadioButton.setSelected(true);
+            //---- xorTextArea ----
+            xorTextArea.setFont ( xorTextArea.getFont ().deriveFont ( Font.BOLD | Font.ITALIC ) );
+            xorTextArea.setForeground ( new Color ( 153, 0, 0 ) );
+            xorTextArea.setRows ( 1 );
+            xorTextArea.setEditable ( false );
+            xorTextArea.setTabSize ( 0 );
+            xorTextArea.setBorder ( null );
+            xorTextArea.setColumns ( 1 );
+            xorScrollPane.setViewportView ( xorTextArea );
+        }
 
-		//---- xorClearButton ----
-		xorClearButton.setText("Clear");
-		xorClearButton.setFont(xorClearButton.getFont().deriveFont(xorClearButton.getFont().getStyle() | Font.BOLD));
-		xorClearButton.addActionListener(e -> xorClearButtonActionPerformed());
+        //---- authenticationOptionsLabel ----
+        authenticationOptionsLabel.setText ( "Authentication" );
+        authenticationOptionsLabel.setFont ( authenticationOptionsLabel.getFont ().deriveFont ( authenticationOptionsLabel.getFont ().getStyle () | Font.BOLD, authenticationOptionsLabel.getFont ().getSize () + 5f ) );
 
-		//---- fileClearButton ----
-		fileClearButton.setText("Clear");
-		fileClearButton.setFont(fileClearButton.getFont().deriveFont(fileClearButton.getFont().getStyle() | Font.BOLD));
-		fileClearButton.addActionListener(e -> fileClearButtonActionPerformed());
+        //---- plainRadioButton ----
+        plainRadioButton.setText ( "Plain Text" );
+        plainRadioButton.setFont ( plainRadioButton.getFont ().deriveFont ( plainRadioButton.getFont ().getStyle () | Font.BOLD ) );
+        plainRadioButton.setSelected ( true );
 
-		//---- chunkSizeSpinner ----
-		chunkSizeSpinner.setModel(new SpinnerNumberModel(1, 1, 1000, 1));
-		chunkSizeSpinner.setFont(chunkSizeSpinner.getFont().deriveFont(Font.BOLD|Font.ITALIC));
+        //---- xorClearButton ----
+        xorClearButton.setText ( "Clear" );
+        xorClearButton.setFont ( xorClearButton.getFont ().deriveFont ( xorClearButton.getFont ().getStyle () | Font.BOLD ) );
+        xorClearButton.addActionListener ( e -> xorClearButtonActionPerformed () );
 
-		GroupLayout layout = new GroupLayout(this);
-		setLayout(layout);
-		layout.setHorizontalGroup(
-			layout.createParallelGroup()
-				.addGroup(layout.createSequentialGroup()
-					.addGap(25, 25, 25)
-					.addGroup(layout.createParallelGroup()
-						.addGroup(layout.createSequentialGroup()
-							.addComponent(chunkSizeLabel)
-							.addGap(190, 271, Short.MAX_VALUE))
-						.addGroup(layout.createSequentialGroup()
-							.addGroup(layout.createParallelGroup()
-								.addComponent(fileOptionsLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addGroup(layout.createSequentialGroup()
-									.addGroup(layout.createParallelGroup()
-										.addComponent(armoringCheckBox)
-										.addComponent(copyRadioButton)
-										.addComponent(overwriteRadioButton))
-									.addGap(0, 0, Short.MAX_VALUE)))
-							.addGap(94, 94, 94))
-						.addGroup(layout.createSequentialGroup()
-							.addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-								.addComponent(authenticationOptionsLabel, GroupLayout.Alignment.LEADING)
-								.addComponent(passwordLabel, GroupLayout.Alignment.LEADING)
-								.addComponent(usernameLabel, GroupLayout.Alignment.LEADING)
-								.addComponent(portLabel, GroupLayout.Alignment.LEADING)
-								.addComponent(plainRadioButton, GroupLayout.Alignment.LEADING)
-								.addComponent(serverLabel, GroupLayout.Alignment.LEADING)
-								.addComponent(statusLabel, GroupLayout.Alignment.LEADING))
-							.addGap(0, 0, Short.MAX_VALUE))
-						.addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-							.addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-								.addComponent(dynamicStatusLabel, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
-								.addComponent(disconnectButton, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
-								.addComponent(connectButton, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
-								.addComponent(chunkSizeSlider, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
-								.addGroup(layout.createSequentialGroup()
-									.addComponent(fileButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
-									.addComponent(fileClearButton))
-								.addComponent(fileScrollPane, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
-								.addGroup(layout.createSequentialGroup()
-									.addComponent(xorButton)
-									.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 123, Short.MAX_VALUE)
-									.addComponent(xorClearButton))
-								.addComponent(xorScrollPane, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
-								.addComponent(passwordField, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
-								.addComponent(usernameTextField, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
-								.addComponent(portTextField, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
-								.addComponent(serverTextField, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
-								.addGroup(layout.createSequentialGroup()
-									.addGap(0, 210, Short.MAX_VALUE)
-									.addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-										.addGroup(layout.createSequentialGroup()
-											.addComponent(chunkSizeSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-											.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-											.addComponent(chunkSizeValueLabel))
-										.addComponent(sendFileButton))))
-							.addGap(50, 50, 50))))
-		);
-		layout.setVerticalGroup(
-			layout.createParallelGroup()
-				.addGroup(layout.createSequentialGroup()
-					.addGap(25, 25, 25)
-					.addComponent(statusLabel)
-					.addGap(18, 18, 18)
-					.addComponent(dynamicStatusLabel)
-					.addGap(18, 18, 18)
-					.addComponent(serverLabel)
-					.addGap(18, 18, 18)
-					.addComponent(serverTextField, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
-					.addGap(18, 18, 18)
-					.addComponent(portLabel)
-					.addGap(18, 18, 18)
-					.addComponent(portTextField, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
-					.addGap(18, 18, 18)
-					.addComponent(usernameLabel)
-					.addGap(18, 18, 18)
-					.addComponent(usernameTextField, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
-					.addGap(18, 18, 18)
-					.addComponent(passwordLabel)
-					.addGap(18, 18, 18)
-					.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(18, 18, 18)
-					.addComponent(authenticationOptionsLabel)
-					.addGap(18, 18, 18)
-					.addComponent(plainRadioButton)
-					.addGap(18, 18, 18)
-					.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-						.addComponent(xorButton)
-						.addComponent(xorClearButton))
-					.addGap(18, 18, 18)
-					.addComponent(xorScrollPane, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
-					.addGap(18, 18, 18)
-					.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-						.addComponent(fileButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(fileClearButton))
-					.addGap(18, 18, 18)
-					.addComponent(fileScrollPane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(18, 18, 18)
-					.addComponent(sendFileButton)
-					.addGap(18, 18, 18)
-					.addComponent(fileOptionsLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(18, 18, 18)
-					.addComponent(armoringCheckBox)
-					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-					.addComponent(copyRadioButton)
-					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-					.addComponent(overwriteRadioButton)
-					.addGap(18, 18, 18)
-					.addComponent(chunkSizeLabel)
-					.addGap(18, 18, 18)
-					.addComponent(chunkSizeSlider, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-					.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-						.addComponent(chunkSizeValueLabel)
-						.addComponent(chunkSizeSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
-					.addComponent(connectButton)
-					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-					.addComponent(disconnectButton)
-					.addGap(25, 25, 25))
-		);
+        //---- fileClearButton ----
+        fileClearButton.setText ( "Clear" );
+        fileClearButton.setFont ( fileClearButton.getFont ().deriveFont ( fileClearButton.getFont ().getStyle () | Font.BOLD ) );
+        fileClearButton.addActionListener ( e -> fileClearButtonActionPerformed () );
 
-		//---- fileOptionButtonGroup ----
-		ButtonGroup fileOptionButtonGroup = new ButtonGroup();
-		fileOptionButtonGroup.add(overwriteRadioButton);
-		fileOptionButtonGroup.add(copyRadioButton);
+        //---- chunkSizeSpinner ----
+        chunkSizeSpinner.setModel ( new SpinnerNumberModel ( 1, 1, 1000, 1 ) );
+        chunkSizeSpinner.setFont ( chunkSizeSpinner.getFont ().deriveFont ( Font.BOLD | Font.ITALIC ) );
 
-		//---- authenticationGroup ----
-		ButtonGroup authenticationGroup = new ButtonGroup();
-		authenticationGroup.add(plainRadioButton);
+        GroupLayout layout = new GroupLayout ( this );
+        setLayout ( layout );
+        layout.setHorizontalGroup (
+                layout.createParallelGroup ()
+                        .addGroup ( layout.createSequentialGroup ()
+                                .addGap ( 25, 25, 25 )
+                                .addGroup ( layout.createParallelGroup ()
+                                        .addGroup ( layout.createSequentialGroup ()
+                                                .addComponent ( chunkSizeLabel )
+                                                .addGap ( 190, 271, Short.MAX_VALUE ) )
+                                        .addGroup ( layout.createSequentialGroup ()
+                                                .addGroup ( layout.createParallelGroup ()
+                                                        .addComponent ( fileOptionsLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE )
+                                                        .addGroup ( layout.createSequentialGroup ()
+                                                                .addGroup ( layout.createParallelGroup ()
+                                                                        .addComponent ( armoringCheckBox )
+                                                                        .addComponent ( copyRadioButton )
+                                                                        .addComponent ( overwriteRadioButton ) )
+                                                                .addGap ( 0, 0, Short.MAX_VALUE ) ) )
+                                                .addGap ( 94, 94, 94 ) )
+                                        .addGroup ( layout.createSequentialGroup ()
+                                                .addGroup ( layout.createParallelGroup ( GroupLayout.Alignment.TRAILING )
+                                                        .addComponent ( authenticationOptionsLabel, GroupLayout.Alignment.LEADING )
+                                                        .addComponent ( passwordLabel, GroupLayout.Alignment.LEADING )
+                                                        .addComponent ( usernameLabel, GroupLayout.Alignment.LEADING )
+                                                        .addComponent ( portLabel, GroupLayout.Alignment.LEADING )
+                                                        .addComponent ( plainRadioButton, GroupLayout.Alignment.LEADING )
+                                                        .addComponent ( serverLabel, GroupLayout.Alignment.LEADING )
+                                                        .addComponent ( statusLabel, GroupLayout.Alignment.LEADING ) )
+                                                .addGap ( 0, 0, Short.MAX_VALUE ) )
+                                        .addGroup ( GroupLayout.Alignment.TRAILING, layout.createSequentialGroup ()
+                                                .addGroup ( layout.createParallelGroup ( GroupLayout.Alignment.TRAILING )
+                                                        .addComponent ( dynamicStatusLabel, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE )
+                                                        .addComponent ( disconnectButton, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE )
+                                                        .addComponent ( connectButton, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE )
+                                                        .addComponent ( chunkSizeSlider, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE )
+                                                        .addGroup ( layout.createSequentialGroup ()
+                                                                .addComponent ( fileButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE )
+                                                                .addPreferredGap ( LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE )
+                                                                .addComponent ( fileClearButton ) )
+                                                        .addComponent ( fileScrollPane, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE )
+                                                        .addGroup ( layout.createSequentialGroup ()
+                                                                .addComponent ( xorButton )
+                                                                .addPreferredGap ( LayoutStyle.ComponentPlacement.RELATED, 123, Short.MAX_VALUE )
+                                                                .addComponent ( xorClearButton ) )
+                                                        .addComponent ( xorScrollPane, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE )
+                                                        .addComponent ( passwordField, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE )
+                                                        .addComponent ( usernameTextField, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE )
+                                                        .addComponent ( portTextField, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE )
+                                                        .addComponent ( serverTextField, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE )
+                                                        .addGroup ( layout.createSequentialGroup ()
+                                                                .addGap ( 0, 210, Short.MAX_VALUE )
+                                                                .addGroup ( layout.createParallelGroup ( GroupLayout.Alignment.TRAILING )
+                                                                        .addGroup ( layout.createSequentialGroup ()
+                                                                                .addComponent ( chunkSizeSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE )
+                                                                                .addPreferredGap ( LayoutStyle.ComponentPlacement.RELATED )
+                                                                                .addComponent ( chunkSizeValueLabel ) )
+                                                                        .addComponent ( sendFileButton ) ) ) )
+                                                .addGap ( 50, 50, 50 ) ) ) )
+        );
+        layout.setVerticalGroup (
+                layout.createParallelGroup ()
+                        .addGroup ( layout.createSequentialGroup ()
+                                .addGap ( 25, 25, 25 )
+                                .addComponent ( statusLabel )
+                                .addGap ( 18, 18, 18 )
+                                .addComponent ( dynamicStatusLabel )
+                                .addGap ( 18, 18, 18 )
+                                .addComponent ( serverLabel )
+                                .addGap ( 18, 18, 18 )
+                                .addComponent ( serverTextField, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE )
+                                .addGap ( 18, 18, 18 )
+                                .addComponent ( portLabel )
+                                .addGap ( 18, 18, 18 )
+                                .addComponent ( portTextField, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE )
+                                .addGap ( 18, 18, 18 )
+                                .addComponent ( usernameLabel )
+                                .addGap ( 18, 18, 18 )
+                                .addComponent ( usernameTextField, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE )
+                                .addGap ( 18, 18, 18 )
+                                .addComponent ( passwordLabel )
+                                .addGap ( 18, 18, 18 )
+                                .addComponent ( passwordField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE )
+                                .addGap ( 18, 18, 18 )
+                                .addComponent ( authenticationOptionsLabel )
+                                .addGap ( 18, 18, 18 )
+                                .addComponent ( plainRadioButton )
+                                .addGap ( 18, 18, 18 )
+                                .addGroup ( layout.createParallelGroup ( GroupLayout.Alignment.BASELINE )
+                                        .addComponent ( xorButton )
+                                        .addComponent ( xorClearButton ) )
+                                .addGap ( 18, 18, 18 )
+                                .addComponent ( xorScrollPane, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE )
+                                .addGap ( 18, 18, 18 )
+                                .addGroup ( layout.createParallelGroup ( GroupLayout.Alignment.BASELINE )
+                                        .addComponent ( fileButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE )
+                                        .addComponent ( fileClearButton ) )
+                                .addGap ( 18, 18, 18 )
+                                .addComponent ( fileScrollPane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE )
+                                .addGap ( 18, 18, 18 )
+                                .addComponent ( sendFileButton )
+                                .addGap ( 18, 18, 18 )
+                                .addComponent ( fileOptionsLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE )
+                                .addGap ( 18, 18, 18 )
+                                .addComponent ( armoringCheckBox )
+                                .addPreferredGap ( LayoutStyle.ComponentPlacement.RELATED )
+                                .addComponent ( copyRadioButton )
+                                .addPreferredGap ( LayoutStyle.ComponentPlacement.RELATED )
+                                .addComponent ( overwriteRadioButton )
+                                .addGap ( 18, 18, 18 )
+                                .addComponent ( chunkSizeLabel )
+                                .addGap ( 18, 18, 18 )
+                                .addComponent ( chunkSizeSlider, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE )
+                                .addPreferredGap ( LayoutStyle.ComponentPlacement.RELATED )
+                                .addGroup ( layout.createParallelGroup ( GroupLayout.Alignment.BASELINE )
+                                        .addComponent ( chunkSizeValueLabel )
+                                        .addComponent ( chunkSizeSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE ) )
+                                .addPreferredGap ( LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE )
+                                .addComponent ( connectButton )
+                                .addPreferredGap ( LayoutStyle.ComponentPlacement.RELATED )
+                                .addComponent ( disconnectButton )
+                                .addGap ( 25, 25, 25 ) )
+        );
 
-		//---- bindings ----
-		bindingGroup = new BindingGroup();
-		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ,
-			connectButton, BeanProperty.create("enabled"),
-			serverTextField, BeanProperty.create("enabled")));
-		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ,
-			connectButton, BeanProperty.create("enabled"),
-			portTextField, BeanProperty.create("enabled")));
-		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ,
-			connectButton, BeanProperty.create("enabled"),
-			usernameTextField, BeanProperty.create("enabled")));
-		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ,
-			connectButton, BeanProperty.create("enabled"),
-			passwordField, BeanProperty.create("enabled")));
-		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ,
-			connectButton, BeanProperty.create("enabled"),
-			plainRadioButton, BeanProperty.create("enabled")));
-		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ,
-			disconnectButton, BeanProperty.create("enabled"),
-			fileButton, BeanProperty.create("enabled")));
-		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ,
-			disconnectButton, BeanProperty.create("enabled"),
-			sendFileButton, BeanProperty.create("enabled")));
-		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ,
-			disconnectButton, BeanProperty.create("enabled"),
-			fileTextArea, BeanProperty.create("enabled")));
-		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ,
-			disconnectButton, BeanProperty.create("enabled"),
-			armoringCheckBox, BeanProperty.create("enabled")));
-		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ,
-			disconnectButton, BeanProperty.create("enabled"),
-			copyRadioButton, BeanProperty.create("enabled")));
-		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ,
-			disconnectButton, BeanProperty.create("enabled"),
-			overwriteRadioButton, BeanProperty.create("enabled")));
-		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ,
-			disconnectButton, BeanProperty.create("enabled"),
-			chunkSizeSlider, BeanProperty.create("enabled")));
-		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ,
-			disconnectButton, BeanProperty.create("enabled"),
-			chunkSizeValueLabel, BeanProperty.create("enabled")));
-		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ,
-			connectButton, ELProperty.create("${!enabled}"),
-			disconnectButton, BeanProperty.create("enabled")));
-		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ,
-			connectButton, BeanProperty.create("enabled"),
-			xorButton, BeanProperty.create("enabled")));
-		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ,
-			connectButton, BeanProperty.create("enabled"),
-			xorTextArea, BeanProperty.create("enabled")));
-		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ,
-			connectButton, BeanProperty.create("enabled"),
-			xorClearButton, BeanProperty.create("enabled")));
-		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ,
-			disconnectButton, BeanProperty.create("enabled"),
-			fileClearButton, BeanProperty.create("enabled")));
-		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ,
-			disconnectButton, BeanProperty.create("enabled"),
-			chunkSizeSpinner, BeanProperty.create("enabled")));
-		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ,
-			chunkSizeSlider, BeanProperty.create("value"),
-			chunkSizeSpinner, BeanProperty.create("value")));
-		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ,
-			chunkSizeSpinner, BeanProperty.create("value"),
-			chunkSizeSlider, BeanProperty.create("value")));
-		bindingGroup.bind();
+        //---- fileOptionButtonGroup ----
+        ButtonGroup fileOptionButtonGroup = new ButtonGroup ();
+        fileOptionButtonGroup.add ( overwriteRadioButton );
+        fileOptionButtonGroup.add ( copyRadioButton );
+
+        //---- authenticationGroup ----
+        ButtonGroup authenticationGroup = new ButtonGroup ();
+        authenticationGroup.add ( plainRadioButton );
+
+        //---- bindings ----
+        bindingGroup = new BindingGroup ();
+        bindingGroup.addBinding ( Bindings.createAutoBinding ( UpdateStrategy.READ,
+                connectButton, BeanProperty.create ( "enabled" ),
+                serverTextField, BeanProperty.create ( "enabled" ) ) );
+        bindingGroup.addBinding ( Bindings.createAutoBinding ( UpdateStrategy.READ,
+                connectButton, BeanProperty.create ( "enabled" ),
+                portTextField, BeanProperty.create ( "enabled" ) ) );
+        bindingGroup.addBinding ( Bindings.createAutoBinding ( UpdateStrategy.READ,
+                connectButton, BeanProperty.create ( "enabled" ),
+                usernameTextField, BeanProperty.create ( "enabled" ) ) );
+        bindingGroup.addBinding ( Bindings.createAutoBinding ( UpdateStrategy.READ,
+                connectButton, BeanProperty.create ( "enabled" ),
+                passwordField, BeanProperty.create ( "enabled" ) ) );
+        bindingGroup.addBinding ( Bindings.createAutoBinding ( UpdateStrategy.READ,
+                connectButton, BeanProperty.create ( "enabled" ),
+                plainRadioButton, BeanProperty.create ( "enabled" ) ) );
+        bindingGroup.addBinding ( Bindings.createAutoBinding ( UpdateStrategy.READ,
+                disconnectButton, BeanProperty.create ( "enabled" ),
+                fileButton, BeanProperty.create ( "enabled" ) ) );
+        bindingGroup.addBinding ( Bindings.createAutoBinding ( UpdateStrategy.READ,
+                disconnectButton, BeanProperty.create ( "enabled" ),
+                sendFileButton, BeanProperty.create ( "enabled" ) ) );
+        bindingGroup.addBinding ( Bindings.createAutoBinding ( UpdateStrategy.READ,
+                disconnectButton, BeanProperty.create ( "enabled" ),
+                fileTextArea, BeanProperty.create ( "enabled" ) ) );
+        bindingGroup.addBinding ( Bindings.createAutoBinding ( UpdateStrategy.READ,
+                disconnectButton, BeanProperty.create ( "enabled" ),
+                armoringCheckBox, BeanProperty.create ( "enabled" ) ) );
+        bindingGroup.addBinding ( Bindings.createAutoBinding ( UpdateStrategy.READ,
+                disconnectButton, BeanProperty.create ( "enabled" ),
+                copyRadioButton, BeanProperty.create ( "enabled" ) ) );
+        bindingGroup.addBinding ( Bindings.createAutoBinding ( UpdateStrategy.READ,
+                disconnectButton, BeanProperty.create ( "enabled" ),
+                overwriteRadioButton, BeanProperty.create ( "enabled" ) ) );
+        bindingGroup.addBinding ( Bindings.createAutoBinding ( UpdateStrategy.READ,
+                disconnectButton, BeanProperty.create ( "enabled" ),
+                chunkSizeSlider, BeanProperty.create ( "enabled" ) ) );
+        bindingGroup.addBinding ( Bindings.createAutoBinding ( UpdateStrategy.READ,
+                disconnectButton, BeanProperty.create ( "enabled" ),
+                chunkSizeValueLabel, BeanProperty.create ( "enabled" ) ) );
+        bindingGroup.addBinding ( Bindings.createAutoBinding ( UpdateStrategy.READ,
+                connectButton, ELProperty.create ( "${!enabled}" ),
+                disconnectButton, BeanProperty.create ( "enabled" ) ) );
+        bindingGroup.addBinding ( Bindings.createAutoBinding ( UpdateStrategy.READ,
+                connectButton, BeanProperty.create ( "enabled" ),
+                xorButton, BeanProperty.create ( "enabled" ) ) );
+        bindingGroup.addBinding ( Bindings.createAutoBinding ( UpdateStrategy.READ,
+                connectButton, BeanProperty.create ( "enabled" ),
+                xorTextArea, BeanProperty.create ( "enabled" ) ) );
+        bindingGroup.addBinding ( Bindings.createAutoBinding ( UpdateStrategy.READ,
+                connectButton, BeanProperty.create ( "enabled" ),
+                xorClearButton, BeanProperty.create ( "enabled" ) ) );
+        bindingGroup.addBinding ( Bindings.createAutoBinding ( UpdateStrategy.READ,
+                disconnectButton, BeanProperty.create ( "enabled" ),
+                fileClearButton, BeanProperty.create ( "enabled" ) ) );
+        bindingGroup.addBinding ( Bindings.createAutoBinding ( UpdateStrategy.READ,
+                disconnectButton, BeanProperty.create ( "enabled" ),
+                chunkSizeSpinner, BeanProperty.create ( "enabled" ) ) );
+        bindingGroup.addBinding ( Bindings.createAutoBinding ( UpdateStrategy.READ,
+                chunkSizeSlider, BeanProperty.create ( "value" ),
+                chunkSizeSpinner, BeanProperty.create ( "value" ) ) );
+        bindingGroup.addBinding ( Bindings.createAutoBinding ( UpdateStrategy.READ,
+                chunkSizeSpinner, BeanProperty.create ( "value" ),
+                chunkSizeSlider, BeanProperty.create ( "value" ) ) );
+        bindingGroup.bind ();
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-	// Generated using JFormDesigner Evaluation license - Erik Huerta
-	private JTextField usernameTextField;
-	private JPasswordField passwordField;
-	private JTextField portTextField;
-	private JCheckBox armoringCheckBox;
-	private JRadioButton overwriteRadioButton;
-	private JSlider chunkSizeSlider;
-	private JButton connectButton;
-	private JLabel dynamicStatusLabel;
-	private JTextArea fileTextArea;
-	private JTextField serverTextField;
-	private JRadioButton copyRadioButton;
-	private JTextArea xorTextArea;
-	private JRadioButton plainRadioButton;
-	private BindingGroup bindingGroup;
+    // Generated using JFormDesigner Evaluation license - Erik Huerta
+    private JTextField usernameTextField;
+    private JPasswordField passwordField;
+    private JTextField portTextField;
+    private JCheckBox armoringCheckBox;
+    private JRadioButton overwriteRadioButton;
+    private JSlider chunkSizeSlider;
+    private JButton connectButton;
+    private JLabel dynamicStatusLabel;
+    private JTextArea fileTextArea;
+    private JTextField serverTextField;
+    private JRadioButton copyRadioButton;
+    private JTextArea xorTextArea;
+    private JRadioButton plainRadioButton;
+    private BindingGroup bindingGroup;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 }

@@ -14,7 +14,7 @@ import java.util.Collections;
  */
 
 
-public abstract class NotificationThread extends Thread
+abstract class NotificationThread extends Thread
 {
     /**
      * An abstract function that children must implement. This function is where
@@ -22,7 +22,7 @@ public abstract class NotificationThread extends Thread
      * all work - typically placed in the run of runnable - should be placed.
      */
 
-    public abstract void notifyingRunnable ();
+    protected abstract void notifyingRunnable ();
 
 
     /**
@@ -41,19 +41,6 @@ public abstract class NotificationThread extends Thread
     public void addListener ( ThreadCompletionListener listener )
     {
         listeners.add ( listener );
-    }
-
-    /**
-     * Removes a particular listener from this object, or does nothing if the listener
-     * <p>
-     * is not registered.
-     *
-     * @param listener The listener to remove.
-     */
-
-    public void removeListener ( ThreadCompletionListener listener )
-    {
-        listeners.remove ( listener );
     }
 
     /**

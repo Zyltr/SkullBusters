@@ -4,8 +4,8 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {seq {par l {seq l {space :p:135:p, comp bulldogPanel:::p::p, space :0:123:x}, seq l {space :::p, comp projectLabel::::386:x}, seq l {space :::p, comp createdLabel:::::x}, seq l {space :::p, comp memberLabel::::386:x}, comp memberLabel2::t::392:x, seq l {space :::p, comp memberLabel3::::386:x}, seq l {space :::p, comp memberLabel4::::386:x}, seq l {space :::p, comp memberLabel5::::386:x}}, space :::p}}"
-			"$verticalGroup": "par l {seq l {space :p:20:p, comp bulldogPanel:::p::p, space :p:25:p, comp projectLabel:::p::p, space :::p, comp createdLabel:::p::p, space s:::p, comp memberLabel:::p::p, space :::p, comp memberLabel2:::p::p, space :::p, comp memberLabel3:::p::p, space :::p, comp memberLabel4:::p::p, space :::p, comp memberLabel5:::p::p, space ::27:x}}"
+			"$horizontalGroup": "par l {seq {par l {seq l {space :p:135:p, comp bulldogPanel:::p::p, space :0:123:x}, seq l {space :::p, comp projectLabel::::386:x}, seq l {space :::p, comp memberLabel::::386:x}, comp memberLabel2::t::392:x, seq l {space :::p, comp memberLabel3::::386:x}, seq l {space :::p, comp memberLabel4::::386:x}, seq l {space :::p, comp memberLabel5::::386:x}, comp createdLabel:::::x}, space :::p}}"
+			"$verticalGroup": "par l {seq l {space :p:20:p, comp bulldogPanel:::p::p, space :p:25:p, comp projectLabel:::p::p, space :::p, comp createdLabel:::p::p, space :p:18:p, comp memberLabel:::p::p, space :::p, comp memberLabel2:::p::p, space :::p, comp memberLabel3:::p::p, space :::p, comp memberLabel4:::p::p, space :::p, comp memberLabel5:::p::p, space ::27:x}}"
 		} ) {
 			name: "this"
 			"title": "About Skullbusters"

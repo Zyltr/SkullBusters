@@ -1,4 +1,4 @@
-public interface ThreadCompletionListener
+interface ThreadCompletionListener
 {
     void threadCompletedNotification ( Thread thread );
 }

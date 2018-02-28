@@ -7,12 +7,12 @@ import java.util.Base64;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
-public class AES
+class AES
 {
 
     private static SecretKeySpec secretKey;
 
-    public static void setKey ( String myKey )
+    private static void setKey ( String myKey )
     {
         MessageDigest sha;
         try

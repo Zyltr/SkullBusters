@@ -1,12 +1,11 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 /*
  * Created by JFormDesigner on Tue Feb 20 10:13:05 PST 2018
  */
 
 
-public class ProgressDialog extends JDialog
+class ProgressDialog extends JDialog
 {
     public ProgressDialog ( Window owner )
     {
@@ -14,7 +13,7 @@ public class ProgressDialog extends JDialog
         initComponents ();
     }
 
-    private void cancelButtonActionPerformed ( ActionEvent e )
+    private void cancelButtonActionPerformed ()
     {
         // TODO -> Cancel File Transfer
         dispose ();
@@ -53,7 +52,7 @@ public class ProgressDialog extends JDialog
 		//---- cancelButton ----
 		cancelButton.setText("Cancel");
 		cancelButton.setFont(cancelButton.getFont().deriveFont(cancelButton.getFont().getStyle() | Font.BOLD, cancelButton.getFont().getSize() + 3f));
-		cancelButton.addActionListener(e -> cancelButtonActionPerformed(e));
+		cancelButton.addActionListener(e -> cancelButtonActionPerformed());
 
 		GroupLayout contentPaneLayout = new GroupLayout(contentPane);
 		contentPane.setLayout(contentPaneLayout);

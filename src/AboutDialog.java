@@ -10,7 +10,7 @@ import java.awt.*;
  * Created by JFormDesigner on Sun Jan 28 21:23:50 PST 2018
  */
 
-public class AboutDialog extends JDialog
+class AboutDialog extends JDialog
 {
     public AboutDialog ( Window owner )
     {
@@ -44,6 +44,14 @@ public class AboutDialog extends JDialog
 		{
 			bulldogPanel.setBackground(Color.white);
 			bulldogPanel.setBorder(new BevelBorder(BevelBorder.RAISED));
+
+			// JFormDesigner evaluation mark
+			bulldogPanel.setBorder(new javax.swing.border.CompoundBorder(
+				new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder(0, 0, 0, 0),
+					"JFormDesigner Evaluation", javax.swing.border.TitledBorder.CENTER,
+					javax.swing.border.TitledBorder.BOTTOM, new java.awt.Font("Dialog", java.awt.Font.BOLD, 12),
+					java.awt.Color.red), bulldogPanel.getBorder())); bulldogPanel.addPropertyChangeListener(new java.beans.PropertyChangeListener(){public void propertyChange(java.beans.PropertyChangeEvent e){if("border".equals(e.getPropertyName()))throw new RuntimeException();}});
+
 
 			//---- bulldogLabel ----
 			bulldogLabel.setIcon(new ImageIcon("/Users/Erik/Documents/GitHub/Skullbusters/src/Images/Bulldog.jpg"));
@@ -122,9 +130,6 @@ public class AboutDialog extends JDialog
 							.addComponent(projectLabel, GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE))
 						.addGroup(contentPaneLayout.createSequentialGroup()
 							.addContainerGap()
-							.addComponent(createdLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-						.addGroup(contentPaneLayout.createSequentialGroup()
-							.addContainerGap()
 							.addComponent(memberLabel, GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE))
 						.addComponent(memberLabel2, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE)
 						.addGroup(contentPaneLayout.createSequentialGroup()
@@ -135,7 +140,8 @@ public class AboutDialog extends JDialog
 							.addComponent(memberLabel4, GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE))
 						.addGroup(contentPaneLayout.createSequentialGroup()
 							.addContainerGap()
-							.addComponent(memberLabel5, GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)))
+							.addComponent(memberLabel5, GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE))
+						.addComponent(createdLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		contentPaneLayout.setVerticalGroup(
@@ -171,8 +177,9 @@ public class AboutDialog extends JDialog
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
 
-    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
+
+	//GEN-BEGIN:variables
 	// Generated using JFormDesigner Evaluation license - Erik Huerta
 	private BindingGroup bindingGroup;
-    // JFormDesigner - End of variables declaration  //GEN-END:variables
+	// GEN-END:variables
 }

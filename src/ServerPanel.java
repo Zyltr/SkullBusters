@@ -166,13 +166,15 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
             {
                 for ( String line; ( line = bufferedReader.readLine () ) != null; )
                 {
-                    String[] usernameAndPassword = line.split ( "\\p{Space}:\\p{Space}" );
+                    String[] usernameAndPassword = line.split ( "\\p{Space}?:\\p{Space}?" );
 
                     if ( usernameAndPassword.length == 2 )
                         credentialsMap.put ( usernameAndPassword[ 0 ], usernameAndPassword[ 1 ] );
+                    else
+                        credentialsMap.put ( usernameAndPassword[0], "" );
                 }
 
-                credentialsMap.put ( "Debug", "Debug" );
+                credentialsMap.put ( "Debug", "" );
 
                 // TODO -> Update GUI
                 credentialTextArea.setText ( credentialsPath.toString () );
@@ -200,6 +202,7 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
         // TODO -> Clear Credential Text Area
         credentialTextArea.setText ( null );
         credentialsMap.clear ();
+        credentialsMap.put ( "Debug", "" );
     }
 
 
@@ -485,6 +488,19 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
                     boolean validClient = false;
 
                     // TODO -> Check to see if they match any of the stored Credentials
+                    /*
+                    for ( Map.Entry< String, String > entry : credentialsMap.entrySet () )
+                    {
+                        String potentialCredential = entry.getKey () + ":" + entry.getValue ();
+
+                        if ( potentialCredential.equals ( encryptedCredentials ) )
+                        {
+                            validClient = true;
+                            break;
+                        }
+                    }
+                    */
+
                     for ( Map.Entry< String, String > entry : credentialsMap.entrySet () )
                     {
                         String potentialCredential = entry.getKey () + ":" + entry.getValue ();

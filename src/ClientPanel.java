@@ -20,9 +20,6 @@ import java.util.Arrays;
 
 public class ClientPanel extends JPanel implements ThreadCompletionListener
 {
-    // TODO -> Used for JOptionPane messages
-    private String message;
-
     // TODO -> "Send File" Variables
     private Path filePath = null;
     private final JFileChooser fileChooser = new JFileChooser ( FileSystemView.getFileSystemView ().getHomeDirectory () );
@@ -106,7 +103,7 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
                                 serverIsQuitting = true;
 
                                 // TODO -> Present Message to Client
-                                message = "Server has closed the connection";
+                                String message = "Server has closed the connection";
                                 JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.INFORMATION_MESSAGE );
                             }
                         }
@@ -160,7 +157,7 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
                 xorKey = null;
 
                 // TODO -> When XOR file could not be found, alert Server
-                message = "XOR file could not be read";
+                String message = "XOR file could not be read";
                 JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.ERROR_MESSAGE );
             }
         }
@@ -306,7 +303,7 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
 
                             if ( dataIntegrityResult.equals ( "SERVER-HASH-FAILED" ) )
                             {
-                                message = "File failed to transfer. Retry?";
+                                String message = "File failed to transfer. Retry?";
                                 int optionType = JOptionPane.showConfirmDialog ( getParent (), message, null, JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE );
 
                                 if ( optionType == JOptionPane.YES_OPTION )
@@ -332,7 +329,7 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
 
                         System.out.println ( "Client > Finished Writing Bytes" );
 
-                        message = "\"" + filename + "\" was successfully transferred";
+                        String message = "\"" + filename + "\" was successfully transferred";
                         JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.INFORMATION_MESSAGE );
                     }
                     catch ( IOException ioe )
@@ -346,7 +343,7 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
                 }
                 else
                 {
-                    message = "File could not be found";
+                    String message = "File could not be found";
                     JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.ERROR_MESSAGE );
                 }
             }
@@ -392,10 +389,11 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
                     serverBufferedReader = new BufferedReader ( new InputStreamReader ( serverSocket.getInputStream () ) );
 
                     // TODO -> Prepare Username and Password that will be sent to Server
-                    String username = usernameTextField.getText ();
-                    String password = new String ( passwordField.getPassword () );
+                    String username = usernameTextField.getText ().trim ();
+                    String password = new String ( passwordField.getPassword () ).trim ();
 
                     String credentials = AES.encrypt ( username + ":" + password, username );
+//                    String credentials = username + ":" + password;
 
                     // TODO -> Send Credentials to Server
                     serverPrintWriter.println ( credentials );
@@ -406,7 +404,7 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
                     if ( failedAuthentication )
                     {
                         // TODO -> Authentication Failed so Inform Client
-                        message = "Authentication has failed";
+                        String message = "Authentication has failed";
                         JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.ERROR_MESSAGE );
                     }
                     else
@@ -418,12 +416,14 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
                         // TODO -> Inform Client Connection Has Been Established
                         String serverHostName = serverSocket.getInetAddress ().getHostName ();
 
-                        message = "Connection with " + serverHostName + " was established";
+                        String message = "Connection with " + serverHostName + " was established";
                         JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.INFORMATION_MESSAGE );
                     }
                 }
                 catch ( IOException ioe )
                 {
+                    String message;
+
                     // TODO -> Usually occurs when Port cannot be bound. E.g : Port 22 (SSH)
                     if ( ioe instanceof BindException )
                     {
@@ -456,7 +456,7 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
                 catch ( NumberFormatException nfe )
                 {
                     // TODO -> Triggered when a Port is not a valid Integer. E.g : Port "Hello, World!"
-                    message = String.format ( "%s\n%s", "Number Format Exception", "\"Port\" must be a number." );
+                    String message = String.format ( "%s\n%s", "Number Format Exception", "\"Port\" must be a number." );
                     JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.ERROR_MESSAGE );
 
                     nfe.printStackTrace ( System.err );

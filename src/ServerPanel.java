@@ -751,7 +751,7 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
 
 		//======== this ========
 		setPreferredSize(new Dimension(400, 900));
-		setOpaque(false);
+		setBackground(Color.white);
 
 		//---- staticStatusLabel ----
 		staticStatusLabel.setText("Status");
@@ -991,7 +991,6 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
 			startButton, BeanProperty.create("enabled"),
 			xorClearButton, BeanProperty.create("enabled")));
 		bindingGroup.bind();
-        // JFormDesigner - End of component initialization
         // GEN-END:initComponents
     }
 
@@ -1004,6 +1003,5 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
 	private JTextArea saveTextArea;
 	private JTextArea credentialTextArea;
 	private JTextArea xorTextArea;
-    // JFormDesigner - End of variables declaration
     // GEN-END:variables
 }

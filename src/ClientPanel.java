@@ -40,19 +40,15 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
     private PrintWriter serverPrintWriter = null;
     private BufferedReader serverBufferedReader = null;
 
-    // connectThread
-    // quitThread
+    // quitThread :
     // fileTransferThread : variables that execute specific functions of the program so that the GUI can be updated in the foreground
-    private NotificationThread connectThread = null;
     private NotificationThread quitThread = null;
     private NotificationThread fileTransferThread = null;
 
-    // clientIsQuitting
-    // serverIsQuitting
-    // failedAuthentication : variables useful for controlling/exiting NotificationThread's currently active
+    // clientIsQuitting :
+    // serverIsQuitting : variables useful for controlling/exiting NotificationThread's currently active
     private volatile boolean clientIsQuitting = false;
     private volatile boolean serverIsQuitting = false;
-    private volatile boolean failedAuthentication = true;
 
     /**
      * Creates the ClientPanel
@@ -70,16 +66,7 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
     @Override
     public void threadCompletedNotification ( Thread thread )
     {
-        if ( thread.equals ( connectThread ) )
-        {
-            connectThread = null;
-
-            if ( failedAuthentication )
-                disconnectButtonActionPerformed ();
-            else
-                startQuitThread ();
-        }
-        else if ( thread.equals ( quitThread ) )
+        if ( thread.equals ( quitThread ) )
         {
             quitThread = null;
         }
@@ -403,103 +390,96 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
      */
     private void connectButtonActionPerformed ()
     {
-        connectThread = new NotificationThread ()
+        try
         {
-            @Override
-            public void notifyingRunnable ()
+            // Get name of server
+            String host = serverTextField.getText ();
+
+            // Parse Port. If not a valid Integer, Exception will be thrown
+            String portString = portTextField.getText ();
+            Integer port = Integer.parseInt ( portString );
+
+            // Try to open Socket
+            serverSocket = new Socket ( host, port );
+
+            // Create I/O which will be used for communication between the Client and Server
+            serverPrintWriter = new PrintWriter ( serverSocket.getOutputStream (), true );
+            serverBufferedReader = new BufferedReader ( new InputStreamReader ( serverSocket.getInputStream () ) );
+
+            // Prepare Username and Password that will be sent to Server
+            String username = usernameTextField.getText ().trim ();
+            String password = new String ( passwordField.getPassword () ).trim ();
+
+            String credentials = AES.encrypt ( username + ":" + password, username );
+
+            // Send credentials to Server
+            serverPrintWriter.println ( credentials );
+
+            // Read authentication response
+            boolean validClient = serverBufferedReader.readLine ().equals ( "AUTH-FAILED" );
+
+            if ( validClient )
             {
-                try
-                {
-                    // Get name of server
-                    String host = serverTextField.getText ();
+                // Update GUI to Reflect Connection Status
+                dynamicStatusLabel.setText ( "Connected" );
+                connectButton.setEnabled ( false );
 
-                    // Parse Port. If not a valid Integer, Exception will be thrown
-                    String portString = portTextField.getText ();
-                    Integer port = Integer.parseInt ( portString );
+                // Inform Client Connection Has Been Established
+                String serverHostName = serverSocket.getInetAddress ().getHostName ();
 
-                    // Try to open Socket
-                    serverSocket = new Socket ( host, port );
+                String message = "Connection with " + serverHostName + " was established";
+                JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.INFORMATION_MESSAGE );
 
-                    // Create I/O which will be used for communication between the Client and Server
-                    serverPrintWriter = new PrintWriter ( serverSocket.getOutputStream (), true );
-                    serverBufferedReader = new BufferedReader ( new InputStreamReader ( serverSocket.getInputStream () ) );
-
-                    // Prepare Username and Password that will be sent to Server
-                    String username = usernameTextField.getText ().trim ();
-                    String password = new String ( passwordField.getPassword () ).trim ();
-
-                    String credentials = AES.encrypt ( username + ":" + password, username );
-
-                    // Send credentials to Server
-                    serverPrintWriter.println ( credentials );
-
-                    // Read authentication response
-                    failedAuthentication = serverBufferedReader.readLine ().equals ( "AUTH-FAILED" );
-
-                    if ( failedAuthentication )
-                    {
-                        // Authentication Failed so Inform Client
-                        String message = "Authentication has failed";
-                        JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.ERROR_MESSAGE );
-                    }
-                    else
-                    {
-                        // Update GUI to Reflect Connection Status
-                        dynamicStatusLabel.setText ( "Connected" );
-                        connectButton.setEnabled ( false );
-
-                        // Inform Client Connection Has Been Established
-                        String serverHostName = serverSocket.getInetAddress ().getHostName ();
-
-                        String message = "Connection with " + serverHostName + " was established";
-                        JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.INFORMATION_MESSAGE );
-                    }
-                }
-                catch ( IOException ioe )
-                {
-                    String message;
-
-                    if ( ioe instanceof BindException )
-                    {
-                        message = String.format ( "%s\n%s", "Bind Exception", "Port \"" + portTextField.getText () + "\" is not usable" );
-                        JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.ERROR_MESSAGE );
-                    }
-                    else if ( ioe instanceof NoRouteToHostException )
-                    {
-                        message = String.format ( "%s\n%s", "No Route to Host Exception", "Host \"" + serverTextField.getText () + "\" is unreachable" );
-                        JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.ERROR_MESSAGE );
-                    }
-                    else if ( ioe instanceof ConnectException )
-                    {
-                        message = String.format ( "%s\n%s", "Connect Exception", "Connection was refused" );
-                        JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.ERROR_MESSAGE );
-                    }
-                    else if ( ioe instanceof UnknownHostException )
-                    {
-                        message = String.format ( "%s\n%s", "Unknown Host Exception", "Invalid hostname for \"Server\"" );
-                        JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.ERROR_MESSAGE );
-                    }
-                    else if ( ioe instanceof SocketException )
-                    {
-                        message = "Network is unreachable";
-                        JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.ERROR_MESSAGE );
-                    }
-
-                    ioe.printStackTrace ( System.err );
-                }
-                catch ( NumberFormatException nfe )
-                {
-                    String message = String.format ( "%s\n%s", "Number Format Exception", "\"Port\" must be a number." );
-                    JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.ERROR_MESSAGE );
-
-                    nfe.printStackTrace ( System.err );
-                }
+                startQuitThread ();
             }
-        };
+            else
+            {
+                // Authentication Failed so Inform Client
+                String message = "Authentication has failed";
+                JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.ERROR_MESSAGE );
 
-        connectThread.setName ( "Client Connect Thread" );
-        connectThread.addListener ( this );
-        connectThread.start ();
+                disconnectButtonActionPerformed ();
+            }
+        }
+        catch ( IOException ioe )
+        {
+            String message;
+
+            if ( ioe instanceof BindException )
+            {
+                message = String.format ( "%s\n%s", "Bind Exception", "Port \"" + portTextField.getText () + "\" is not usable" );
+                JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.ERROR_MESSAGE );
+            }
+            else if ( ioe instanceof NoRouteToHostException )
+            {
+                message = String.format ( "%s\n%s", "No Route to Host Exception", "Host \"" + serverTextField.getText () + "\" is unreachable" );
+                JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.ERROR_MESSAGE );
+            }
+            else if ( ioe instanceof ConnectException )
+            {
+                message = String.format ( "%s\n%s", "Connect Exception", "Connection was refused" );
+                JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.ERROR_MESSAGE );
+            }
+            else if ( ioe instanceof UnknownHostException )
+            {
+                message = String.format ( "%s\n%s", "Unknown Host Exception", "Invalid hostname for \"Server\"" );
+                JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.ERROR_MESSAGE );
+            }
+            else if ( ioe instanceof SocketException )
+            {
+                message = "Network is unreachable";
+                JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.ERROR_MESSAGE );
+            }
+
+            ioe.printStackTrace ( System.err );
+        }
+        catch ( NumberFormatException nfe )
+        {
+            String message = String.format ( "%s\n%s", "Number Format Exception", "\"Port\" must be a number." );
+            JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.ERROR_MESSAGE );
+
+            nfe.printStackTrace ( System.err );
+        }
     }
 
 
@@ -544,9 +524,6 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
         // Restore GUI to original state
         dynamicStatusLabel.setText ( "Stopped" );
         connectButton.setEnabled ( true );
-
-        if ( !failedAuthentication )
-            failedAuthentication = true;
 
         if ( clientIsQuitting )
             clientIsQuitting = false;
@@ -597,8 +574,8 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
 
 		//======== this ========
 		setPreferredSize(new Dimension(400, 1200));
-		setOpaque(false);
 		setMinimumSize(new Dimension(450, 1200));
+		setBackground(Color.white);
 
 		//---- statusLabel ----
 		statusLabel.setText("Status");
@@ -974,7 +951,6 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
 			chunkSizeSpinner, BeanProperty.create("value"),
 			chunkSizeSlider, BeanProperty.create("value")));
 		bindingGroup.bind();
-        // JFormDesigner - End of component initialization
         // GEN-END:initComponents
     }
 
@@ -991,6 +967,5 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
 	private JTextField serverTextField;
 	private JRadioButton copyRadioButton;
 	private JTextArea xorTextArea;
-    // JFormDesigner - End of variables declaration
     // GEN-END:variables
 }

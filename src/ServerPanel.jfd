@@ -9,7 +9,7 @@ new FormModel {
 		} ) {
 			name: "this"
 			"preferredSize": new java.awt.Dimension( 400, 900 )
-			"opaque": false
+			"background": new java.awt.Color( 255, 255, 255, 255 )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "staticStatusLabel"
 				"text": "Status"

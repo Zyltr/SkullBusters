@@ -8,15 +8,19 @@ import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileSystemView;
+import javax.xml.bind.DatatypeConverter;
 import java.awt.*;
 import java.io.*;
 import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 /*
@@ -33,6 +37,7 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
 
     // credentialsMap : a variable that will store credentials as a <Key, Value> pair
     private final HashMap< String, String > credentialsMap = new HashMap<> ();
+    private final HashMap< String, String > saltsMap = new HashMap<> ();
 
     // xorKey : variable that will store the XOR-Key Byte representation used by the Server
     private byte[] xorKey = null;
@@ -145,24 +150,24 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
                             System.out.println ( "Server > Received Message \"" + serverInput + "\"" );
 
                             // Client has sent "Quit" message.
-                            if ( serverInput.equals ( "CLIENT-QUIT" ) )
+                            switch ( serverInput )
                             {
-                                /* Update Log and Set Flags */
-                                String clientHostAddress = clientSocket.getInetAddress ().getHostAddress ();
-                                logTextArea.append ( clientHostAddress + " has decided to close the connection" + "\n" );
+                                case "CLIENT-QUIT":
+                                    /* Update Log and Set Flags */
+                                    String clientHostAddress = clientSocket.getInetAddress ().getHostAddress ();
+                                    logTextArea.append ( clientHostAddress + " has decided to close the connection" + "\n" );
 
-                                shouldRestartServer = true;
-                                clientIsQuitting = true;
-                            }
-                            // Client has sent "File" message
-                            else if ( serverInput.equals ( "CLIENT-FILE" ) )
-                            {
-                                System.out.println ( "Server > Processing File Request" );
-                                startFileThread ();
-                            }
-                            else
-                            {
-                                System.out.println ( "Server > Message is not valid" );
+                                    shouldRestartServer = true;
+                                    clientIsQuitting = true;
+                                    break;
+                                // Client has sent "File" message
+                                case "CLIENT-FILE":
+                                    System.out.println ( "Server > Processing File Request" );
+                                    startFileThread ();
+                                    break;
+                                default:
+                                    System.out.println ( "Server > Message is not valid" );
+                                    break;
                             }
                         }
                     }
@@ -201,12 +206,17 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
             {
                 for ( String line; ( line = bufferedReader.readLine () ) != null; )
                 {
-                    String[] usernameAndPassword = line.split ( "\\p{Space}?:\\p{Space}?" );
+                    String[] credentialData = line.split ( "\\p{Space}*:\\p{Space}*" );
 
-                    if ( usernameAndPassword.length == 2 )
-                        credentialsMap.put ( usernameAndPassword[ 0 ], usernameAndPassword[ 1 ] );
-                    else
-                        credentialsMap.put ( usernameAndPassword[0], "" );
+                    if ( credentialData.length == 2 )
+                    {
+                        credentialsMap.put ( credentialData[0], credentialData[1] );
+                    }
+                    else if ( credentialData.length == 3 )
+                    {
+                        saltsMap.put ( credentialData[0], credentialData[1] );
+                        credentialsMap.put ( credentialData[0], credentialData[2] );
+                    }
                 }
 
                 credentialsMap.put ( "Debug", "" );
@@ -239,6 +249,7 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
     {
         credentialTextArea.setText ( null );
         credentialsMap.clear ();
+        saltsMap.clear ();
         credentialsMap.put ( "Debug", "" );
     }
 
@@ -377,7 +388,7 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
                         else if ( clientInput.equals ( "FILE-CANCELLED" ) )
                         {
                             System.out.println ( "Transfer of file \"" + filename + "\" was cancelled" );
-                            logTextArea.append ( "Transfer of file \"" + filename + "\" was cancelled" );
+                            logTextArea.append ( "Transfer of file \"" + filename + "\" was cancelled" + "\n" );
 
                             return;
                         }
@@ -514,37 +525,81 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
             {
                 try
                 {
-                    // TODO -> Parse Port. If not a valid Integer, Exception will be thrown
+                    // Parse Port. If not a valid Integer, Exception will be thrown
                     String portString = portTextField.getText ();
                     Integer port = Integer.parseInt ( portString );
 
-                    // TODO -> Update GUI
+                    // Update GUI
                     dynamicStatusLabel.setText ( "Listening" );
                     startButton.setEnabled ( false );
 
-                    // TODO -> Update Log to show Server is now Listening
+                    // Update Log to show Server is now Listening
                     logTextArea.append ( "Server is now listening" + "\n" );
 
-                    // TODO -> Initialize Socket/Stream Variables
+                    // Initialize Socket/Stream Variables
                     serverSocket = new ServerSocket ( port );
                     clientSocket = serverSocket.accept ();
 
                     clientPrintWriter = new PrintWriter ( clientSocket.getOutputStream (), true );
                     clientBufferedReader = new BufferedReader ( new InputStreamReader ( clientSocket.getInputStream () ) );
 
-                    // TODO -> Try to Authenticate Client
+                    // Try to Authenticate Client
                     String encryptedCredentials = clientBufferedReader.readLine ();
                     boolean validClient = false;
+                    boolean plainTextAuthentication = plainTextRadioButton.isSelected ();
 
                     for ( Map.Entry< String, String > entry : credentialsMap.entrySet () )
                     {
-                        String potentialCredential = entry.getKey () + ":" + entry.getValue ();
                         String decryptedCredential = AES.decrypt ( encryptedCredentials, entry.getKey () );
+                        if ( decryptedCredential == null )
+                            continue;
 
-                        if ( decryptedCredential != null && decryptedCredential.equals ( potentialCredential ) )
+                        String [] usernameAndPassword = decryptedCredential.split ( "\\p{Space}*:\\p{Space}*" );
+                        if ( usernameAndPassword.length != 2 )
+                            continue;
+
+                        String decryptedUsername = usernameAndPassword[0];
+                        String decryptedPassword = usernameAndPassword[1];
+
+                        if ( plainTextAuthentication )
                         {
-                            validClient = true;
-                            break;
+                            if (decryptedUsername.equals ( entry.getKey () ) && decryptedPassword.equals ( entry.getValue () )  )
+                            {
+                                validClient = true;
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            try
+                            {
+                                MessageDigest sha256 = MessageDigest.getInstance ( "SHA-256" );
+
+                                String salt = saltsMap.get ( entry.getKey () );
+                                if ( salt == null )
+                                    continue;
+
+                                String hashedPassword = credentialsMap.get ( entry.getKey () );
+                                if ( hashedPassword == null )
+                                    continue;
+
+                                byte[] saltedHashedPasswordBytes= sha256.digest ( ( salt + decryptedPassword ).getBytes ( StandardCharsets.UTF_8 ) );
+                                String saltedHashedPasswordString = DatatypeConverter.printHexBinary ( saltedHashedPasswordBytes ).replaceFirst ( "0x", "" );
+
+                                System.out.println ( "Server > Salt > " + salt );
+                                System.out.println ( "Server > Hashed-Password > " + hashedPassword );
+                                System.out.println ( "Server > Computed Hashed-Password > " + saltedHashedPasswordString );
+
+                                if ( decryptedUsername.equals ( entry.getKey () ) && saltedHashedPasswordString.equals ( hashedPassword ) )
+                                {
+                                    validClient = true;
+                                    break;
+                                }
+                            }
+                            catch ( NoSuchAlgorithmException nae )
+                            {
+                                nae.printStackTrace ( System.err );
+                            }
                         }
                     }
 
@@ -728,6 +783,7 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
     {
         // JFormDesigner - Component initialization - DO NOT MODIFY
         // GEN-BEGIN:initComponents
+		// Generated using JFormDesigner Evaluation license - Erik Huerta
 		JLabel staticStatusLabel = new JLabel();
 		JButton credentialButton = new JButton();
 		JButton saveButton = new JButton();
@@ -748,9 +804,11 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
 		xorTextArea = new JTextArea();
 		JButton credentialClearButton = new JButton();
 		JButton xorClearButton = new JButton();
+		JLabel authenticationLabel = new JLabel();
+		plainTextRadioButton = new JRadioButton();
+		JRadioButton saltedHashedRadioButton = new JRadioButton();
 
 		//======== this ========
-		setPreferredSize(new Dimension(400, 900));
 		setBackground(Color.white);
 
 		//---- staticStatusLabel ----
@@ -884,6 +942,19 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
 		xorClearButton.setToolTipText("Click");
 		xorClearButton.addActionListener(e -> xorClearButtonActionPerformed());
 
+		//---- authenticationLabel ----
+		authenticationLabel.setText("Authentication");
+		authenticationLabel.setFont(authenticationLabel.getFont().deriveFont(authenticationLabel.getFont().getStyle() | Font.BOLD, authenticationLabel.getFont().getSize() + 5f));
+
+		//---- plainTextRadioButton ----
+		plainTextRadioButton.setText("Plain-Text");
+		plainTextRadioButton.setFont(plainTextRadioButton.getFont().deriveFont(plainTextRadioButton.getFont().getStyle() | Font.BOLD));
+		plainTextRadioButton.setSelected(true);
+
+		//---- saltedHashedRadioButton ----
+		saltedHashedRadioButton.setText("Salted-Hashed");
+		saltedHashedRadioButton.setFont(saltedHashedRadioButton.getFont().deriveFont(saltedHashedRadioButton.getFont().getStyle() | Font.BOLD));
+
 		GroupLayout layout = new GroupLayout(this);
 		setLayout(layout);
 		layout.setHorizontalGroup(
@@ -892,33 +963,37 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
 					.addGap(25, 25, 25)
 					.addGroup(layout.createParallelGroup()
 						.addGroup(layout.createSequentialGroup()
-							.addComponent(staticStatusLabel)
-							.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+							.addGroup(layout.createParallelGroup()
+								.addComponent(portLabel)
+								.addComponent(staticStatusLabel))
+							.addContainerGap(318, Short.MAX_VALUE))
+						.addGroup(layout.createSequentialGroup()
+							.addGroup(layout.createParallelGroup()
+								.addComponent(logLabel)
+								.addComponent(saltedHashedRadioButton)
+								.addComponent(plainTextRadioButton)
+								.addComponent(authenticationLabel)
+								.addComponent(saveButton))
+							.addGap(0, 153, Short.MAX_VALUE))
 						.addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
 							.addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+								.addComponent(logScrollPane, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
+								.addComponent(portTextField, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
+								.addComponent(saveScrollPane, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
 								.addGroup(layout.createSequentialGroup()
-									.addComponent(xorButton, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(xorClearButton))
-								.addComponent(portTextField, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
-								.addComponent(logScrollPane, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
-								.addComponent(saveScrollPane, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
-								.addComponent(xorScrollPane, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
-								.addComponent(credentialScrollPane, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
-								.addComponent(dynamicStatusLabel, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
-								.addGroup(GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
 									.addComponent(credentialButton, GroupLayout.PREFERRED_SIZE, 180, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
 									.addComponent(credentialClearButton))
+								.addComponent(credentialScrollPane, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
+								.addComponent(dynamicStatusLabel, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
 								.addComponent(stopButton, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
-								.addComponent(startButton, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE))
-							.addGap(50, 50, 50))
-						.addGroup(layout.createSequentialGroup()
-							.addGroup(layout.createParallelGroup()
-								.addComponent(saveButton)
-								.addComponent(logLabel)
-								.addComponent(portLabel))
-							.addGap(0, 0, Short.MAX_VALUE))))
+								.addComponent(startButton, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
+								.addGroup(layout.createSequentialGroup()
+									.addComponent(xorButton, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
+									.addComponent(xorClearButton))
+								.addComponent(xorScrollPane, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE))
+							.addGap(50, 50, 50))))
 		);
 		layout.setVerticalGroup(
 			layout.createParallelGroup()
@@ -927,6 +1002,12 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
 					.addComponent(staticStatusLabel)
 					.addGap(18, 18, 18)
 					.addComponent(dynamicStatusLabel)
+					.addGap(18, 18, 18)
+					.addComponent(authenticationLabel)
+					.addGap(18, 18, 18)
+					.addComponent(plainTextRadioButton)
+					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+					.addComponent(saltedHashedRadioButton)
 					.addGap(18, 18, 18)
 					.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 						.addComponent(credentialClearButton)
@@ -951,12 +1032,17 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
 					.addComponent(logLabel)
 					.addGap(18, 18, 18)
 					.addComponent(logScrollPane, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
 					.addComponent(startButton)
 					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 					.addComponent(stopButton)
 					.addGap(25, 25, 25))
 		);
+
+		//---- authenticationGroup ----
+		ButtonGroup authenticationGroup = new ButtonGroup();
+		authenticationGroup.add(plainTextRadioButton);
+		authenticationGroup.add(saltedHashedRadioButton);
 
 		//---- bindings ----
 		BindingGroup bindingGroup = new BindingGroup();
@@ -990,12 +1076,19 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
 		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ,
 			startButton, BeanProperty.create("enabled"),
 			xorClearButton, BeanProperty.create("enabled")));
+		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ,
+			startButton, BeanProperty.create("enabled"),
+			plainTextRadioButton, BeanProperty.create("enabled")));
+		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ,
+			startButton, BeanProperty.create("enabled"),
+			saltedHashedRadioButton, BeanProperty.create("enabled")));
 		bindingGroup.bind();
         // GEN-END:initComponents
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY
     // GEN-BEGIN:variables
+	// Generated using JFormDesigner Evaluation license - Erik Huerta
 	private JButton startButton;
 	private JTextField portTextField;
 	private JLabel dynamicStatusLabel;
@@ -1003,5 +1096,6 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
 	private JTextArea saveTextArea;
 	private JTextArea credentialTextArea;
 	private JTextArea xorTextArea;
+	private JRadioButton plainTextRadioButton;
     // GEN-END:variables
 }

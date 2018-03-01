@@ -231,7 +231,7 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
      */
     private void sendFileButtonActionPerformed ()
     {
-        ProgressDialog progressDialog = new ProgressDialog ( null );
+        ProgressDialog progressDialog = new ProgressDialog ();
 
         fileTransferThread = new NotificationThread ()
         {
@@ -566,6 +566,7 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
     {
         // JFormDesigner - Component initialization - DO NOT MODIFY
         // GEN-BEGIN:initComponents
+		// Generated using JFormDesigner Evaluation license - Erik Huerta
 		JLabel statusLabel = new JLabel();
 		JLabel usernameLabel = new JLabel();
 		usernameTextField = new JTextField();
@@ -592,15 +593,11 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
 		JButton xorButton = new JButton();
 		JScrollPane xorScrollPane = new JScrollPane();
 		xorTextArea = new JTextArea();
-		JLabel authenticationOptionsLabel = new JLabel();
-		JRadioButton plainRadioButton = new JRadioButton();
 		JButton xorClearButton = new JButton();
 		JButton fileClearButton = new JButton();
 		JSpinner chunkSizeSpinner = new JSpinner();
 
 		//======== this ========
-		setPreferredSize(new Dimension(400, 1200));
-		setMinimumSize(new Dimension(450, 1200));
 		setBackground(Color.white);
 
 		//---- statusLabel ----
@@ -755,15 +752,6 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
 			xorScrollPane.setViewportView(xorTextArea);
 		}
 
-		//---- authenticationOptionsLabel ----
-		authenticationOptionsLabel.setText("Authentication");
-		authenticationOptionsLabel.setFont(authenticationOptionsLabel.getFont().deriveFont(authenticationOptionsLabel.getFont().getStyle() | Font.BOLD, authenticationOptionsLabel.getFont().getSize() + 5f));
-
-		//---- plainRadioButton ----
-		plainRadioButton.setText("Plain Text");
-		plainRadioButton.setFont(plainRadioButton.getFont().deriveFont(plainRadioButton.getFont().getStyle() | Font.BOLD));
-		plainRadioButton.setSelected(true);
-
 		//---- xorClearButton ----
 		xorClearButton.setText("Clear");
 		xorClearButton.setFont(xorClearButton.getFont().deriveFont(xorClearButton.getFont().getStyle() | Font.BOLD));
@@ -782,61 +770,51 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
 		setLayout(layout);
 		layout.setHorizontalGroup(
 			layout.createParallelGroup()
-				.addGroup(layout.createSequentialGroup()
-					.addGap(25, 25, 25)
-					.addGroup(layout.createParallelGroup()
+				.addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+					.addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
 						.addGroup(layout.createSequentialGroup()
-							.addComponent(chunkSizeLabel)
-							.addGap(190, 271, Short.MAX_VALUE))
-						.addGroup(layout.createSequentialGroup()
+							.addContainerGap(235, Short.MAX_VALUE)
+							.addComponent(chunkSizeSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+							.addComponent(chunkSizeValueLabel))
+						.addGroup(GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+							.addGap(25, 25, 25)
 							.addGroup(layout.createParallelGroup()
-								.addComponent(fileOptionsLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addGroup(layout.createSequentialGroup()
-									.addGroup(layout.createParallelGroup()
-										.addComponent(armoringCheckBox)
-										.addComponent(copyRadioButton)
-										.addComponent(overwriteRadioButton))
-									.addGap(0, 0, Short.MAX_VALUE)))
-							.addGap(94, 94, 94))
-						.addGroup(layout.createSequentialGroup()
-							.addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-								.addComponent(authenticationOptionsLabel, GroupLayout.Alignment.LEADING)
-								.addComponent(passwordLabel, GroupLayout.Alignment.LEADING)
-								.addComponent(usernameLabel, GroupLayout.Alignment.LEADING)
-								.addComponent(portLabel, GroupLayout.Alignment.LEADING)
-								.addComponent(plainRadioButton, GroupLayout.Alignment.LEADING)
-								.addComponent(serverLabel, GroupLayout.Alignment.LEADING)
-								.addComponent(statusLabel, GroupLayout.Alignment.LEADING))
-							.addGap(0, 0, Short.MAX_VALUE))
-						.addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-							.addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-								.addComponent(dynamicStatusLabel, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
-								.addComponent(disconnectButton, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
-								.addComponent(connectButton, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
-								.addComponent(chunkSizeSlider, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
-								.addGroup(layout.createSequentialGroup()
+								.addComponent(disconnectButton, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
+								.addComponent(fileScrollPane, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
+								.addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
 									.addComponent(fileButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
 									.addComponent(fileClearButton))
-								.addComponent(fileScrollPane, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
-								.addGroup(layout.createSequentialGroup()
+								.addComponent(dynamicStatusLabel, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
+								.addComponent(passwordField, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
+								.addComponent(usernameTextField, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
+								.addComponent(portTextField, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
+								.addComponent(serverTextField, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
+								.addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
 									.addComponent(xorButton)
-									.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 123, Short.MAX_VALUE)
+									.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 									.addComponent(xorClearButton))
-								.addComponent(xorScrollPane, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
-								.addComponent(passwordField, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
-								.addComponent(usernameTextField, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
-								.addComponent(portTextField, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
-								.addComponent(serverTextField, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
+								.addComponent(xorScrollPane, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
+								.addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+									.addGap(0, 236, Short.MAX_VALUE)
+									.addComponent(sendFileButton))
 								.addGroup(layout.createSequentialGroup()
-									.addGap(0, 210, Short.MAX_VALUE)
-									.addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-										.addGroup(layout.createSequentialGroup()
-											.addComponent(chunkSizeSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-											.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-											.addComponent(chunkSizeValueLabel))
-										.addComponent(sendFileButton))))
-							.addGap(50, 50, 50))))
+									.addGroup(layout.createParallelGroup()
+										.addComponent(passwordLabel)
+										.addComponent(usernameLabel)
+										.addComponent(portLabel)
+										.addComponent(serverLabel)
+										.addComponent(statusLabel)
+										.addComponent(fileOptionsLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addComponent(armoringCheckBox)
+										.addComponent(copyRadioButton)
+										.addComponent(overwriteRadioButton)
+										.addComponent(chunkSizeLabel))
+									.addGap(0, 184, Short.MAX_VALUE))
+								.addComponent(chunkSizeSlider, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
+								.addComponent(connectButton, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE))))
+					.addGap(50, 50, 50))
 		);
 		layout.setVerticalGroup(
 			layout.createParallelGroup()
@@ -862,10 +840,6 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
 					.addGap(18, 18, 18)
 					.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addGap(18, 18, 18)
-					.addComponent(authenticationOptionsLabel)
-					.addGap(18, 18, 18)
-					.addComponent(plainRadioButton)
-					.addGap(18, 18, 18)
 					.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 						.addComponent(xorButton)
 						.addComponent(xorClearButton))
@@ -877,7 +851,7 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
 						.addComponent(fileClearButton))
 					.addGap(18, 18, 18)
 					.addComponent(fileScrollPane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(18, 18, 18)
+					.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
 					.addComponent(sendFileButton)
 					.addGap(18, 18, 18)
 					.addComponent(fileOptionsLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -895,7 +869,7 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
 					.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 						.addComponent(chunkSizeValueLabel)
 						.addComponent(chunkSizeSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
+					.addGap(58, 58, 58)
 					.addComponent(connectButton)
 					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 					.addComponent(disconnectButton)
@@ -906,10 +880,6 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
 		ButtonGroup fileOptionButtonGroup = new ButtonGroup();
 		fileOptionButtonGroup.add(overwriteRadioButton);
 		fileOptionButtonGroup.add(copyRadioButton);
-
-		//---- authenticationGroup ----
-		ButtonGroup authenticationGroup = new ButtonGroup();
-		authenticationGroup.add(plainRadioButton);
 
 		//---- bindings ----
 		BindingGroup bindingGroup = new BindingGroup();
@@ -925,9 +895,6 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
 		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ,
 			connectButton, BeanProperty.create("enabled"),
 			passwordField, BeanProperty.create("enabled")));
-		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ,
-			connectButton, BeanProperty.create("enabled"),
-			plainRadioButton, BeanProperty.create("enabled")));
 		bindingGroup.addBinding(Bindings.createAutoBinding(UpdateStrategy.READ,
 			disconnectButton, BeanProperty.create("enabled"),
 			fileButton, BeanProperty.create("enabled")));
@@ -982,6 +949,7 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY
     // GEN-BEGIN:variables
+	// Generated using JFormDesigner Evaluation license - Erik Huerta
 	private JTextField usernameTextField;
 	private JPasswordField passwordField;
 	private JTextField portTextField;

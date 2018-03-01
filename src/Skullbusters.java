@@ -122,5 +122,6 @@ class Skullbusters extends JFrame
 
 
 	//GEN-BEGIN:variables
+	// Generated using JFormDesigner Evaluation license - Erik Huerta
 	// GEN-END:variables
 }

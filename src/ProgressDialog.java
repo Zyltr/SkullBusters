@@ -11,9 +11,9 @@ import java.awt.*;
  */
 class ProgressDialog extends JDialog
 {
-    ProgressDialog ( Window owner )
+    ProgressDialog ()
     {
-        super ( owner );
+        super ( (Window ) null );
         initComponents ();
     }
 

@@ -108,6 +108,9 @@ new FormModel {
 				"text": "Overwrite"
 				"font": #SwingDerivedFont2
 				"$buttonGroup": new FormReference( "fileOptionButtonGroup" )
+				auxiliary() {
+					"JavaCodeGenerator.variableLocal": true
+				}
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "chunkSizeLabel"
@@ -241,6 +244,9 @@ new FormModel {
 				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 0, false )
 				"selected": true
 				"$buttonGroup": new FormReference( "authenticationGroup" )
+				auxiliary() {
+					"JavaCodeGenerator.variableLocal": true
+				}
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "xorClearButton"
@@ -284,6 +290,7 @@ new FormModel {
 		} )
 		addBindingGroup( new FormBindingGroup( class org.jdesktop.beansbinding.BindingGroup ) {
 			"name": "bindingGroup"
+			"JavaCodeGenerator.variableLocal": true
 			addBinding( new FormBinding( "connectButton", "enabled", "serverTextField", "enabled" ) {
 				"updateStrategy": enum org.jdesktop.beansbinding.AutoBinding$UpdateStrategy READ
 			} )

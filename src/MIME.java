@@ -1,11 +1,21 @@
 import java.util.Arrays;
 
+/**
+ * A Class that transforms an Array of Bytes into a BASE64 encoded String or a BASE64 encoded String into an Array of Bytes
+ */
 class MIME
 {
+    // base64StringTable :
+    // base64Table : the index of each character in "base64StringTable" serves as the actual value in the Base64 table. Used for lookup.
     private static final String base64StringTable = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
     private static final char [] base64Table = base64StringTable.toCharArray ();
 
-    // TODO -> Transforms Bytes to Base 64
+
+    /**
+     * Encodes an Array of Bytes into a BASE64 encoded String
+     * @param bytes : the Byte data which will be transformed to the BASE64 String
+     * @return : the BASE64 encoded String created using "bytes"
+     */
     public static String base64Encoding ( byte... bytes )
     {
         StringBuilder resultBuilder = new StringBuilder ();
@@ -21,13 +31,9 @@ class MIME
             encodingBuilder.append ( zeroPadding );
         }
 
-//        System.out.println ( encodingBuilder.toString () );
-
         for ( int count = 0; count < encodingBuilder.length (); count += 6 )
         {
             String sixBitString = encodingBuilder.substring ( count, count + 6 );
-
-//            System.out.println ( sixBitString );
 
             if ( needsPadding && count >= encodingBuilder.length () - padding )
                 resultBuilder.append ( "=" );
@@ -41,7 +47,12 @@ class MIME
         return resultBuilder.toString ();
     }
 
-    // TODO -> Decodes Base64 to Bytes
+
+    /**
+     * Decodes a Base64 String to an Array of Bytes
+     * @param base64String : the BASE64 encoded String
+     * @return : the Bytes represented by the BASE64 encoded String
+     */
     public static byte [] base64Decoding ( String base64String )
     {
         StringBuilder resultBuilder = new StringBuilder ();
@@ -59,9 +70,6 @@ class MIME
             Byte value = (byte) base64StringTable.indexOf ( character );
             String binaryValue = Utility.binaryRepresentation ( value ).substring ( 2 );
 
-//            System.out.println ( "Value : " + value);
-//            System.out.println ( "Binary Value : " + binaryValue );
-
             resultBuilder.append ( binaryValue );
         }
 
@@ -77,9 +85,6 @@ class MIME
                 resultBuilder.append ( " " ).append ( binaryString.substring ( count, count + Byte.SIZE ) );
         }
 
-//        System.out.println ( "Final Binary String : " + resultBuilder.toString () );
-
         return Utility.binaryToBytes ( resultBuilder.toString () );
     }
-
 }

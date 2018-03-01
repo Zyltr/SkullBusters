@@ -65,6 +65,7 @@ new FormModel {
 		} )
 		addBindingGroup( new FormBindingGroup( class org.jdesktop.beansbinding.BindingGroup ) {
 			"name": "bindingGroup"
+			"JavaCodeGenerator.variableLocal": true
 			addBinding( new FormBinding( "this", "preferredSize", "this", "minimumSize" ) )
 		} )
 	}

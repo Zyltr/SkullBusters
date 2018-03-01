@@ -194,6 +194,7 @@ new FormModel {
 		} )
 		addBindingGroup( new FormBindingGroup( class org.jdesktop.beansbinding.BindingGroup ) {
 			"name": "bindingGroup"
+			"JavaCodeGenerator.variableLocal": true
 			addBinding( new FormBinding( "startButton", "${!enabled}", "stopButton", "enabled" ) {
 				"updateStrategy": enum org.jdesktop.beansbinding.AutoBinding$UpdateStrategy READ
 			} )

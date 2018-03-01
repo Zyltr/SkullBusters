@@ -1,34 +1,47 @@
 import javax.swing.*;
 import java.awt.*;
+
 /*
  * Created by JFormDesigner on Tue Feb 20 10:13:05 PST 2018
  */
 
 
+/**
+ * A JDialog which provides a progress bar for a file that is being transferred to a Server
+ */
 class ProgressDialog extends JDialog
 {
-    public ProgressDialog ( Window owner )
+    ProgressDialog ( Window owner )
     {
         super ( owner );
         initComponents ();
     }
 
-    private void cancelButtonActionPerformed ()
-    {
-        // TODO -> Cancel File Transfer
-        dispose ();
-    }
 
+	/**
+	 * When the "Cancel" button is pressed, dispose of the JDialog
+	 */
+	private void cancelButtonActionPerformed () { dispose (); }
+
+
+	/**
+	 * Update the progress bar with the parameterized "newValue"
+	 * @param newValue : the value for which the "progressBar" and "progressLabel" variables will be updated with
+	 */
     public void updateProgressBar ( int newValue )
     {
         progressBar.setValue ( newValue );
         progressLabel.setText ( newValue + " %" );
     }
 
-    private void initComponents ()
+
+	/**
+	 * JFormDesigner generated method
+	 */
+	private void initComponents ()
     {
-        // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
-		// Generated using JFormDesigner Evaluation license - Erik Huerta
+        // JFormDesigner - Component initialization - DO NOT MODIFY
+		// GEN-BEGIN:initComponents
 		JLabel transferLabel = new JLabel();
 		progressBar = new JProgressBar();
 		progressLabel = new JLabel();
@@ -84,12 +97,14 @@ class ProgressDialog extends JDialog
 		);
 		pack();
 		setLocationRelativeTo(getOwner());
-        // JFormDesigner - End of component initialization  //GEN-END:initComponents
+        // JFormDesigner - End of component initialization
+		// GEN-END:initComponents
     }
 
-    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-	// Generated using JFormDesigner Evaluation license - Erik Huerta
+    // JFormDesigner - Variables declaration - DO NOT MODIFY
+	// GEN-BEGIN:variables
 	private JProgressBar progressBar;
 	private JLabel progressLabel;
-    // JFormDesigner - End of variables declaration  //GEN-END:variables
+    // JFormDesigner - End of variables declaration
+	// GEN-END:variables
 }

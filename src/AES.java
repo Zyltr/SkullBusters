@@ -7,9 +7,13 @@ import java.util.Base64;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
+/**
+ *  A class for generating AES encrypted strings
+ *  source : https://howtodoinjava.com/security/java-aes-encryption-example/
+ */
+
 class AES
 {
-
     private static SecretKeySpec secretKey;
 
     private static void setKey ( String myKey )

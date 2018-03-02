@@ -279,6 +279,12 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
                                 {
                                     // TODO -> Inform Server Bytes are Done
                                     serverPrintWriter.println ( "BYTES-DONE" );
+
+                                    System.out.println ( "Client > Finished Writing Bytes" );
+
+                                    String message = "\"" + filename + "\" was successfully transferred";
+                                    JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.INFORMATION_MESSAGE );
+
                                     break;
                                 }
 
@@ -358,12 +364,12 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
                                 if ( retrying )
                                     retrying = false;
                             }
+                            else if ( dataIntegrityResult.equals ( "SERVER-QUIT" ) )
+                            {
+                                serverIsQuitting = true;
+                                break;
+                            }
                         }
-
-                        System.out.println ( "Client > Finished Writing Bytes" );
-
-                        String message = "\"" + filename + "\" was successfully transferred";
-                        JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.INFORMATION_MESSAGE );
                     }
                     catch ( IOException ioe )
                     {
@@ -372,6 +378,13 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
                     finally
                     {
                         progressDialog.dispose ();
+
+                        if ( serverIsQuitting )
+                        {
+                            // TODO -> Present Message to Client
+                            String message = "Server has closed the connection";
+                            JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.INFORMATION_MESSAGE );
+                        }
                     }
                 }
                 else

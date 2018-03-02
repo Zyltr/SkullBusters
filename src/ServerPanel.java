@@ -8,7 +8,6 @@ import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileSystemView;
-import javax.xml.bind.DatatypeConverter;
 import java.awt.*;
 import java.io.*;
 import java.net.BindException;
@@ -98,7 +97,7 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
 
             if ( !serverIsQuitting )
             {
-                // TODO -> Failed Authentication
+                // Failed Authentication
                 if ( shouldRestartServer )
                     stopButtonActionPerformed ();
                 else
@@ -584,7 +583,18 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
                                     continue;
 
                                 byte[] saltedHashedPasswordBytes= sha256.digest ( ( salt + decryptedPassword ).getBytes ( StandardCharsets.UTF_8 ) );
-                                String saltedHashedPasswordString = DatatypeConverter.printHexBinary ( saltedHashedPasswordBytes ).replaceFirst ( "0x", "" );
+
+                                StringBuffer hexString = new StringBuffer ();
+                                for ( int i = 0; i < saltedHashedPasswordBytes.length; i++ )
+                                {
+                                    String hex = Integer.toHexString ( 0xff & saltedHashedPasswordBytes[ i ] ).toUpperCase ();
+
+                                    if ( hex.length () == 1 ) { hexString.append ( '0' ); }
+
+                                    hexString.append ( hex );
+                                }
+
+                                String saltedHashedPasswordString = hexString.toString ();
 
                                 System.out.println ( "Server > Salt > " + salt );
                                 System.out.println ( "Server > Hashed-Password > " + hashedPassword );
@@ -605,25 +615,25 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
 
                     if ( validClient )
                     {
-                        // TODO -> Send Success Response to Client
+                        // Send Success Response to Client
                         clientPrintWriter.println ( "AUTH-SUCCESS" );
 
-                        // TODO -> Log Success Message to Log Text Area
+                        // Log Success Message to Log Text Area
                         String clientHostAddress = clientSocket.getInetAddress ().getHostAddress ();
                         logTextArea.append ( clientHostAddress + " has connected" + "\n" );
 
-                        // TODO -> Update GUI with new Status and log the Client's connection
+                        // Update GUI with new Status and log the Client's connection
                         dynamicStatusLabel.setText ( "Running" );
                     }
                     else
                     {
-                        // TODO -> Send Failed Response to Client
+                        // Send Failed Response to Client
                         clientPrintWriter.println ( "AUTH-FAILED" );
 
-                        // TODO -> Set Flag to restart Server
+                        // Set Flag to restart Server
                         shouldRestartServer = true;
 
-                        // TODO -> Log Failed Message to Log Text Area
+                        // Log Failed Message to Log Text Area
                         String clientHostAddress = clientSocket.getInetAddress ().getHostAddress ();
                         logTextArea.append ( clientHostAddress + " tried to connect but failed authentication" + "\n" );
                     }
@@ -698,10 +708,11 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
             serverIsQuitting = true;
             try
             {
+                if ( fileThread != null )
+                    fileThread.join ();
+
                 if ( responseThread != null )
                     responseThread.join ();
-                else
-                    fileThread.join ();
             }
             catch ( InterruptedException ie )
             {
@@ -714,6 +725,7 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
 
             logTextArea.append ( "Server decided to terminate connection" + "\n" );
         }
+
 
         // Close all Sockets needed by the Server
         try
@@ -749,6 +761,7 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
         dynamicStatusLabel.setText ( "Stopped" );
         startButton.setEnabled ( true );
 
+        /*
         if ( !shouldRestartServer )
         {
             xorKey = null;
@@ -758,6 +771,7 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
             saveTextArea.setText ( saveToPath.toString () );
             portTextField.setText ( "1492" );
         }
+        */
 
         logTextArea.append ( "Server was terminated " + "\n\n" );
 
@@ -771,7 +785,7 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
         if ( shouldRestartServer )
         {
             shouldRestartServer = false;
-            startButton.doClick ();
+            startButtonActionPerformed ();
         }
     }
 

@@ -1,0 +1,36 @@
+JFDML JFormDesigner: "7.0.0.0.58" Java: "9.0.4" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {comp imageScrollPane::l::698:x}"
+			"$verticalGroup": "par l {comp imageScrollPane::l::476:x}"
+		} ) {
+			name: "this"
+			"title": "How to Use"
+			"modal": true
+			"name": "useDialog"
+			"defaultCloseOperation": 2
+			auxiliary() {
+				"JavaCodeGenerator.variableLocal": true
+			}
+			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+				name: "imageScrollPane"
+				auxiliary() {
+					"JavaCodeGenerator.variableLocal": true
+				}
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "imageLabel"
+					"icon": new com.jformdesigner.model.SwingIcon( 1, "/Users/Erik/Documents/GitHub/Skullbusters/src/Images/CS380-Skullbuster-Instructions.png" )
+					auxiliary() {
+						"JavaCodeGenerator.variableLocal": true
+					}
+				} )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 0 )
+			"size": new java.awt.Dimension( 700, 500 )
+		} )
+	}
+}

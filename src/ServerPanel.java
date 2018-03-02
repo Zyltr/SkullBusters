@@ -813,35 +813,35 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
 
 		//---- staticStatusLabel ----
 		staticStatusLabel.setText("Status");
-		staticStatusLabel.setFont(staticStatusLabel.getFont().deriveFont(staticStatusLabel.getFont().getStyle() | Font.BOLD, staticStatusLabel.getFont().getSize() + 5f));
+		staticStatusLabel.setFont(staticStatusLabel.getFont().deriveFont(staticStatusLabel.getFont().getStyle() | Font.BOLD));
 
 		//---- credentialButton ----
 		credentialButton.setText("Credentials Path");
-		credentialButton.setFont(credentialButton.getFont().deriveFont(credentialButton.getFont().getStyle() | Font.BOLD, credentialButton.getFont().getSize() + 5f));
+		credentialButton.setFont(credentialButton.getFont().deriveFont(credentialButton.getFont().getStyle() | Font.BOLD));
 		credentialButton.setHorizontalAlignment(SwingConstants.LEADING);
 		credentialButton.setToolTipText("Click");
 		credentialButton.addActionListener(e -> credentialsButtonActionPerformed());
 
 		//---- saveButton ----
 		saveButton.setText("Save-Files-To Path");
-		saveButton.setFont(saveButton.getFont().deriveFont(saveButton.getFont().getStyle() | Font.BOLD, saveButton.getFont().getSize() + 5f));
+		saveButton.setFont(saveButton.getFont().deriveFont(saveButton.getFont().getStyle() | Font.BOLD));
 		saveButton.setToolTipText("Click");
 		saveButton.setHorizontalAlignment(SwingConstants.LEADING);
 		saveButton.addActionListener(e -> saveToButtonActionPerformed());
 
 		//---- startButton ----
 		startButton.setText("Start");
-		startButton.setFont(startButton.getFont().deriveFont(startButton.getFont().getStyle() | Font.BOLD, startButton.getFont().getSize() + 5f));
+		startButton.setFont(startButton.getFont().deriveFont(startButton.getFont().getStyle() | Font.BOLD));
 		startButton.addActionListener(e -> startButtonActionPerformed());
 
 		//---- stopButton ----
 		stopButton.setText("Stop");
-		stopButton.setFont(stopButton.getFont().deriveFont(stopButton.getFont().getStyle() | Font.BOLD, stopButton.getFont().getSize() + 5f));
+		stopButton.setFont(stopButton.getFont().deriveFont(stopButton.getFont().getStyle() | Font.BOLD));
 		stopButton.addActionListener(e -> stopButtonActionPerformed());
 
 		//---- portLabel ----
 		portLabel.setText("Port");
-		portLabel.setFont(portLabel.getFont().deriveFont(portLabel.getFont().getStyle() | Font.BOLD, portLabel.getFont().getSize() + 5f));
+		portLabel.setFont(portLabel.getFont().deriveFont(portLabel.getFont().getStyle() | Font.BOLD));
 
 		//---- portTextField ----
 		portTextField.setText("1492");
@@ -857,7 +857,7 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
 
 		//---- logLabel ----
 		logLabel.setText("Log");
-		logLabel.setFont(logLabel.getFont().deriveFont(logLabel.getFont().getStyle() | Font.BOLD, logLabel.getFont().getSize() + 5f));
+		logLabel.setFont(logLabel.getFont().deriveFont(logLabel.getFont().getStyle() | Font.BOLD));
 
 		//======== logScrollPane ========
 		{
@@ -909,7 +909,7 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
 
 		//---- xorButton ----
 		xorButton.setText("XOR-Key Path");
-		xorButton.setFont(xorButton.getFont().deriveFont(xorButton.getFont().getStyle() | Font.BOLD, xorButton.getFont().getSize() + 5f));
+		xorButton.setFont(xorButton.getFont().deriveFont(xorButton.getFont().getStyle() | Font.BOLD));
 		xorButton.setToolTipText("Click");
 		xorButton.setHorizontalAlignment(SwingConstants.LEADING);
 		xorButton.addActionListener(e -> xorButtonActionPerformed());
@@ -944,16 +944,18 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
 
 		//---- authenticationLabel ----
 		authenticationLabel.setText("Authentication");
-		authenticationLabel.setFont(authenticationLabel.getFont().deriveFont(authenticationLabel.getFont().getStyle() | Font.BOLD, authenticationLabel.getFont().getSize() + 5f));
+		authenticationLabel.setFont(authenticationLabel.getFont().deriveFont(authenticationLabel.getFont().getStyle() | Font.BOLD));
 
 		//---- plainTextRadioButton ----
 		plainTextRadioButton.setText("Plain-Text");
 		plainTextRadioButton.setFont(plainTextRadioButton.getFont().deriveFont(plainTextRadioButton.getFont().getStyle() | Font.BOLD));
 		plainTextRadioButton.setSelected(true);
+		plainTextRadioButton.setBackground(Color.white);
 
 		//---- saltedHashedRadioButton ----
 		saltedHashedRadioButton.setText("Salted-Hashed");
 		saltedHashedRadioButton.setFont(saltedHashedRadioButton.getFont().deriveFont(saltedHashedRadioButton.getFont().getStyle() | Font.BOLD));
+		saltedHashedRadioButton.setBackground(Color.white);
 
 		GroupLayout layout = new GroupLayout(this);
 		setLayout(layout);
@@ -966,7 +968,7 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
 							.addGroup(layout.createParallelGroup()
 								.addComponent(portLabel)
 								.addComponent(staticStatusLabel))
-							.addContainerGap(318, Short.MAX_VALUE))
+							.addContainerGap(334, Short.MAX_VALUE))
 						.addGroup(layout.createSequentialGroup()
 							.addGroup(layout.createParallelGroup()
 								.addComponent(logLabel)
@@ -974,23 +976,23 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
 								.addComponent(plainTextRadioButton)
 								.addComponent(authenticationLabel)
 								.addComponent(saveButton))
-							.addGap(0, 153, Short.MAX_VALUE))
+							.addGap(0, 203, Short.MAX_VALUE))
 						.addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
 							.addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
 								.addComponent(logScrollPane, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
 								.addComponent(portTextField, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
 								.addComponent(saveScrollPane, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
 								.addGroup(layout.createSequentialGroup()
-									.addComponent(credentialButton, GroupLayout.PREFERRED_SIZE, 180, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
+									.addComponent(credentialButton)
+									.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 91, Short.MAX_VALUE)
 									.addComponent(credentialClearButton))
 								.addComponent(credentialScrollPane, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
 								.addComponent(dynamicStatusLabel, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
 								.addComponent(stopButton, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
 								.addComponent(startButton, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
 								.addGroup(layout.createSequentialGroup()
-									.addComponent(xorButton, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
+									.addComponent(xorButton)
+									.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 106, Short.MAX_VALUE)
 									.addComponent(xorClearButton))
 								.addComponent(xorScrollPane, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE))
 							.addGap(50, 50, 50))))
@@ -1016,8 +1018,8 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
 					.addComponent(credentialScrollPane, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
 					.addGap(18, 18, 18)
 					.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-						.addComponent(xorButton)
-						.addComponent(xorClearButton))
+						.addComponent(xorClearButton)
+						.addComponent(xorButton))
 					.addGap(18, 18, 18)
 					.addComponent(xorScrollPane, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
 					.addGap(18, 18, 18)
@@ -1032,7 +1034,7 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
 					.addComponent(logLabel)
 					.addGap(18, 18, 18)
 					.addComponent(logScrollPane, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
+					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 108, Short.MAX_VALUE)
 					.addComponent(startButton)
 					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 					.addComponent(stopButton)

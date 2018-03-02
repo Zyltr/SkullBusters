@@ -602,11 +602,11 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
 
 		//---- statusLabel ----
 		statusLabel.setText("Status");
-		statusLabel.setFont(statusLabel.getFont().deriveFont(statusLabel.getFont().getStyle() | Font.BOLD, statusLabel.getFont().getSize() + 5f));
+		statusLabel.setFont(statusLabel.getFont().deriveFont(statusLabel.getFont().getStyle() | Font.BOLD));
 
 		//---- usernameLabel ----
 		usernameLabel.setText("Username");
-		usernameLabel.setFont(usernameLabel.getFont().deriveFont(usernameLabel.getFont().getStyle() | Font.BOLD, usernameLabel.getFont().getSize() + 5f));
+		usernameLabel.setFont(usernameLabel.getFont().deriveFont(usernameLabel.getFont().getStyle() | Font.BOLD));
 
 		//---- usernameTextField ----
 		usernameTextField.setBackground(Color.white);
@@ -618,7 +618,7 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
 
 		//---- passwordLabel ----
 		passwordLabel.setText("Password");
-		passwordLabel.setFont(passwordLabel.getFont().deriveFont(passwordLabel.getFont().getStyle() | Font.BOLD, passwordLabel.getFont().getSize() + 5f));
+		passwordLabel.setFont(passwordLabel.getFont().deriveFont(passwordLabel.getFont().getStyle() | Font.BOLD));
 
 		//---- passwordField ----
 		passwordField.setBorder(new MatteBorder(0, 0, 1, 0, new Color(204, 204, 204)));
@@ -629,7 +629,7 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
 
 		//---- portLabel ----
 		portLabel.setText("Server Port");
-		portLabel.setFont(portLabel.getFont().deriveFont(portLabel.getFont().getStyle() | Font.BOLD, portLabel.getFont().getSize() + 5f));
+		portLabel.setFont(portLabel.getFont().deriveFont(portLabel.getFont().getStyle() | Font.BOLD));
 
 		//---- portTextField ----
 		portTextField.setText("1492");
@@ -640,33 +640,35 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
 
 		//---- serverLabel ----
 		serverLabel.setText("Server Address");
-		serverLabel.setFont(serverLabel.getFont().deriveFont(serverLabel.getFont().getStyle() | Font.BOLD, serverLabel.getFont().getSize() + 5f));
+		serverLabel.setFont(serverLabel.getFont().deriveFont(serverLabel.getFont().getStyle() | Font.BOLD));
 
 		//---- fileButton ----
 		fileButton.setText("File To Transfer");
 		fileButton.setMinimumSize(new Dimension(92, 29));
 		fileButton.setMaximumSize(new Dimension(92, 29));
-		fileButton.setFont(fileButton.getFont().deriveFont(fileButton.getFont().getStyle() | Font.BOLD, fileButton.getFont().getSize() + 5f));
+		fileButton.setFont(fileButton.getFont().deriveFont(fileButton.getFont().getStyle() | Font.BOLD));
 		fileButton.setHorizontalAlignment(SwingConstants.LEADING);
 		fileButton.addActionListener(e -> fileButtonActionPerformed());
 
 		//---- fileOptionsLabel ----
 		fileOptionsLabel.setText("File Option");
-		fileOptionsLabel.setFont(fileOptionsLabel.getFont().deriveFont(fileOptionsLabel.getFont().getStyle() | Font.BOLD, fileOptionsLabel.getFont().getSize() + 5f));
+		fileOptionsLabel.setFont(fileOptionsLabel.getFont().deriveFont(fileOptionsLabel.getFont().getStyle() | Font.BOLD));
 		fileOptionsLabel.setMinimumSize(new Dimension(95, 17));
 		fileOptionsLabel.setMaximumSize(new Dimension(95, 17));
 
 		//---- armoringCheckBox ----
 		armoringCheckBox.setText("ASCII Armoring");
 		armoringCheckBox.setFont(armoringCheckBox.getFont().deriveFont(armoringCheckBox.getFont().getStyle() | Font.BOLD));
+		armoringCheckBox.setBackground(Color.white);
 
 		//---- overwriteRadioButton ----
 		overwriteRadioButton.setText("Overwrite");
 		overwriteRadioButton.setFont(overwriteRadioButton.getFont().deriveFont(overwriteRadioButton.getFont().getStyle() | Font.BOLD));
+		overwriteRadioButton.setBackground(Color.white);
 
 		//---- chunkSizeLabel ----
 		chunkSizeLabel.setText("Chunk Size");
-		chunkSizeLabel.setFont(chunkSizeLabel.getFont().deriveFont(chunkSizeLabel.getFont().getStyle() | Font.BOLD, chunkSizeLabel.getFont().getSize() + 5f));
+		chunkSizeLabel.setFont(chunkSizeLabel.getFont().deriveFont(chunkSizeLabel.getFont().getStyle() | Font.BOLD));
 
 		//---- chunkSizeSlider ----
 		chunkSizeSlider.setMaximum(1000);
@@ -683,17 +685,17 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
 
 		//---- sendFileButton ----
 		sendFileButton.setText("Send");
-		sendFileButton.setFont(sendFileButton.getFont().deriveFont(sendFileButton.getFont().getStyle() | Font.BOLD, sendFileButton.getFont().getSize() + 5f));
+		sendFileButton.setFont(sendFileButton.getFont().deriveFont(sendFileButton.getFont().getStyle() | Font.BOLD));
 		sendFileButton.addActionListener(e -> sendFileButtonActionPerformed());
 
 		//---- disconnectButton ----
 		disconnectButton.setText("Disconnect");
-		disconnectButton.setFont(disconnectButton.getFont().deriveFont(disconnectButton.getFont().getStyle() | Font.BOLD, disconnectButton.getFont().getSize() + 5f));
+		disconnectButton.setFont(disconnectButton.getFont().deriveFont(disconnectButton.getFont().getStyle() | Font.BOLD));
 		disconnectButton.addActionListener(e -> disconnectButtonActionPerformed());
 
 		//---- connectButton ----
 		connectButton.setText("Connect");
-		connectButton.setFont(connectButton.getFont().deriveFont(connectButton.getFont().getStyle() | Font.BOLD, connectButton.getFont().getSize() + 5f));
+		connectButton.setFont(connectButton.getFont().deriveFont(connectButton.getFont().getStyle() | Font.BOLD));
 		connectButton.addActionListener(e -> connectButtonActionPerformed());
 
 		//---- dynamicStatusLabel ----
@@ -728,10 +730,11 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
 		copyRadioButton.setText("Copy");
 		copyRadioButton.setFont(copyRadioButton.getFont().deriveFont(copyRadioButton.getFont().getStyle() | Font.BOLD));
 		copyRadioButton.setSelected(true);
+		copyRadioButton.setBackground(Color.white);
 
 		//---- xorButton ----
 		xorButton.setText("XOR Key");
-		xorButton.setFont(xorButton.getFont().deriveFont(xorButton.getFont().getStyle() | Font.BOLD, xorButton.getFont().getSize() + 5f));
+		xorButton.setFont(xorButton.getFont().deriveFont(xorButton.getFont().getStyle() | Font.BOLD));
 		xorButton.setActionCommand("XOR-Key File");
 		xorButton.addActionListener(e -> xorButtonActionPerformed());
 
@@ -782,23 +785,12 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
 							.addGroup(layout.createParallelGroup()
 								.addComponent(disconnectButton, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
 								.addComponent(fileScrollPane, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
-								.addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-									.addComponent(fileButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
-									.addComponent(fileClearButton))
 								.addComponent(dynamicStatusLabel, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
 								.addComponent(passwordField, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
 								.addComponent(usernameTextField, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
 								.addComponent(portTextField, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
 								.addComponent(serverTextField, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
-								.addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-									.addComponent(xorButton)
-									.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(xorClearButton))
 								.addComponent(xorScrollPane, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
-								.addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-									.addGap(0, 236, Short.MAX_VALUE)
-									.addComponent(sendFileButton))
 								.addGroup(layout.createSequentialGroup()
 									.addGroup(layout.createParallelGroup()
 										.addComponent(passwordLabel)
@@ -811,9 +803,20 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
 										.addComponent(copyRadioButton)
 										.addComponent(overwriteRadioButton)
 										.addComponent(chunkSizeLabel))
-									.addGap(0, 184, Short.MAX_VALUE))
+									.addGap(0, 190, Short.MAX_VALUE))
 								.addComponent(chunkSizeSlider, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
-								.addComponent(connectButton, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE))))
+								.addComponent(connectButton, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
+								.addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+									.addComponent(xorButton)
+									.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 144, Short.MAX_VALUE)
+									.addComponent(xorClearButton))
+								.addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+									.addGap(0, 0, Short.MAX_VALUE)
+									.addComponent(sendFileButton))
+								.addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+									.addComponent(fileButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 96, Short.MAX_VALUE)
+									.addComponent(fileClearButton)))))
 					.addGap(50, 50, 50))
 		);
 		layout.setVerticalGroup(
@@ -841,14 +844,14 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
 					.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addGap(18, 18, 18)
 					.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-						.addComponent(xorButton)
-						.addComponent(xorClearButton))
+						.addComponent(xorClearButton)
+						.addComponent(xorButton))
 					.addGap(18, 18, 18)
 					.addComponent(xorScrollPane, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
 					.addGap(18, 18, 18)
 					.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-						.addComponent(fileButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(fileClearButton))
+						.addComponent(fileClearButton)
+						.addComponent(fileButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(18, 18, 18)
 					.addComponent(fileScrollPane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)

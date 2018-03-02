@@ -4,15 +4,15 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {seq t {par t {seq {space ::235:x, comp chunkSizeSpinner:::p::p, space :::p, comp chunkSizeValueLabel:::p::p}, seq l {space :p:25:p, par l {comp disconnectButton::t::325:x, comp fileScrollPane::l::325:x, seq t {comp fileButton:::p::p, space ::55:x, comp fileClearButton:::p::p}, comp dynamicStatusLabel::l::325:x, comp passwordField::l::325:x, comp usernameTextField::l::325:x, comp portTextField::l::325:x, comp serverTextField::t::325:x, seq t {comp xorButton:::p::p, space :::x, comp xorClearButton:::p::p}, comp xorScrollPane::l::325:x, seq t {space :0:236:x, comp sendFileButton:::p::p}, seq {par l {comp passwordLabel::l:p::p, comp usernameLabel::l:p::p, comp portLabel::l:p::p, comp serverLabel::l:p::p, comp statusLabel::l:p::p, comp fileOptionsLabel::l:p::p, comp armoringCheckBox:::p::p, comp copyRadioButton::l:p::p, comp overwriteRadioButton::l:p::p, comp chunkSizeLabel::l:p::p}, space :0:184:x}, comp chunkSizeSlider::l::325:x, comp connectButton::l::325:x}}}, space :p:50:p}}"
-			"$verticalGroup": "par l {seq l {space :p:25:p, comp statusLabel:::p::p, space s:::p, comp dynamicStatusLabel:::p::p, space s:::p, comp serverLabel:::p::p, space :p:18:p, comp serverTextField:::p:32:p, space s:::p, comp portLabel:::p::p, space s:::p, comp portTextField:::p:32:p, space s:::p, comp usernameLabel:::p::p, space s:::p, comp usernameTextField:::p:32:p, space s:::p, comp passwordLabel:::p::p, space s:::p, comp passwordField:::p::p, space s:::p, par b {comp xorButton::b:p::p, comp xorClearButton::b:p::p}, space s:::p, comp xorScrollPane:::p:32:p, space s:::p, par b {comp fileButton::b:p::p, comp fileClearButton::b:p::p}, space s:::p, comp fileScrollPane:::p::p, space u:::p, comp sendFileButton:::p::p, space s:::p, comp fileOptionsLabel:::p::p, space s:::p, comp armoringCheckBox:::p::p, space :::p, comp copyRadioButton:::p::p, space :p::p, comp overwriteRadioButton:::p::p, space s:::p, comp chunkSizeLabel:::p::p, space s:::p, comp chunkSizeSlider:::p::p, space :::p, par b {comp chunkSizeValueLabel::b:p::p, comp chunkSizeSpinner::b:p::p}, space :p:58:p, comp connectButton:::p::p, space :::p, comp disconnectButton:::p::p, space :p:25:p}}"
+			"$horizontalGroup": "par l {seq t {par t {seq {space ::235:x, comp chunkSizeSpinner:::p::p, space :::p, comp chunkSizeValueLabel:::p::p}, seq l {space :p:25:p, par l {comp disconnectButton::t::325:x, comp fileScrollPane::l::325:x, comp dynamicStatusLabel::l::325:x, comp passwordField::l::325:x, comp usernameTextField::l::325:x, comp portTextField::l::325:x, comp serverTextField::t::325:x, comp xorScrollPane::l::325:x, seq {par l {comp passwordLabel::l:p::p, comp usernameLabel::l:p::p, comp portLabel::l:p::p, comp serverLabel::l:p::p, comp statusLabel::l:p::p, comp fileOptionsLabel::l:p::p, comp armoringCheckBox:::p::p, comp copyRadioButton::l:p::p, comp overwriteRadioButton::l:p::p, comp chunkSizeLabel::l:p::p}, space :0:190:x}, comp chunkSizeSlider::l::325:x, comp connectButton::l::325:x, seq t {comp xorButton:::p::p, space ::144:x, comp xorClearButton:::p::p}, seq t {space :0:0:x, comp sendFileButton:::p::p}, seq t {comp fileButton:::p::p, space ::96:x, comp fileClearButton:::p::p}}}}, space :p:50:p}}"
+			"$verticalGroup": "par l {seq l {space :p:25:p, comp statusLabel:::p::p, space s:::p, comp dynamicStatusLabel:::p::p, space s:::p, comp serverLabel:::p::p, space :p:18:p, comp serverTextField:::p:32:p, space s:::p, comp portLabel:::p::p, space s:::p, comp portTextField:::p:32:p, space s:::p, comp usernameLabel:::p::p, space s:::p, comp usernameTextField:::p:32:p, space s:::p, comp passwordLabel:::p::p, space s:::p, comp passwordField:::p::p, space s:::p, par b {comp xorClearButton::b:p::p, comp xorButton::b:p::p}, space s:::p, comp xorScrollPane:::p:32:p, space s:::p, par b {comp fileClearButton::b:p::p, comp fileButton::b:p::p}, space s:::p, comp fileScrollPane:::p::p, space u:::p, comp sendFileButton:::p::p, space s:::p, comp fileOptionsLabel:::p::p, space s:::p, comp armoringCheckBox:::p::p, space :::p, comp copyRadioButton:::p::p, space :p::p, comp overwriteRadioButton:::p::p, space s:::p, comp chunkSizeLabel:::p::p, space s:::p, comp chunkSizeSlider:::p::p, space :::p, par b {comp chunkSizeValueLabel::b:p::p, comp chunkSizeSpinner::b:p::p}, space :p:58:p, comp connectButton:::p::p, space :::p, comp disconnectButton:::p::p, space :p:25:p}}"
 		} ) {
 			name: "this"
 			"background": new java.awt.Color( 255, 255, 255, 255 )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "statusLabel"
 				"text": "Status"
-				"font": &SwingDerivedFont0 new com.jformdesigner.model.SwingDerivedFont( null, 1, 5, false )
+				"font": &SwingDerivedFont0 new com.jformdesigner.model.SwingDerivedFont( null, 1, 0, false )
 				auxiliary() {
 					"JavaCodeGenerator.variableLocal": true
 				}
@@ -79,7 +79,7 @@ new FormModel {
 				"text": "File To Transfer"
 				"minimumSize": new java.awt.Dimension( 92, 29 )
 				"maximumSize": new java.awt.Dimension( 92, 29 )
-				"font": #SwingDerivedFont0
+				"font": &SwingDerivedFont2 new com.jformdesigner.model.SwingDerivedFont( null, 1, 0, false )
 				"horizontalAlignment": 10
 				auxiliary() {
 					"JavaCodeGenerator.variableLocal": true
@@ -89,7 +89,7 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "fileOptionsLabel"
 				"text": "File Option"
-				"font": #SwingDerivedFont0
+				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 0, false )
 				"minimumSize": new java.awt.Dimension( 95, 17 )
 				"maximumSize": new java.awt.Dimension( 95, 17 )
 				auxiliary() {
@@ -99,13 +99,15 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JCheckBox" ) {
 				name: "armoringCheckBox"
 				"text": "ASCII Armoring"
-				"font": &SwingDerivedFont2 new com.jformdesigner.model.SwingDerivedFont( null, 1, 0, false )
+				"font": &SwingDerivedFont3 new com.jformdesigner.model.SwingDerivedFont( null, 1, 0, false )
+				"background": &Color2 new java.awt.Color( 255, 255, 255, 255 )
 			} )
 			add( new FormComponent( "javax.swing.JRadioButton" ) {
 				name: "overwriteRadioButton"
 				"text": "Overwrite"
-				"font": #SwingDerivedFont2
+				"font": #SwingDerivedFont3
 				"$buttonGroup": new FormReference( "fileOptionButtonGroup" )
+				"background": #Color2
 				auxiliary() {
 					"JavaCodeGenerator.variableLocal": true
 				}
@@ -113,7 +115,7 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "chunkSizeLabel"
 				"text": "Chunk Size"
-				"font": #SwingDerivedFont0
+				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 0, false )
 				auxiliary() {
 					"JavaCodeGenerator.variableLocal": true
 				}
@@ -139,7 +141,7 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "sendFileButton"
 				"text": "Send"
-				"font": #SwingDerivedFont0
+				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 0, false )
 				auxiliary() {
 					"JavaCodeGenerator.variableLocal": true
 				}
@@ -148,7 +150,7 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "disconnectButton"
 				"text": "Disconnect"
-				"font": #SwingDerivedFont0
+				"font": &SwingDerivedFont4 new com.jformdesigner.model.SwingDerivedFont( null, 1, 0, false )
 				auxiliary() {
 					"JavaCodeGenerator.variableLocal": true
 				}
@@ -157,7 +159,7 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "connectButton"
 				"text": "Connect"
-				"font": #SwingDerivedFont0
+				"font": #SwingDerivedFont4
 				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "connectButtonActionPerformed", false ) )
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
@@ -176,8 +178,8 @@ new FormModel {
 				}
 				add( new FormComponent( "javax.swing.JTextArea" ) {
 					name: "fileTextArea"
-					"font": &SwingDerivedFont3 new com.jformdesigner.model.SwingDerivedFont( null, 3, 0, false )
-					"foreground": &Color2 new java.awt.Color( 153, 0, 0, 255 )
+					"font": &SwingDerivedFont5 new com.jformdesigner.model.SwingDerivedFont( null, 3, 0, false )
+					"foreground": &Color3 new java.awt.Color( 153, 0, 0, 255 )
 					"rows": 1
 					"editable": false
 					"tabSize": 0
@@ -187,8 +189,8 @@ new FormModel {
 			} )
 			add( new FormComponent( "javax.swing.JTextField" ) {
 				name: "serverTextField"
-				"font": #SwingDerivedFont3
-				"foreground": #Color2
+				"font": #SwingDerivedFont5
+				"foreground": #Color3
 				"text": "localhost"
 				"border": new javax.swing.border.MatteBorder( 0, 0, 1, 0, new java.awt.Color( 204, 204, 204, 255 ) )
 			} )
@@ -198,11 +200,12 @@ new FormModel {
 				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 0, false )
 				"$buttonGroup": new FormReference( "fileOptionButtonGroup" )
 				"selected": true
+				"background": #Color2
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "xorButton"
 				"text": "XOR Key"
-				"font": #SwingDerivedFont0
+				"font": #SwingDerivedFont2
 				"actionCommand": "XOR-Key File"
 				auxiliary() {
 					"JavaCodeGenerator.variableLocal": true
@@ -231,7 +234,7 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "xorClearButton"
 				"text": "Clear"
-				"font": &SwingDerivedFont4 new com.jformdesigner.model.SwingDerivedFont( null, 1, 0, false )
+				"font": &SwingDerivedFont6 new com.jformdesigner.model.SwingDerivedFont( null, 1, 0, false )
 				auxiliary() {
 					"JavaCodeGenerator.variableLocal": true
 				}
@@ -240,7 +243,7 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "fileClearButton"
 				"text": "Clear"
-				"font": #SwingDerivedFont4
+				"font": #SwingDerivedFont6
 				auxiliary() {
 					"JavaCodeGenerator.variableLocal": true
 				}

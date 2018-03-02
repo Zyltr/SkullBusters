@@ -4,15 +4,15 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {seq l {space :p:25:p, par l {seq {par l {comp portLabel::l:p::p, comp staticStatusLabel:::p::p}, space ::318:x}, seq {par l {comp logLabel:::p::p, comp saltedHashedRadioButton:::p::p, comp plainTextRadioButton:::p::p, comp authenticationLabel:::p::p, comp saveButton::l:p::p}, space :0:153:x}, seq t {par t {comp logScrollPane::l::325:x, comp portTextField::l::325:x, comp saveScrollPane::l::325:x, seq {comp credentialButton:::p:180:p, space ::66:x, comp credentialClearButton:::p::p}, comp credentialScrollPane::l::325:x, comp dynamicStatusLabel::l::0:x, comp stopButton::l::0:x, comp startButton::t::0:x, seq t {comp xorButton:::p:160:p, space ::86:x, comp xorClearButton:::p::p}, comp xorScrollPane::l::325:x}, space :p:50:p}}}}"
-			"$verticalGroup": "par l {seq l {space :p:25:p, comp staticStatusLabel:::p::p, space s:::p, comp dynamicStatusLabel:::p::p, space s:::p, comp authenticationLabel:::p::p, space s:::p, comp plainTextRadioButton:::p::p, space :::p, comp saltedHashedRadioButton:::p::p, space s:::p, par b {comp credentialClearButton::b:p::p, comp credentialButton::b:p::p}, space s:::p, comp credentialScrollPane:::p:31:p, space s:::p, par b {comp xorButton::b:p::p, comp xorClearButton::b:p::p}, space s:::p, comp xorScrollPane:::p:31:p, space s:::p, comp saveButton:::p::p, space s:::p, comp saveScrollPane:::p:31:p, space s:::p, comp portLabel:::p::p, space s:::p, comp portTextField:::p:32:p, space s:::p, comp logLabel:::p::p, space s:::p, comp logScrollPane:::p:200:p, space ::75:x, comp startButton:::p::p, space :::p, comp stopButton:::p::p, space :p:25:p}}"
+			"$horizontalGroup": "par l {seq l {space :p:25:p, par l {seq {par l {comp portLabel::l:p::p, comp staticStatusLabel:::p::p}, space ::334:x}, seq {par l {comp logLabel:::p::p, comp saltedHashedRadioButton:::p::p, comp plainTextRadioButton:::p::p, comp authenticationLabel:::p::p, comp saveButton::l:p::p}, space :0:203:x}, seq t {par t {comp logScrollPane::l::325:x, comp portTextField::l::325:x, comp saveScrollPane::l::325:x, seq {comp credentialButton:::p::p, space ::91:x, comp credentialClearButton:::p::p}, comp credentialScrollPane::l::325:x, comp dynamicStatusLabel::l::0:x, comp stopButton::l::0:x, comp startButton::t::0:x, seq t {comp xorButton:::p::p, space ::106:x, comp xorClearButton:::p::p}, comp xorScrollPane::l::325:x}, space :p:50:p}}}}"
+			"$verticalGroup": "par l {seq l {space :p:25:p, comp staticStatusLabel:::p::p, space s:::p, comp dynamicStatusLabel:::p::p, space s:::p, comp authenticationLabel:::p::p, space s:::p, comp plainTextRadioButton:::p::p, space :::p, comp saltedHashedRadioButton:::p::p, space s:::p, par b {comp credentialClearButton::b:p::p, comp credentialButton::b:p::p}, space s:::p, comp credentialScrollPane:::p:31:p, space s:::p, par b {comp xorClearButton::b:p::p, comp xorButton::b:p::p}, space s:::p, comp xorScrollPane:::p:31:p, space s:::p, comp saveButton:::p::p, space s:::p, comp saveScrollPane:::p:31:p, space s:::p, comp portLabel:::p::p, space s:::p, comp portTextField:::p:32:p, space s:::p, comp logLabel:::p::p, space s:::p, comp logScrollPane:::p:200:p, space ::108:x, comp startButton:::p::p, space :::p, comp stopButton:::p::p, space :p:25:p}}"
 		} ) {
 			name: "this"
 			"background": new java.awt.Color( 255, 255, 255, 255 )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "staticStatusLabel"
 				"text": "Status"
-				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 5, false )
+				"font": &SwingDerivedFont0 new com.jformdesigner.model.SwingDerivedFont( null, 1, 0, false )
 				auxiliary() {
 					"JavaCodeGenerator.variableLocal": true
 				}
@@ -20,7 +20,7 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "credentialButton"
 				"text": "Credentials Path"
-				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 5, false )
+				"font": #SwingDerivedFont0
 				"horizontalAlignment": 10
 				"toolTipText": "Click"
 				auxiliary() {
@@ -31,7 +31,7 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "saveButton"
 				"text": "Save-Files-To Path"
-				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 5, false )
+				"font": #SwingDerivedFont0
 				"toolTipText": "Click"
 				"horizontalAlignment": 10
 				auxiliary() {
@@ -42,13 +42,13 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "startButton"
 				"text": "Start"
-				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 5, false )
+				"font": #SwingDerivedFont0
 				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "startButtonActionPerformed", false ) )
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "stopButton"
 				"text": "Stop"
-				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 5, false )
+				"font": #SwingDerivedFont0
 				auxiliary() {
 					"JavaCodeGenerator.variableLocal": true
 				}
@@ -57,7 +57,7 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "portLabel"
 				"text": "Port"
-				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 5, false )
+				"font": #SwingDerivedFont0
 				auxiliary() {
 					"JavaCodeGenerator.variableLocal": true
 				}
@@ -73,13 +73,13 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "dynamicStatusLabel"
 				"text": "Stopped"
-				"font": &SwingDerivedFont0 new com.jformdesigner.model.SwingDerivedFont( null, 3, 0, false )
+				"font": &SwingDerivedFont1 new com.jformdesigner.model.SwingDerivedFont( null, 3, 0, false )
 				"foreground": &Color0 new java.awt.Color( 153, 0, 0, 255 )
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "logLabel"
 				"text": "Log"
-				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 5, false )
+				"font": #SwingDerivedFont0
 				auxiliary() {
 					"JavaCodeGenerator.variableLocal": true
 				}
@@ -130,7 +130,7 @@ new FormModel {
 				}
 				add( new FormComponent( "javax.swing.JTextArea" ) {
 					name: "credentialTextArea"
-					"font": #SwingDerivedFont0
+					"font": #SwingDerivedFont1
 					"foreground": #Color0
 					"rows": 1
 					"editable": false
@@ -141,7 +141,7 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "xorButton"
 				"text": "XOR-Key Path"
-				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 5, false )
+				"font": #SwingDerivedFont0
 				"toolTipText": "Click"
 				"horizontalAlignment": 10
 				auxiliary() {
@@ -170,7 +170,7 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "credentialClearButton"
 				"text": "Clear"
-				"font": &SwingDerivedFont1 new com.jformdesigner.model.SwingDerivedFont( null, 1, 0, false )
+				"font": &SwingDerivedFont2 new com.jformdesigner.model.SwingDerivedFont( null, 1, 0, false )
 				"toolTipText": "Click"
 				auxiliary() {
 					"JavaCodeGenerator.variableLocal": true
@@ -180,7 +180,7 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "xorClearButton"
 				"text": "Clear"
-				"font": #SwingDerivedFont1
+				"font": #SwingDerivedFont2
 				"toolTipText": "Click"
 				auxiliary() {
 					"JavaCodeGenerator.variableLocal": true
@@ -190,7 +190,7 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "authenticationLabel"
 				"text": "Authentication"
-				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 5, false )
+				"font": #SwingDerivedFont0
 				auxiliary() {
 					"JavaCodeGenerator.variableLocal": true
 				}
@@ -201,12 +201,14 @@ new FormModel {
 				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 0, false )
 				"$buttonGroup": new FormReference( "authenticationGroup" )
 				"selected": true
+				"background": new java.awt.Color( 255, 255, 255, 255 )
 			} )
 			add( new FormComponent( "javax.swing.JRadioButton" ) {
 				name: "saltedHashedRadioButton"
 				"text": "Salted-Hashed"
 				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 0, false )
 				"$buttonGroup": new FormReference( "authenticationGroup" )
+				"background": new java.awt.Color( 255, 255, 255, 255 )
 				auxiliary() {
 					"JavaCodeGenerator.variableLocal": true
 				}

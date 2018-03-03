@@ -4,22 +4,27 @@ import javax.swing.*;
  * Created by JFormDesigner on Fri Mar 02 09:22:00 PST 2018
  */
 
-
 /**
- * @author Erik Huerta
+ * Presents a JDialog that explains the functions of the application
  */
 class UseDialog extends JDialog
 {
-    public UseDialog ( Window owner )
+	/**
+	 *
+	 * @param owner
+	 */
+    UseDialog ( Window owner )
     {
         super ( owner );
         initComponents ();
     }
 
-    private void initComponents ()
+	/**
+	 * Creates JDialog
+	 */
+	private void initComponents ()
     {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
-		// Generated using JFormDesigner Evaluation license - Erik Huerta
 		JScrollPane imageScrollPane = new JScrollPane();
 		JLabel imageLabel = new JLabel();
 
@@ -54,6 +59,5 @@ class UseDialog extends JDialog
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-	// Generated using JFormDesigner Evaluation license - Erik Huerta
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 }

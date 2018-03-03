@@ -64,7 +64,6 @@ new FormModel {
 			} )
 			add( new FormComponent( "javax.swing.JTextField" ) {
 				name: "portTextField"
-				"text": "1492"
 				"border": new javax.swing.border.MatteBorder( 0, 0, 1, 0, new java.awt.Color( 204, 204, 204, 255 ) )
 				"foreground": new java.awt.Color( 153, 0, 0, 255 )
 				"font": new com.jformdesigner.model.SwingDerivedFont( null, 3, 0, false )

@@ -16,7 +16,7 @@ import java.awt.*;
 
 class AboutDialog extends JDialog
 {
-    public AboutDialog ( Window owner )
+    AboutDialog ( Window owner )
     {
         super ( owner );
         initComponents ();
@@ -29,7 +29,6 @@ class AboutDialog extends JDialog
 	private void initComponents ()
     {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
-		// Generated using JFormDesigner Evaluation license - Erik Huerta
 		JPanel bulldogPanel = new JPanel();
 		JLabel bulldogLabel = new JLabel();
 		JLabel createdLabel = new JLabel();

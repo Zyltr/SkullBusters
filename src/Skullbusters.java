@@ -42,7 +42,6 @@ class Skullbusters extends JFrame
 	private void initComponents ()
     {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
-		// Generated using JFormDesigner Evaluation license - Erik Huerta
 		JMenuBar menuBar = new JMenuBar();
 		JMenu skullbustersMenu = new JMenu();
 		JMenuItem aboutMenuItemNew = new JMenuItem();
@@ -135,6 +134,5 @@ class Skullbusters extends JFrame
 
 
 	//GEN-BEGIN:variables
-	// Generated using JFormDesigner Evaluation license - Erik Huerta
 	// GEN-END:variables
 }

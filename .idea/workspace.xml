@@ -19,12 +19,12 @@
     <favorites_list name="Skullbusters" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+    <leaf>
       <file leaf-file-name="ServerPanel.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/ServerPanel.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="135">
-              <caret line="31" column="75" lean-forward="false" selection-start-line="31" selection-start-column="75" selection-end-line="31" selection-end-column="75" />
+              <caret line="31" column="75" lean-forward="true" selection-start-line="31" selection-start-column="75" selection-end-line="31" selection-end-column="75" />
               <folding>
                 <element signature="method#ServerPanel#0;class#ServerPanel#0" expanded="false" />
                 <element signature="method#threadCompletedNotification#0;class#ServerPanel#0" expanded="false" />
@@ -62,6 +62,9 @@
       <find>-85 97 -123 103 -95 -59 89 -50 6 107 101 110 -89 3 101 -107 32 -44 -107 88 -12 -87 -48 -110 -71 52 53 -40 77 -114 -94 -118 42 -93 -77 26 10 114 -116 -102 69 25 53 46 -48 14 106 -31 -79 35 -80 41 71 7 52 -108 85 13 50 -60 120 38 -82 -82 50 43 62 51 -59 91 -115 -115 36 -11 44 -47 78 49 86 -121 74 -49 70 56 -51 88 86 57 -90 77 -82 -53 -123 -69 81 -66 -93 -19 81 55 83 69 -118 -79 96 63 56 -90 -76 -69 91 -34 -85 30 41 -92 -26 -128 63 -1 -39 84 101 115 116 105 110 103 44 32 116 101 115 116 105 110 103 44 32 49 44 32 50 44 32 51 10 84 101 115 116 105 110 103 44 32 116 101 115 116 105 110 103 44 32 49 44 32 50 44 32 51 10 84 101 115 116 105 110 103 44 32 116 101 115 116 105 110 103 44 32 49 44 32 50 44 32 51 10 82 -47 -92 36 113 55 16 17 85 -93 -74 15 -126 71 53 -48 -36 -61 -57 74 -50 81 -76 -32 -118 81 72 -73 83 75 24 26 -65 -121 52 -3 98 -54 107 27 -40 -106 88 -25 82 -84 -84 58 -125 95 -113 -97 -76 -17 -64 -53 -97 0 107 18 -21 122 76 44 -38 124 -50 88 -124 92 -123 -4 125 -85 -10 -88 -80 35 24 21 -61 120 -37 -63 -38 71 -116 -12 91 -99 31 86 -127 101 -118 120 -39 1 35 -95 35 -88 53 -68 38 -47 -63 86 -105 61 -18 127 58 65 -53 40 -56 -59 45 123 -25 -57 63 -126 -70 -9 -62 -17 16 79 26 -38 -53 38 -100 -19 -70 41 -62 -4 -95 91 -112 51 -19 94 2 -83 -97 -83 122 -76 42 -35 88 -7 -52 77 9 69 -74 60 117 -87 -22 -67 76 -83 -102 -36 -28 31 -116 81 -125 78 -22 106 96 -125 20 1 95 6 -116 26 -77 -79 105 -34 88 -89 112 42 0 123 84 -101 -26 -29 4 -118 -80 16 10 93 -94 -76 91 5 -20 77 37 -11 -20 -120 -87 -26 -71 80 58 110 32 85 50 -91 -50 88 115 83 109 20 -20 10 -53 -109 75 -113 -38 17 109 -87 -43 -120 -32 83 113 -19 83 42 -127 -18 106 -108 109 -80 92 -102 55 -59 95 -118 119 94 -121 6 -88 37 92 64 56 -83 35 54 -12 97 115 78 59 -103 -72 59 -115 105 71 114 -52 62 99 -42 -79 -48 116 -85 -120 48 42 -116 -6 -102 -47 -52 7 38 -76 96 -44 54 17 -41 -118 -62 83 -127 79 45 -59 10 67 78 -6 30 -125 97 -82 -80 -58 27 24 -81 69 -46 124 85 52 42 0 126 13 124 -9 28 -84 -68 -87 60 86 -59 -98 -85 36 124 49 -23 74 73 75 115 72 -54 -57 -1 -42 -4 86 45 -51 38 -22 67 -42 -110 -72 -51 9 -108 -109 -48 -30 -99 -26 50 -98 77 53 122 83 24 -14 42 -22 70 -15 -77 20 36 -44 -114 -9 -62 -98 53 -44 -68 47 118 -105 22 78 118 -82 62 77 -43 -9 -25 -62 -33 -113 -42 90 -19 -76 54 23 -123 99 -71 -32 16 -51 95 -104 -71 57 -83 27 109 74 -14 -59 -2 -41 106 -27 37 78 -116 61 -85 -54 -83 74 -57 -77 -123 -57 -51 59 31 -70 -70 87 -118 -30 49 110 -34 50 113 -33 61 107 -76 -78 -43 -116 -29 -81 6 -65 47 -66 12 124 76 -41 -11 56 5 -83 -23 -13 2 16 3 22 -25 25 -57 -91 125 -39 -31 -83 110 -30 -30 21 14 -93 -113 122 -14 107 -45 119 -48 -6 60 61 126 117 -87 -12 53 -84 -92 32 96 123 86 -68 23 -84 15 6 -72 11 43 -55 90 52 -6 10 -33 -73 -107 -54 -26 -107 36 -46 55 73 53 115 -48 -20 -11 82 -72 25 -17 93 69 -106 -87 28 -84 17 -120 21 -27 22 -14 -74 -22 -40 -73 -71 -111 36 4 86 -23 -109 40 43 30 -70 -118 36 25 -88 46 45 -73 10 -50 -46 111 100 -110 53 86 3 -91 116 -15 -128 -4 26 -76 98 -47 -59 -36 -39 -15 -64 -11 -84 57 -83 49 -46 -67 34 -22 -34 60 87 61 113 2 10 -82 84 73 -61 -56 -123 42 -80 33 -55 83 91 -102 -108 74 1 -57 106 -59 -115 1 127 -83 75 69 91 67 -114 -15 -41 -128 116 95 30 104 -78 -24 -38 -51 -70 72 -110 41 10 -28 114 -92 -116 112 107 -15 -49 -29 -49 -20 -21 -85 -4 45 -44 13 -42 -102 -83 62 -104 -33 54 122 -107 -55 -29 -97 74 -3 -40 -124 2 48 121 -30 -68 -9 -57 -66 16 -47 -4 89 -94 93 88 106 -47 9 35 104 -56 -55 25 35 -125 -46 -75 -93 54 -98 -25 30 34 -116 90 -40 -2 114 -120 -37 -61 112 105 51 -118 -10 47 -116 94 10 -45 124 29 -29 11 -83 59 77 102 49 18 88 2 49 -114 107 -57 -100 12 -109 -23 94 -83 41 -35 107 -71 -13 -40 -84 59 -124 -76 39 70 -50 9</find>
       <find>-106</find>
       <find>[54, -111, -82, -65, 31, -113, 61, 94, -91, -34, 73, 127, 43, 38, 102, -59, 111, 121, 90, -118, 55, 9, 125, 65, -13, 99, -66, -65, 15, -39, -15, -26, -85, -44, 92, 40, -29, 15, 78, -6, -8, 95, -101, -81, 80, -101, -24, 99, 16, -2, 89, -44, -20, 26, 75, 95, -3, 33, -127, 29, -12, 49, -75, -1, 0, 46, 104, -41, -88, -6, -26, 58, -96, 98, -106, -95, -100, 72, 68, -50, -74, 32, 105, -6, 94, -62, -2, 0, 118, -74, -68, -83, 122, -109, -47, 82, -61, 46, 31, 82, -46, 70, -122, 45, -56, 80, -97, -75, -84, -128, -110, 60, 45, -51, -41, -87, -77, 2, -102, -103, -86, 102, 66, -96, -125, -76, 14, -57, -71, 35, 79, 103, 61, 94, -82, -21, -16, -87, 104, -110, 52, -89, -115, 75, -69, -33, -34, 38, -42, -36, 123, -34, -1, 0, 70, -98, 28, -43, 122, -80, 84, 82, -84, -82, 35, 120, -74, -55, -95, -108, -3, 36, -24, 59, -2, 124, -35, 122, -93, -31, 113, 83, -45, -43, 65, 0, 82, 4, -83, 57, 37, -113, 111, -80, 60, 124, 46, 45, -89, -45, -49, 87, -87, 39, -115, 99, 115, 98, 39, 12, 13, -10, -92, -85, 6, 75, -24, -42, -66, -37, 125, 23, -8, 120, 115, 117, -22, 81, -27, -102, -24, 49, 26, 102, 116, 75, -96, -99, 80, -18, -80, 12, 45, 98, -38, -9, -45, -8, 115, 85, -22, 127, -59, 105, 60, -4, 75, -54, 95, -79, -75, 8, 0, -97, 0, -1, 0, -105, -61, -102, -81, 84, 14, -97, 81, 72, 106, -15, 64, -78, 11, 121, 19, 43, -126, 5, -56, -78, 0, 62, 0, 92, -3, -4, -35, 122, -120, 84, 53, 74, -44, -20, -96, 11, -17, 111, -89, -65, 55, 94, -88, -103, 113, 86, 92, 114, 0, -62, -29, 122, -33, -29, -49, 87, -88, -30, -31, 24, -116, -75, 25, 106, -105, 125, -93, 33, -40, -96, 62, 96, 54, 91, 21, -35, 98, 44, 47, -31, -29, -49, 87, -87, -49, -89, 83, 87, 60, 123, -9, 68, -46, -97, 58, 39, 35, 81, 96, -113, -31, -12, 39, 60, 107, -43, -113, 4, -86, 104, -23, 106, -35, -112, 72, 90, -102, 68, 12, 79, -40, 50, 41, -44, 124, 124, 62, -66, 122, -67, 83, 51, -18, 41, 59, -49, -27, 76, 60, -55, 63, 65, 40, -46, -25, -34, -124, 27, -37, -38, 59, 124, 121, -86, -11, 3, -7, -17, 18, -87, -88, -88, -93, -86, -88, 7, -52, -88, -1, 0, 42, 71, 98, -59, -75, 63, 13, 62, -98, 90, -67, 88, -77, 67, 62, 23, 92, -84, -92, -65, 111, -121, 96, 108, 111, -16, -45, -22, -25, -85, -43, 62, -78, 105, -87, -16, -7, 100, -122, 88, -3, -46, -84, 73, 27, -82, 18, -9, 95, -50, -36, -11, 106, -110, -75, 24, 124, -45, 72, -122, 89, -83, 33, 43, 101, 10, 0, 55, -16, -75, -68, 60, 57, -22, -35, 44, 41, 48, -118, 74, -120, -46, 55, 91, 50, -55, -87, 91, -123, 55, 32, -115, 62, -83, 121, -22, -11, 47, 61, 54, 74, -79, 102, -120, -57, -7, 34, 98, -111, 119, 105, -87, 41, -96, -73, -57, 78, 104, -41, -88, -94, -42, -47, -18, -82, -98, 59, -34, -46, -56, 47, -37, -9, -114, -68, -35, 122, -79, 116, -48, -7, -103, -82, -124, 31, -7, 75, -124, 31, -7, 12, 115, 85, -22, 61, 24, -67, 20, 116, 84, 123, -28, 58, -51, 42, 11, -109, 123, -75, -74, -33, -18, 28, -43, 122, -72, -25, 77, -77, 87, -58, 54, 18, 44, -96, -101, 125, 95, -61, -98, -81, 82, 39, -87, 114, -63, -119, -29, -40, 117, 49, -67, -122, -30, 79, -76, 44, -126, -33, -97, 126, 110, -67, 74, -4, -21, -120, -83, 14, 28, -14, -85, -22, 52, 26, -38, -28, -97, -53, -102, -81, 80, 111, -125, -32, -14, 98, 82, -63, 43, 110, -9, 42, -19, -29, 109, -52, -78, 11, -33, 79, 2, 121, -70, -11, 10, -80, 64, 80, 56, 55, -42, 22, -41, -60, 88, 30, -36, -43, 122, -89, -31, 116, -94, -126, 5, 116, 0, -85, 67, 25, 32, 94, -59, -125, -36, -111, -81, 61, 94, -92, -50, 110, -91, 9, -120, -18, 32, -38, 72, -75, 39, -61, -34, 54, -26, -21, -44, -61, -126, -120, -87, 113, 43, 11, 104, 26, -32, -33, 93, 1, -25, -85, -44, -84, -23, -114, 43, 27, -26, 74, 55, 36, 56, 53, 32, 125, 26, 31, 14, 106, -67, 64, -74, 99, -63, -66, 94, -85, 28, 27, 78, -31, -13, -124, 0, 127, 117, -112, -112, 109, -12, -13, 117, -22, 107, -12, 96, -87, 91, -117, -43, -90, -53, 93, -96, 39, 75, -40, 0, -25, -8, -13, -58, -67, 67, -98, 63, 94, -87, 19, 10, -117, 0, 93, -122, -13, -36, -99, -33, -57, 78, 122, -67, 77, 56, -75, 122, -43, 70, 118, 118, 36, 16, 47, 111, -53, -98, 21, -22, -63, 80, -90, -90, -128, 5, 107, 48, 109, 71, 113, -31, 107, 115, -43, -22, 103, -2, 76, -33, -31, 95, -7, 11, -5, 121, -70, -11, 38, 48, -54, 115, 51, -107, -75, -115, -49, 111, 110, -100, -11, 122, -102, -94, -37, 20, -27, 14, -84, 36, -44, 124, 44, 57, -22, -11, 103, 8, 99, -88, 113, -73, -4, 58, -3, 92, -11, 122, -101, -26, -100, -51, 59, -19, 26, 2, 62, 30, 28, -11, 122, -107, -99, 17, 114, 113, 57, -62, -115, -95, -110, 49, -33, -57, -52, 3, -73, 52, 107, -44, 4, 117, -58, 51, 22, 98, -83, 4, -36, -4, -44, -94, -3, -81, -17, 30, 122, -67, 80, 50, 20, -126, 40, -92, 54, -20, -29, -17, -73, 61, 94, -89, 89, -42, 45, -62, -41, 4, 107, -34, -57, -72]</find>
+      <find>\p{Punct}</find>
+      <find>\\p{Space}</find>
+      <find>Huerta</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -89,17 +92,17 @@
         <option value="$PROJECT_DIR$/src/TaskListener.java" />
         <option value="$PROJECT_DIR$/src/NotificationThread.java" />
         <option value="$PROJECT_DIR$/src/NotifyingThread.java" />
-        <option value="$PROJECT_DIR$/src/AboutDialog.java" />
         <option value="$PROJECT_DIR$/src/AES.java" />
-        <option value="$PROJECT_DIR$/src/MIME.java" />
         <option value="$PROJECT_DIR$/src/ProgressDialog.java" />
         <option value="$PROJECT_DIR$/src/ThreadCompletionListener.java" />
-        <option value="$PROJECT_DIR$/src/Utility.java" />
         <option value="$PROJECT_DIR$/src/XORCipher.java" />
-        <option value="$PROJECT_DIR$/src/ClientPanel.java" />
+        <option value="$PROJECT_DIR$/src/AboutDialog.java" />
+        <option value="$PROJECT_DIR$/src/MIME.java" />
         <option value="$PROJECT_DIR$/src/Skullbusters.java" />
         <option value="$PROJECT_DIR$/src/UseDialog.java" />
+        <option value="$PROJECT_DIR$/src/Utility.java" />
         <option value="$PROJECT_DIR$/src/ServerPanel.java" />
+        <option value="$PROJECT_DIR$/src/ClientPanel.java" />
       </list>
     </option>
   </component>
@@ -129,9 +132,10 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="Scratches" />
+      <pane id="PackagesPane" />
+      <pane id="AndroidView" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -148,7 +152,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -374,12 +377,15 @@
       <workItem from="1519952499754" duration="335000" />
       <workItem from="1520004487696" duration="71000" />
       <workItem from="1520007360818" duration="4359000" />
-      <workItem from="1520032164966" duration="6000" />
+      <workItem from="1520032164966" duration="1671000" />
+      <workItem from="1520034308128" duration="303000" />
+      <workItem from="1520034837114" duration="1107000" />
+      <workItem from="1520039288827" duration="170000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="325042000" />
+    <option name="totallyTimeSpent" value="328287000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -392,10 +398,10 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32958034" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3282353" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -406,8 +412,10 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32958034" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22777778" sideWeight="0.4940476" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21458334" sideWeight="0.4940476" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32941177" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32958034" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Learn" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -419,10 +427,7 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32941177" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3282353" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32958034" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -441,30 +446,11 @@
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="56" />
+      <option name="time" value="63" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/ClientPanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3555">
-          <caret line="237" column="0" lean-forward="true" selection-start-line="237" selection-start-column="0" selection-end-line="237" selection-end-column="0" />
-          <folding>
-            <element signature="method#threadCompletedNotification#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#startQuitThread#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#xorButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#xorClearButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#fileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#fileClearButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#sendFileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#connectButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#disconnectButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
-            <element signature="method#initComponents#0;class#ClientPanel#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/ClientPanel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1530">
@@ -477,6 +463,7 @@
             <element signature="method#fileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#fileClearButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#sendFileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+            <element signature="method#chunkSizeSliderStateChanged#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#connectButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#disconnectButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#initComponents#0;class#ClientPanel#0" expanded="false" />
@@ -517,6 +504,7 @@
             <element signature="method#fileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#fileClearButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#sendFileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+            <element signature="method#chunkSizeSliderStateChanged#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#connectButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#disconnectButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#initComponents#0;class#ClientPanel#0" expanded="false" />
@@ -536,6 +524,7 @@
             <element signature="method#fileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#fileClearButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#sendFileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+            <element signature="method#chunkSizeSliderStateChanged#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#connectButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#disconnectButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#initComponents#0;class#ClientPanel#0" expanded="false" />
@@ -576,6 +565,7 @@
             <element signature="method#fileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#fileClearButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#sendFileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+            <element signature="method#chunkSizeSliderStateChanged#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#connectButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#disconnectButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#initComponents#0;class#ClientPanel#0" expanded="false" />
@@ -616,6 +606,7 @@
             <element signature="method#fileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#fileClearButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#sendFileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+            <element signature="method#chunkSizeSliderStateChanged#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#connectButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#disconnectButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#initComponents#0;class#ClientPanel#0" expanded="false" />
@@ -656,6 +647,7 @@
             <element signature="method#fileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#fileClearButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#sendFileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+            <element signature="method#chunkSizeSliderStateChanged#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#connectButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#disconnectButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#initComponents#0;class#ClientPanel#0" expanded="false" />
@@ -690,7 +682,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ByteUtils.java" />
-    <entry file="file://$PROJECT_DIR$/src/AboutDialog.jfd" />
     <entry file="file://$PROJECT_DIR$/src/ProgressFrame.java" />
     <entry file="file://$PROJECT_DIR$/src/ProgressBarDemo.java" />
     <entry file="file://$PROJECT_DIR$/src/ThreadCompleteListener.java" />
@@ -712,71 +703,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Images/Bulldog.jpg">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AES.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="143">
-          <caret line="30" column="8" lean-forward="false" selection-start-line="30" selection-start-column="8" selection-end-line="30" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/ProgressDialog.jfd">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/NotificationThread.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="16" column="48" lean-forward="true" selection-start-line="16" selection-start-column="48" selection-end-line="16" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/MIME.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="1" lean-forward="true" selection-start-line="6" selection-start-column="1" selection-end-line="6" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ProgressDialog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="11" column="36" lean-forward="true" selection-start-line="11" selection-start-column="36" selection-end-line="11" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ThreadCompletionListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="72" lean-forward="false" selection-start-line="7" selection-start-column="72" selection-end-line="7" selection-end-column="72" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Utility.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1230">
-          <caret line="145" column="1" lean-forward="true" selection-start-line="145" selection-start-column="1" selection-end-line="145" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/XORCipher.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="37" column="112" lean-forward="false" selection-start-line="37" selection-start-column="112" selection-end-line="37" selection-end-column="112" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AboutDialog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="182" column="1" lean-forward="false" selection-start-line="182" selection-start-column="1" selection-end-line="182" selection-end-column="1" />
         </state>
       </provider>
     </entry>
@@ -787,30 +717,138 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/AboutDialog.jfd">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Images/CS380-Skullbuster-Instructions.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Images/Bulldog.jpg">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AboutDialog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="28" column="34" lean-forward="true" selection-start-line="28" selection-start-column="34" selection-end-line="28" selection-end-column="34" />
+          <folding>
+            <element signature="method#AboutDialog#0;class#AboutDialog#0" expanded="false" />
+            <element signature="method#initComponents#0;class#AboutDialog#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AES.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="30" column="8" lean-forward="false" selection-start-line="30" selection-start-column="8" selection-end-line="30" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/NotificationThread.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="675">
+          <caret line="49" column="35" lean-forward="true" selection-start-line="49" selection-start-column="35" selection-end-line="49" selection-end-column="35" />
+          <folding>
+            <element signature="method#notifyListeners#0;class#NotificationThread#0" expanded="false" />
+            <element signature="method#run#0;class#NotificationThread#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ProgressDialog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="11" column="36" lean-forward="true" selection-start-line="11" selection-start-column="36" selection-end-line="11" selection-end-column="36" />
+          <folding>
+            <element signature="method#ProgressDialog#0;class#ProgressDialog#0" expanded="false" />
+            <element signature="method#updateProgressBar#0;class#ProgressDialog#0" expanded="false" />
+            <element signature="method#initComponents#0;class#ProgressDialog#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/MIME.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="88" column="5" lean-forward="true" selection-start-line="88" selection-start-column="5" selection-end-line="88" selection-end-column="5" />
+          <folding>
+            <element signature="method#base64Encoding#0;class#MIME#0" expanded="false" />
+            <element signature="method#base64Decoding#0;class#MIME#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Skullbusters.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="20" column="5" lean-forward="true" selection-start-line="20" selection-start-column="5" selection-end-line="20" selection-end-column="5" />
+        <state relative-caret-position="135">
+          <caret line="15" column="33" lean-forward="true" selection-start-line="15" selection-start-column="33" selection-end-line="15" selection-end-column="33" />
           <folding>
             <element signature="method#initComponents#0;class#Skullbusters#0" expanded="false" />
+            <element signature="method#main#0;class#Skullbusters#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ThreadCompletionListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="72" lean-forward="false" selection-start-line="7" selection-start-column="72" selection-end-line="7" selection-end-column="72" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/UseDialog.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="12" column="37" lean-forward="true" selection-start-line="12" selection-start-column="37" selection-end-line="12" selection-end-column="37" />
+        <state relative-caret-position="225">
+          <caret line="22" column="22" lean-forward="false" selection-start-line="22" selection-start-column="22" selection-end-line="22" selection-end-column="22" />
           <folding>
+            <element signature="docComment;method#UseDialog#0;class#UseDialog#0" expanded="false" />
+            <element signature="method#UseDialog#0;class#UseDialog#0" expanded="false" />
             <element signature="method#initComponents#0;class#UseDialog#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/XORCipher.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" column="64" lean-forward="true" selection-start-line="14" selection-start-column="64" selection-end-line="14" selection-end-column="64" />
+          <folding>
+            <element signature="method#encrypt#0;class#XORCipher#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Utility.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="13" lean-forward="true" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+          <folding>
+            <element signature="method#binaryRepresentation#0;class#Utility#0" expanded="false" />
+            <element signature="method#binaryStringToByte#0;class#Utility#0" expanded="false" />
+            <element signature="method#binaryToBytes#0;class#Utility#0" expanded="false" />
+            <element signature="method#bytesToBinary#0;class#Utility#0" expanded="false" />
+            <element signature="method#stringToBytes#0;class#Utility#0" expanded="false" />
+            <element signature="method#hash#0;class#Utility#0" expanded="false" />
+            <element signature="method#longToBytes#0;class#Utility#0" expanded="false" />
+            <element signature="method#bytesToLong#0;class#Utility#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ClientPanel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="258">
-          <caret line="579" column="56" lean-forward="false" selection-start-line="579" selection-start-column="56" selection-end-line="579" selection-end-column="56" />
+        <state relative-caret-position="150">
+          <caret line="24" column="75" lean-forward="true" selection-start-line="24" selection-start-column="75" selection-end-line="24" selection-end-column="75" />
           <folding>
             <element signature="method#threadCompletedNotification#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#startQuitThread#0;class#ClientPanel#0" expanded="false" />
@@ -819,8 +857,10 @@
             <element signature="method#fileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#fileClearButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#sendFileButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+            <element signature="method#chunkSizeSliderStateChanged#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#connectButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
             <element signature="method#disconnectButtonActionPerformed#0;class#ClientPanel#0" expanded="false" />
+            <element signature="method#initComponents#0;class#ClientPanel#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -828,7 +868,7 @@
     <entry file="file://$PROJECT_DIR$/src/ServerPanel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
-          <caret line="31" column="75" lean-forward="false" selection-start-line="31" selection-start-column="75" selection-end-line="31" selection-end-column="75" />
+          <caret line="31" column="75" lean-forward="true" selection-start-line="31" selection-start-column="75" selection-end-line="31" selection-end-column="75" />
           <folding>
             <element signature="method#ServerPanel#0;class#ServerPanel#0" expanded="false" />
             <element signature="method#threadCompletedNotification#0;class#ServerPanel#0" expanded="false" />

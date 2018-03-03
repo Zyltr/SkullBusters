@@ -28,7 +28,6 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JTextField" ) {
 				name: "usernameTextField"
 				"background": &Color0 new java.awt.Color( 255, 255, 255, 255 )
-				"text": "Debug"
 				"font": &SwingDerivedFont1 new com.jformdesigner.model.SwingDerivedFont( null, 3, 0, false )
 				"foreground": &Color1 new java.awt.Color( 153, 0, 0, 255 )
 				"border": new javax.swing.border.MatteBorder( 0, 0, 1, 0, new java.awt.Color( 204, 204, 204, 255 ) )
@@ -60,7 +59,6 @@ new FormModel {
 			} )
 			add( new FormComponent( "javax.swing.JTextField" ) {
 				name: "portTextField"
-				"text": "1492"
 				"border": new javax.swing.border.MatteBorder( 0, 0, 1, 0, new java.awt.Color( 204, 204, 204, 255 ) )
 				"font": #SwingDerivedFont1
 				"foreground": #Color1
@@ -191,7 +189,6 @@ new FormModel {
 				name: "serverTextField"
 				"font": #SwingDerivedFont5
 				"foreground": #Color3
-				"text": "localhost"
 				"border": new javax.swing.border.MatteBorder( 0, 0, 1, 0, new java.awt.Color( 204, 204, 204, 255 ) )
 			} )
 			add( new FormComponent( "javax.swing.JRadioButton" ) {

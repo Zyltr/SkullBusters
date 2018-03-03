@@ -74,9 +74,6 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
     {
         initComponents ();
 
-        // Add Debug to Credentials Map
-        credentialsMap.put ( "Debug", "" );
-
         // Set "Save To" directory of Server as System Default
         saveTextArea.setText ( saveToPath.toString () );
     }
@@ -89,6 +86,8 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
     @Override
     public void threadCompletedNotification ( Thread thread )
     {
+        System.out.println ( "threadCompletedNotification" );
+
         System.out.println ( "Server > threadCompletedNotification" );
 
         if ( thread.equals ( createServerThread ) )
@@ -127,7 +126,7 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
      */
     private void startResponseThread ()
     {
-        System.out.println ( "Server > startResponseThread" );
+        System.out.println ( "startResponseThread" );
 
         responseThread = new NotificationThread ()
         {
@@ -191,6 +190,8 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
      */
     private void credentialsButtonActionPerformed ()
     {
+        System.out.println ( "credentialsButtonActionPerformed" );
+
         // Find credentials file that will be used by the Server ( Should be Strings )
         JFileChooser fileChooser = new JFileChooser ( FileSystemView.getFileSystemView ().getDefaultDirectory () );
         fileChooser.setFileSelectionMode ( JFileChooser.FILES_ONLY );
@@ -218,8 +219,6 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
                     }
                 }
 
-                credentialsMap.put ( "Debug", "" );
-
                 // Update GUI
                 credentialTextArea.setText ( credentialsPath.toString () );
             }
@@ -246,10 +245,11 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
      */
     private void credentialClearButtonActionPerformed ()
     {
+        System.out.println ( "credentialClearButtonActionPerformed" );
+
         credentialTextArea.setText ( null );
         credentialsMap.clear ();
         saltsMap.clear ();
-        credentialsMap.put ( "Debug", "" );
     }
 
 
@@ -260,6 +260,8 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
      */
     private void xorButtonActionPerformed ()
     {
+        System.out.println ( "xorButtonActionPerformed" );
+
         JFileChooser fileChooser = new JFileChooser ( FileSystemView.getFileSystemView ().getDefaultDirectory () );
         fileChooser.setFileSelectionMode ( JFileChooser.FILES_ONLY );
 
@@ -300,7 +302,9 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
      */
     private void xorClearButtonActionPerformed ()
     {
-        // TODO -> Clear XOR Text Area
+        System.out.println ( "xorClearButtonActionPerformed" );
+
+        // Clear XOR Text Area
         xorTextArea.setText ( null );
         xorKey = null;
     }
@@ -313,6 +317,8 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
      */
     private void saveToButtonActionPerformed ()
     {
+        System.out.println ( "saveToButtonActionPerformed" );
+
         JFileChooser saveToFileChooser = new JFileChooser ( saveToPath.toFile () );
 
         // Customize "Save To" JFileChooser
@@ -344,6 +350,8 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
      */
     private void startFileThread ()
     {
+        System.out.println ( "startFileThread" );
+
         fileThread = new NotificationThread ()
         {
             @Override
@@ -515,7 +523,7 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
      */
     private void startButtonActionPerformed ()
     {
-        System.out.println ( "Server > startButtonActionPerformed" );
+        System.out.println ( "startButtonActionPerformed" );
 
         createServerThread = new NotificationThread ()
         {
@@ -584,12 +592,15 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
 
                                 byte[] saltedHashedPasswordBytes= sha256.digest ( ( salt + decryptedPassword ).getBytes ( StandardCharsets.UTF_8 ) );
 
-                                StringBuffer hexString = new StringBuffer ();
-                                for ( int i = 0; i < saltedHashedPasswordBytes.length; i++ )
+                                StringBuilder hexString = new StringBuilder ();
+                                for ( byte saltedHashedPasswordByte : saltedHashedPasswordBytes )
                                 {
-                                    String hex = Integer.toHexString ( 0xff & saltedHashedPasswordBytes[ i ] ).toUpperCase ();
+                                    String hex = Integer.toHexString ( 0xff & saltedHashedPasswordByte ).toUpperCase ();
 
-                                    if ( hex.length () == 1 ) { hexString.append ( '0' ); }
+                                    if ( hex.length () == 1 )
+                                    {
+                                        hexString.append ( '0' );
+                                    }
 
                                     hexString.append ( hex );
                                 }
@@ -640,7 +651,7 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
                 }
                 catch ( IOException ioe )
                 {
-                    // TODO -> Usually occurs when Port cannot be bound. E.g : Port 22 (SSH)
+                    // Usually occurs when Port cannot be bound. E.g : Port 22 (SSH)
                     if ( ioe instanceof BindException )
                     {
                         String message = "Port \"" + portTextField.getText () + "\" is not usable";
@@ -651,7 +662,7 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
                 }
                 catch ( NumberFormatException nfe )
                 {
-                    // TODO -> Triggered when a Port is not a valid Integer. E.g : Port "Hello, World!"
+                    // Triggered when a Port is not a valid Integer. E.g : Port "Hello, World!"
                     String message = "\"Port\" must be a number";
                     JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.ERROR_MESSAGE );
 
@@ -672,7 +683,7 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
      */
     private void stopButtonActionPerformed ()
     {
-        System.out.println ( "Server > stopButtonActionPerformed" );
+        System.out.println ( "stopButtonActionPerformed" );
 
         /*
          * When Creating a Server Thread, if the Server presses cancel before the Client has the opportunity to
@@ -761,18 +772,6 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
         dynamicStatusLabel.setText ( "Stopped" );
         startButton.setEnabled ( true );
 
-        /*
-        if ( !shouldRestartServer )
-        {
-            xorKey = null;
-
-            credentialTextArea.setText ( null );
-            xorTextArea.setText ( null );
-            saveTextArea.setText ( saveToPath.toString () );
-            portTextField.setText ( "1492" );
-        }
-        */
-
         logTextArea.append ( "Server was terminated " + "\n\n" );
 
         if ( serverIsQuitting )
@@ -797,7 +796,6 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
     {
         // JFormDesigner - Component initialization - DO NOT MODIFY
         // GEN-BEGIN:initComponents
-		// Generated using JFormDesigner Evaluation license - Erik Huerta
 		JLabel staticStatusLabel = new JLabel();
 		JButton credentialButton = new JButton();
 		JButton saveButton = new JButton();
@@ -858,7 +856,6 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
 		portLabel.setFont(portLabel.getFont().deriveFont(portLabel.getFont().getStyle() | Font.BOLD));
 
 		//---- portTextField ----
-		portTextField.setText("1492");
 		portTextField.setBorder(new MatteBorder(0, 0, 1, 0, new Color(204, 204, 204)));
 		portTextField.setForeground(new Color(153, 0, 0));
 		portTextField.setFont(portTextField.getFont().deriveFont(Font.BOLD|Font.ITALIC));
@@ -1104,7 +1101,6 @@ public class ServerPanel extends JPanel implements ThreadCompletionListener
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY
     // GEN-BEGIN:variables
-	// Generated using JFormDesigner Evaluation license - Erik Huerta
 	private JButton startButton;
 	private JTextField portTextField;
 	private JLabel dynamicStatusLabel;

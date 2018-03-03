@@ -70,6 +70,8 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
     @Override
     public void threadCompletedNotification ( Thread thread )
     {
+        System.out.println ( "threadCompletedNotification" );
+
         if ( thread.equals ( connectThread ) )
         {
             connectThread = null;
@@ -90,7 +92,7 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
             fileTransferThread = null;
         }
 
-        // TODO -> This Will Execute When the Server Requests Termination, not the Client
+        // This Will Execute When the Server Requests Termination, not the Client
         if ( serverIsQuitting )
             disconnectButtonActionPerformed ();
     }
@@ -102,6 +104,8 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
      */
     private void startQuitThread ()
     {
+        System.out.println ( "startQuitThread" );
+
         quitThread = new NotificationThread ()
         {
             @Override
@@ -119,10 +123,10 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
 
                             if ( clientInput.equals ( "SERVER-QUIT" ) )
                             {
-                                // TODO -> Set Server Quit Flag
+                                // Set Server Quit Flag
                                 serverIsQuitting = true;
 
-                                // TODO -> Present Message to Client
+                                // resent Message to Client
                                 String message = "Server has closed the connection";
                                 JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.INFORMATION_MESSAGE );
                             }
@@ -149,6 +153,8 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
      */
     private void xorButtonActionPerformed ()
     {
+        System.out.println ( "xorButtonActionPerformed" );
+
         JFileChooser fileChooser = new JFileChooser ( FileSystemView.getFileSystemView ().getDefaultDirectory () );
         fileChooser.setFileSelectionMode ( JFileChooser.FILES_ONLY );
 
@@ -189,6 +195,8 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
      */
     private void xorClearButtonActionPerformed ()
     {
+        System.out.println ( "xorClearButtonActionPerformed" );
+
         xorTextArea.setText ( null );
         xorKey = null;
     }
@@ -200,6 +208,8 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
      */
     private void fileButtonActionPerformed ()
     {
+        System.out.println ( "fileButtonActionPerformed" );
+
         JFileChooser fileChooser = new JFileChooser ( FileSystemView.getFileSystemView ().getHomeDirectory () );
         fileChooser.setFileSelectionMode ( JFileChooser.FILES_ONLY );
 
@@ -216,7 +226,9 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
      */
     private void fileClearButtonActionPerformed ()
     {
-        // TODO -> Clear File Text Area
+        System.out.println ( "fileClearButtonActionPerformed" );
+
+        // Clear File Text Area
         fileTextArea.setText ( null );
         filePath = null;
     }
@@ -231,6 +243,8 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
      */
     private void sendFileButtonActionPerformed ()
     {
+        System.out.println ( "sendFileButtonActionPerformed" );
+
         ProgressDialog progressDialog = new ProgressDialog ();
 
         fileTransferThread = new NotificationThread ()
@@ -238,26 +252,26 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
             @Override
             public void notifyingRunnable ()
             {
-                // TODO -> Send Files here
-                // TODO -> First, check to see that file path is a valid file
+                // Send Files here
+                // First, check to see that file path is a valid file
                 if ( filePath != null && Files.exists ( filePath ) && Files.isReadable ( filePath ) )
                 {
                     try ( FileInputStream fileInputStream = new FileInputStream ( filePath.toFile () ) )
                     {
-                        // TODO -> Inform Server a File is about to be Transferred
+                        // Inform Server a File is about to be Transferred
                         serverPrintWriter.println ( "CLIENT-FILE" );
 
-                        // TODO -> Get filename and send to Server
+                        // Get filename and send to Server
                         String filename = filePath.getFileName ().toString ();
                         serverPrintWriter.println ( filename );
 
-                        // TODO -> Get file options and send to Server
+                        // Get file options and send to Server
                         String fileOptions = ( armoringCheckBox.isSelected () ? "A" : "-" ) + ( copyRadioButton.isSelected () ? "C" : "O" );
 
-                        // TODO -> Get Size of File in Bytes
+                        // Get Size of File in Bytes
                         long sizeOfFile = fileInputStream.getChannel ().size ();
 
-                        // TODO -> Send File-Options and Chunk-Size to Server
+                        // Send File-Options and Chunk-Size to Server
                         serverPrintWriter.println ( fileOptions + " && " + sizeOfFile + " && " + chunkSize );
 
                         long fileSize = fileInputStream.getChannel ().size ();
@@ -267,6 +281,7 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
                         byte[] hashBytes, dataBytes = new byte[ chunkSize ];
                         String hashString = "", dataString = "";
 
+                        label:
                         while ( !serverIsQuitting )
                         {
                             if ( retrying )
@@ -277,7 +292,7 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
                             {
                                 if ( ( bytesRead = fileInputStream.read ( dataBytes ) ) < 0 )
                                 {
-                                    // TODO -> Inform Server Bytes are Done
+                                    // Inform Server Bytes are Done
                                     serverPrintWriter.println ( "BYTES-DONE" );
 
                                     System.out.println ( "Client > Finished Writing Bytes" );
@@ -288,17 +303,17 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
                                     break;
                                 }
 
-                                // TODO -> Calculate Hash of Bytes
+                                // Calculate Hash of Bytes
                                 hashBytes = Utility.longToBytes ( Utility.hash ( dataBytes ) );
 
                                 hashString = Arrays.toString ( hashBytes );
                                 System.out.println ( "Client > Plain Hash Bytes > " + hashString );
 
-                                // TODO -> Display Read Bytes
+                                // Display Read Bytes
                                 dataString = Arrays.toString ( dataBytes );
                                 System.out.println ( "Client > Plain Data Bytes > " + dataString );
 
-                                // TODO -> Encrypt Hash and Data Bytes with XOR Key, if available
+                                // Encrypt Hash and Data Bytes with XOR Key, if available
                                 if ( xorKey != null )
                                 {
                                     hashBytes = XORCipher.encrypt ( hashBytes, xorKey );
@@ -311,7 +326,7 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
                                     System.out.println ( "Client > XOR Data Bytes > " + dataString );
                                 }
 
-                                // TODO -> Apply ASCII Armoring to Data Bytes, if available
+                                // Apply ASCII Armoring to Data Bytes, if available
                                 if ( armoringCheckBox.isSelected () )
                                 {
                                     dataString = MIME.base64Encoding ( dataBytes );
@@ -326,48 +341,47 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
                                     return;
                                 }
 
-                                // TODO -> Send Hash Bytes and Data Bytes to the Server ( Data Bytes Could be in ASCII-Armored format if requested )
+                                // Send Hash Bytes and Data Bytes to the Server ( Data Bytes Could be in ASCII-Armored format if requested )
                                 serverPrintWriter.println ( hashString + " && " + dataString );
 
-                                // TODO -> Update Progress Bar
+                                // Update Progress Bar
                                 totalBytesCurrentlyRead += bytesRead * 100;
                                 double percentage = totalBytesCurrentlyRead / fileSize;
 
                                 progressDialog.updateProgressBar ( ( int ) ( percentage ) );
                             }
 
-                            // TODO -> Get Hash Result
+                            // Get Hash Result
                             String dataIntegrityResult = serverBufferedReader.readLine ();
                             System.out.println ( "Client > Data Integrity Result > " + dataIntegrityResult );
 
-                            if ( dataIntegrityResult.equals ( "SERVER-HASH-FAILED" ) )
+                            switch ( dataIntegrityResult )
                             {
-                                String message = "File failed to transfer. Retry?";
-                                int optionType = JOptionPane.showConfirmDialog ( getParent (), message, null, JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE );
+                                case "SERVER-HASH-FAILED":
+                                    String message = "File failed to transfer. Retry?";
+                                    int optionType = JOptionPane.showConfirmDialog ( getParent (), message, null, JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE );
 
-                                if ( optionType == JOptionPane.YES_OPTION )
-                                {
-                                    System.out.println ( "Client > Retrying" );
+                                    if ( optionType == JOptionPane.YES_OPTION )
+                                    {
+                                        System.out.println ( "Client > Retrying" );
 
-                                    retrying = true;
-                                }
-                                else
-                                {
-                                    System.out.println ( "Client > Cancelling File Transfer" );
+                                        retrying = true;
+                                    }
+                                    else
+                                    {
+                                        System.out.println ( "Client > Cancelling File Transfer" );
 
-                                    serverPrintWriter.println ( "FILE-CANCELLED" );
-                                    return;
-                                }
-                            }
-                            else if ( dataIntegrityResult.equals ( "SERVER-HASH-SUCCESS" ) )
-                            {
-                                if ( retrying )
-                                    retrying = false;
-                            }
-                            else if ( dataIntegrityResult.equals ( "SERVER-QUIT" ) )
-                            {
-                                serverIsQuitting = true;
-                                break;
+                                        serverPrintWriter.println ( "FILE-CANCELLED" );
+                                        return;
+                                    }
+                                    break;
+                                case "SERVER-HASH-SUCCESS":
+                                    if ( retrying )
+                                        retrying = false;
+                                    break;
+                                case "SERVER-QUIT":
+                                    serverIsQuitting = true;
+                                    break label;
                             }
                         }
                     }
@@ -381,7 +395,7 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
 
                         if ( serverIsQuitting )
                         {
-                            // TODO -> Present Message to Client
+                            // Present Message to Client
                             String message = "Server has closed the connection";
                             JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.INFORMATION_MESSAGE );
                         }
@@ -408,6 +422,8 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
      */
     private void chunkSizeSliderStateChanged ()
     {
+        System.out.println ( "chunkSizeSliderStateChanged" );
+
         chunkSize = chunkSizeSlider.getValue () * 1000;
     }
 
@@ -418,6 +434,8 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
      */
     private void connectButtonActionPerformed ()
     {
+        System.out.println ( "connectButtonActionPerformed" );
+
         connectThread = new NotificationThread () {
             @Override
             protected void notifyingRunnable ()
@@ -465,7 +483,7 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
                         connectButton.setEnabled ( false );
 
                         // Inform Client Connection Has Been Established
-                        String serverHostName = serverSocket.getInetAddress ().getHostName ();
+                        String serverHostName = serverSocket.getInetAddress ().getHostAddress ();
 
                         String message = "Connection with " + serverHostName + " was established";
                         JOptionPane.showMessageDialog ( getParent (), message, null, JOptionPane.INFORMATION_MESSAGE );
@@ -525,6 +543,8 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
      */
     private void disconnectButtonActionPerformed ()
     {
+        System.out.println ( "disconnectButtonActionPerformed" );
+
         /*
          * During a Quit Thread, if the Client presses disconnect, then set the quit Flag ( clientIsQuitting )
          * to true in order to terminate the Quit Thread. Afterwards, wait for Thread to completely
@@ -579,7 +599,6 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
     {
         // JFormDesigner - Component initialization - DO NOT MODIFY
         // GEN-BEGIN:initComponents
-		// Generated using JFormDesigner Evaluation license - Erik Huerta
 		JLabel statusLabel = new JLabel();
 		JLabel usernameLabel = new JLabel();
 		usernameTextField = new JTextField();
@@ -623,7 +642,6 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
 
 		//---- usernameTextField ----
 		usernameTextField.setBackground(Color.white);
-		usernameTextField.setText("Debug");
 		usernameTextField.setFont(usernameTextField.getFont().deriveFont(Font.BOLD|Font.ITALIC));
 		usernameTextField.setForeground(new Color(153, 0, 0));
 		usernameTextField.setBorder(new MatteBorder(0, 0, 1, 0, new Color(204, 204, 204)));
@@ -645,7 +663,6 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
 		portLabel.setFont(portLabel.getFont().deriveFont(portLabel.getFont().getStyle() | Font.BOLD));
 
 		//---- portTextField ----
-		portTextField.setText("1492");
 		portTextField.setBorder(new MatteBorder(0, 0, 1, 0, new Color(204, 204, 204)));
 		portTextField.setFont(portTextField.getFont().deriveFont(Font.BOLD|Font.ITALIC));
 		portTextField.setForeground(new Color(153, 0, 0));
@@ -736,7 +753,6 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
 		//---- serverTextField ----
 		serverTextField.setFont(serverTextField.getFont().deriveFont(Font.BOLD|Font.ITALIC));
 		serverTextField.setForeground(new Color(153, 0, 0));
-		serverTextField.setText("localhost");
 		serverTextField.setBorder(new MatteBorder(0, 0, 1, 0, new Color(204, 204, 204)));
 
 		//---- copyRadioButton ----
@@ -965,7 +981,6 @@ public class ClientPanel extends JPanel implements ThreadCompletionListener
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY
     // GEN-BEGIN:variables
-	// Generated using JFormDesigner Evaluation license - Erik Huerta
 	private JTextField usernameTextField;
 	private JPasswordField passwordField;
 	private JTextField portTextField;

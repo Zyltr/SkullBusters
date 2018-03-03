@@ -19,7 +19,7 @@ class MIME
     public static String base64Encoding ( byte... bytes )
     {
         StringBuilder resultBuilder = new StringBuilder ();
-        StringBuilder encodingBuilder = new StringBuilder ( Utility.bytesToBinary ( bytes ).replaceAll ( "\\p{Space}", "" ) );
+        StringBuilder encodingBuilder = new StringBuilder ( Utility.bytesToBinary ( bytes ).replaceAll ( "\\p{Space}*", "" ) );
 
         boolean needsPadding =  bytes.length % 3 > 0;
         int padding = ( 3 - ( bytes.length % 3 ) ) * Byte.SIZE;

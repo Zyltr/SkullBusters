@@ -39,7 +39,7 @@ class UseDialog extends JDialog
 		{
 
 			//---- imageLabel ----
-			imageLabel.setIcon(new ImageIcon("/Users/Erik/Documents/GitHub/Skullbusters/src/Images/CS380-Skullbuster-Instructions.png"));
+			imageLabel.setIcon(new ImageIcon(getClass().getResource("/Images/CS380-Skullbuster-Instructions.png")));
 			imageScrollPane.setViewportView(imageLabel);
 		}
 

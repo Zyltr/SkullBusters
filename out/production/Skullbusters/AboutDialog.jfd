@@ -25,7 +25,7 @@ new FormModel {
 				}
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "bulldogLabel"
-					"icon": new com.jformdesigner.model.SwingIcon( 1, "/Users/Erik/Documents/GitHub/Skullbusters/src/Images/Bulldog.jpg" )
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/Images/Bulldog.jpg" )
 					"horizontalAlignment": 0
 					auxiliary() {
 						"JavaCodeGenerator.variableLocal": true

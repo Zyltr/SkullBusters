@@ -53,7 +53,7 @@ class AboutDialog extends JDialog
 			bulldogPanel.setBorder(new BevelBorder(BevelBorder.RAISED));
 
 			//---- bulldogLabel ----
-			bulldogLabel.setIcon(new ImageIcon("/Users/Erik/Documents/GitHub/Skullbusters/src/Images/Bulldog.jpg"));
+			bulldogLabel.setIcon(new ImageIcon(getClass().getResource("/Images/Bulldog.jpg")));
 			bulldogLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
 			GroupLayout bulldogPanelLayout = new GroupLayout(bulldogPanel);

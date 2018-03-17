@@ -1,0 +1,50 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1561\cocoasubrtf200
+{\fonttbl\f0\fnil\fcharset0 HelveticaNeue;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c0;}
+\margl1440\margr1440\vieww16020\viewh7760\viewkind0
+\deftab560
+\pard\pardeftab560\partightenfactor0
+
+\f0\b\fs48 \cf2 Connections Cases:\
+\pard\pardeftab560\pardirnatural\partightenfactor0
+\cf2 \
+\pard\pardeftab560\partightenfactor0
+
+\b0 \cf0 \strike \strikec0 Started, then Stopped ( No Client Connects )
+\b \strike0\striked0 \
+
+\b0 \strike \strikec0 Started, Fails Authentication, Restarts
+\b \strike0\striked0 \
+
+\b0 \strike \strikec0 Started, Connects, Server Stops ( Through Button )
+\b \strike0\striked0 \
+
+\b0 \strike \strikec0 Started, Connects, Client Disconnects ( Through Button )\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+
+\b \cf0 \strike0\striked0 Transferring File:\
+\
+
+\b0 \strike \strikec0 Transfer File
+\b \strike0\striked0 \
+
+\b0 \strike \strikec0 Server Disconnects Mid-Transfer
+\b \strike0\striked0 \
+
+\b0 \strike \strikec0 Client Cancels File Transferring
+\b \cf2 \strike0\striked0 \
+\
+Bugs : \
+
+\b0 \cf0 \strike \strikec0 Client - Authentication flag in Connect. If connection refused an exception is thrown. Since the flag is set to false, when the Thread finished, it starts the Quit Thread which is an error\
+\
+
+\b \strike0\striked0 AES is throwing encryption/decryption error when \'93padding\'94 is not enough. Problem with AES Class and possible function parameters.\
+\
+
+\b0 \strike \strikec0 Hashed Passwords Data Converter Throwing Error.
+\b \cf2 \strike0\striked0 \
+\
+}

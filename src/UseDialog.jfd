@@ -22,7 +22,7 @@ new FormModel {
 				}
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "imageLabel"
-					"icon": new com.jformdesigner.model.SwingIcon( 1, "/Users/Erik/Documents/GitHub/Skullbusters/src/Images/CS380-Skullbuster-Instructions.png" )
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/Images/CS380-Skullbuster-Instructions.png" )
 					auxiliary() {
 						"JavaCodeGenerator.variableLocal": true
 					}
